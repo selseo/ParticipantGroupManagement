@@ -19,12 +19,14 @@ public class ItemParticipantAdapter extends BaseAdapter implements View.OnClickL
     Context context;
     List<Participant> participants;
     private ItemParticipantListener itemParticipantListener;
+    private View view;
     private int positionParticipant;
 
-    public ItemParticipantAdapter(List<Participant> participants, Context context) {
+    public ItemParticipantAdapter(List<Participant> participants, Context context,ItemParticipantListener itemParticipantListener, View view) {
         this.participants = participants;
         this.context = context;
         this.itemParticipantListener=itemParticipantListener;
+        this.view = view;
     }
 
     public ItemParticipantAdapter() {
@@ -42,7 +44,7 @@ public class ItemParticipantAdapter extends BaseAdapter implements View.OnClickL
 
     @Override
     public long getItemId(int i) {
-        return i;
+        return 0;
     }
 
     @Override
@@ -60,6 +62,7 @@ public class ItemParticipantAdapter extends BaseAdapter implements View.OnClickL
         viewHolder.textViewParticipantSex.setText(participants.get(i).getParticipantSex());
         viewHolder.textViewParticipantType.setText(participants.get(i).getParticipantType());
         ImageView iconDeleteParticipant = viewHolder.iconDeleteParticipant;
+        viewHolder.iconDeleteParticipant.setTag(viewHolder);
         iconDeleteParticipant.setOnClickListener(this);
 
         return view;
@@ -70,7 +73,7 @@ public class ItemParticipantAdapter extends BaseAdapter implements View.OnClickL
     public void onClick(View view) {
         ViewHolder holder = (ViewHolder) view.getTag();
         if (view.getId() == holder.iconDeleteParticipant.getId()) {
-            itemParticipantListener.deleteParticipantById(participants.get(positionParticipant).getParticipantName());
+            itemParticipantListener.deleteParticipantById(participants, view);
         }
 
     }
@@ -90,6 +93,6 @@ public class ItemParticipantAdapter extends BaseAdapter implements View.OnClickL
     }
 
     public interface ItemParticipantListener{
-        void deleteParticipantById(String participantId);
+        void deleteParticipantById(List<Participant> participant, View view);
     }
 }

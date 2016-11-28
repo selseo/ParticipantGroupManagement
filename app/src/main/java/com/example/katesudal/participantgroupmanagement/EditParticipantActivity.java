@@ -19,30 +19,33 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-public class EditParticipantActivity extends AppCompatActivity implements View.OnClickListener,ItemParticipantAdapter.ItemParticipantListener{
+public class EditParticipantActivity extends AppCompatActivity
+        implements View.OnClickListener,
+        ItemParticipantAdapter.ItemParticipantListener{
 
     private Button buttonGotoAddParticipant;
     private ListView listViewParticipant;
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        realm = Realm.getDefaultInstance();
         setContentView(R.layout.activity_edit_participant);
         buttonGotoAddParticipant = (Button) findViewById(R.id.buttonGotoAddParticipant);
         listViewParticipant = (ListView) findViewById(R.id.listViewParticipant);
         buttonGotoAddParticipant.setOnClickListener(this);
-        viewParticipant();
+        viewParticipant(realm);
     }
 
-    public void viewParticipant(){
-        Realm realm = Realm.getDefaultInstance();
+    public void viewParticipant(Realm realm){
         List<Participant> participantList = new ArrayList<Participant>();
-        RealmResults participants = realm.where(Participant.class).findAll();
+        RealmResults<Participant> participants = realm.where(Participant.class).findAll();
         for(int participantIndex = 0; participantIndex < participants.size(); participantIndex++){
-            Participant participant = (Participant) participants.get(participantIndex);
+            Participant participant = participants.get(participantIndex);
             participantList.add(participant);
         }
-        ItemParticipantAdapter itemParticipantAdapter = new ItemParticipantAdapter(participantList,this);
+        ItemParticipantAdapter itemParticipantAdapter = new ItemParticipantAdapter(participantList,this, this, listViewParticipant);
         listViewParticipant.setAdapter(itemParticipantAdapter);
     }
 
@@ -56,7 +59,14 @@ public class EditParticipantActivity extends AppCompatActivity implements View.O
     }
 
     @Override
-    public void deleteParticipantById(String participantId) {
-
+    public void deleteParticipantById(List<Participant> participantId, View view) {
+        RealmResults<Participant> participant =realm.where(Participant.class)
+                .equalTo("participantName",participantId.get(listViewParticipant.getPositionForView(view))
+                        .getParticipantName())
+                .findAll();
+        realm.beginTransaction();
+        participant.deleteAllFromRealm();
+        realm.commitTransaction();
+        viewParticipant(realm);
     }
 }
