@@ -6,7 +6,7 @@ import io.realm.RealmObject;
  * Created by katesuda.l on 28/11/2559.
  */
 public class Participant extends RealmObject {
-    int participantID;
+    long participantID;
     String participantName;
     String participantSex;
     String participantType;
@@ -27,11 +27,11 @@ public class Participant extends RealmObject {
         this.participantType = participantType;
     }
 
-    public int getParticipantID() {
+    public long getParticipantID() {
         return participantID;
     }
 
-    public void setParticipantID(int participantID) {
+    public void setParticipantID(long participantID) {
         this.participantID = participantID;
     }
 

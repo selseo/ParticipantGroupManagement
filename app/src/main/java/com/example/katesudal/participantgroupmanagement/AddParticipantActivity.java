@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import io.realm.Realm;
+import io.realm.RealmObject;
 import io.realm.RealmResults;
 
 public class AddParticipantActivity extends AppCompatActivity implements Realm.Transaction,View.OnClickListener{
@@ -31,10 +32,21 @@ public class AddParticipantActivity extends AppCompatActivity implements Realm.T
     }
 
     public void createParticipantRealm(Participant participant) {
-        this.participant = participant;
         Realm.init(getApplicationContext());
         Realm realm = Realm.getDefaultInstance();
+        this.participant = participant;
+        this.participant.setParticipantID(generateParticipantID(realm));
         this.execute(realm);
+    }
+
+    private long generateParticipantID(Realm realm) {
+        Number num = realm.where(Participant.class).max("participantID");
+        if(num==null){
+            return 1;
+        }
+        else{
+            return (long)num+1;
+        }
     }
 
     @Override

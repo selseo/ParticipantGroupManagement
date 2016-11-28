@@ -59,10 +59,10 @@ public class EditParticipantActivity extends AppCompatActivity
     }
 
     @Override
-    public void deleteParticipantById(List<Participant> participantId, View view) {
+    public void deleteParticipantById(List<Participant> participants, View view) {
         RealmResults<Participant> participant =realm.where(Participant.class)
-                .equalTo("participantName",participantId.get(listViewParticipant.getPositionForView(view))
-                        .getParticipantName())
+                .equalTo("participantID",participants.get(listViewParticipant.getPositionForView(view))
+                        .getParticipantID())
                 .findAll();
         realm.beginTransaction();
         participant.deleteAllFromRealm();
