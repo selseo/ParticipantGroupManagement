@@ -1,4 +1,4 @@
-package com.example.katesudal.participantgroupmanagement;
+package com.example.katesudal.participantgroupmanagement.Model;
 
 import java.util.List;
 

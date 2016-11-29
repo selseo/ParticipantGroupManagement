@@ -1,17 +1,15 @@
-package com.example.katesudal.participantgroupmanagement;
+package com.example.katesudal.participantgroupmanagement.Activity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
+
+import com.example.katesudal.participantgroupmanagement.Adapter.ItemParticipantAdapter;
+import com.example.katesudal.participantgroupmanagement.Model.Participant;
+import com.example.katesudal.participantgroupmanagement.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +19,7 @@ import io.realm.RealmResults;
 
 public class EditParticipantActivity extends AppCompatActivity
         implements View.OnClickListener,
-        ItemParticipantAdapter.ItemParticipantListener{
+        ItemParticipantAdapter.ItemParticipantListener {
 
     private Button buttonGotoAddParticipant;
     private ListView listViewParticipant;

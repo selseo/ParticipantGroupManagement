@@ -1,4 +1,4 @@
-package com.example.katesudal.participantgroupmanagement;
+package com.example.katesudal.participantgroupmanagement.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.katesudal.participantgroupmanagement.R;
 
 import java.util.List;
 
@@ -17,9 +19,17 @@ import java.util.List;
 public class ItemSectionNameAdapter extends BaseAdapter implements View.OnClickListener{
     Context context;
     List<String> sectionNames;
+    ViewHolder holder;
 
-    public ItemSectionNameAdapter(Context context, List<String> sectionNames) {
+    public ItemSectionNameAdapter(Context context) {
         this.context = context;
+    }
+
+    public List<String> getSectionNames() {
+        return sectionNames;
+    }
+
+    public void setSectionNames(List<String> sectionNames) {
         this.sectionNames = sectionNames;
     }
 
@@ -30,7 +40,7 @@ public class ItemSectionNameAdapter extends BaseAdapter implements View.OnClickL
 
     @Override
     public Object getItem(int i) {
-        return null;
+        return i;
     }
 
     @Override
@@ -40,17 +50,16 @@ public class ItemSectionNameAdapter extends BaseAdapter implements View.OnClickL
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        ItemSectionNameAdapter.ViewHolder viewHolder;
         if (view == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.item_participant, null);
-            viewHolder = new ItemSectionNameAdapter.ViewHolder(view);
-            view.setTag(viewHolder);
+            view = LayoutInflater.from(context).inflate(R.layout.item_section_name, null);
+            holder = new ItemSectionNameAdapter.ViewHolder(view);
+            view.setTag(holder);
         } else {
-            viewHolder = (ItemSectionNameAdapter.ViewHolder) view.getTag();
+            holder = (ItemSectionNameAdapter.ViewHolder) view.getTag();
         }
-        viewHolder.textViewSectionName.setText(sectionNames.get(i));
-        ImageView iconDeleteSectionName = viewHolder.iconDeleteSectionName;
-        viewHolder.iconDeleteSectionName.setTag(viewHolder);
+        holder.textViewSectionName.setText(sectionNames.get(i));
+        ImageView iconDeleteSectionName = holder.iconDeleteSectionName;
+        holder.iconDeleteSectionName.setTag(holder);
 //        iconDeleteSectionName.setOnClickListener(this);
         return view;
     }
@@ -65,8 +74,8 @@ public class ItemSectionNameAdapter extends BaseAdapter implements View.OnClickL
     }
 
     private class ViewHolder {
-        private TextView textViewSectionName;
-        private ImageView iconDeleteSectionName;
+        public TextView textViewSectionName;
+        public ImageView iconDeleteSectionName;
 
         public ViewHolder(View convertView) {
             textViewSectionName = (TextView) convertView.findViewById(R.id.textViewCreatedSessionName);

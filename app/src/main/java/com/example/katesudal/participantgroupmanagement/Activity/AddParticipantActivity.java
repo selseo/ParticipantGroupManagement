@@ -1,16 +1,16 @@
-package com.example.katesudal.participantgroupmanagement;
+package com.example.katesudal.participantgroupmanagement.Activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.example.katesudal.participantgroupmanagement.Model.Participant;
+import com.example.katesudal.participantgroupmanagement.R;
+
 import io.realm.Realm;
-import io.realm.RealmObject;
-import io.realm.RealmResults;
 
 public class AddParticipantActivity extends AppCompatActivity implements Realm.Transaction,View.OnClickListener{
 

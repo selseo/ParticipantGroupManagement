@@ -8,19 +8,19 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".Activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CreateProjectActivity" />
-        <activity android:name=".ViewEncounterActivity" />
-        <activity android:name=".EditProjectActivity" />
-        <activity android:name=".AddParticipantActivity" />
-        <activity android:name=".EditParticipantActivity" />
-        <activity android:name=".CreateSectionNameActivity"></activity>
+        <activity android:name=".Activity.CreateProjectActivity" />
+        <activity android:name=".Activity.ViewEncounterActivity" />
+        <activity android:name=".Activity.EditProjectActivity" />
+        <activity android:name=".Activity.AddParticipantActivity" />
+        <activity android:name=".Activity.EditParticipantActivity" />
+        <activity android:name=".Activity.CreateSectionNameActivity"></activity>
     </application>
 
 </manifest>

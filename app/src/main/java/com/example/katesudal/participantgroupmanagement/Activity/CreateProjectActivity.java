@@ -1,4 +1,4 @@
-package com.example.katesudal.participantgroupmanagement;
+package com.example.katesudal.participantgroupmanagement.Activity;
 
 import android.content.ClipData;
 import android.os.Build;
@@ -10,6 +10,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.example.katesudal.participantgroupmanagement.Model.Participant;
+import com.example.katesudal.participantgroupmanagement.R;
 
 import io.realm.Realm;
 import io.realm.RealmResults;

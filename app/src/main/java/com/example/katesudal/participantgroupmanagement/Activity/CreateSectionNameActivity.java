@@ -1,6 +1,5 @@
-package com.example.katesudal.participantgroupmanagement;
+package com.example.katesudal.participantgroupmanagement.Activity;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -8,16 +7,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.example.katesudal.participantgroupmanagement.Adapter.ItemSectionNameAdapter;
+import com.example.katesudal.participantgroupmanagement.R;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.example.katesudal.participantgroupmanagement.R.id.listViewParticipant;
 
 public class CreateSectionNameActivity extends AppCompatActivity implements View.OnClickListener{
     private EditText editTextProjectName;
     private EditText editTextSectionName;
-    private Button buttoAddSectionNamee;
+    private Button buttoAddSectionName;
     private ListView listViewSectionName;
+    ItemSectionNameAdapter itemSectionNameAdapter;
     List<String> sectionNames;
 
     @Override
@@ -26,9 +27,11 @@ public class CreateSectionNameActivity extends AppCompatActivity implements View
         setContentView(R.layout.activity_create_section_name);
         editTextProjectName = (EditText) findViewById(R.id.editTextProjectName);
         editTextSectionName = (EditText) findViewById(R.id.editTextSectionName);
-        buttoAddSectionNamee = (Button) findViewById(R.id.buttonAddSectionName);
+        buttoAddSectionName = (Button) findViewById(R.id.buttonAddSectionName);
         listViewSectionName = (ListView) findViewById(R.id.listViewSectionName);
+        itemSectionNameAdapter = new ItemSectionNameAdapter(this);
         sectionNames = new ArrayList<String>();
+        buttoAddSectionName.setOnClickListener(this);
     }
 
     @Override
@@ -36,8 +39,9 @@ public class CreateSectionNameActivity extends AppCompatActivity implements View
         if(view.getId()==R.id.buttonAddSectionName){
             String sectionName = String.valueOf(editTextSectionName.getText());
             sectionNames.add(sectionName);
-            ItemSectionNameAdapter itemSectionNameAdapter = new ItemSectionNameAdapter(this,sectionNames);
+            itemSectionNameAdapter.setSectionNames(sectionNames);
             listViewSectionName.setAdapter(itemSectionNameAdapter);
+            itemSectionNameAdapter.notifyDataSetChanged();
         }
     }
 }
