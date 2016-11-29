@@ -1,23 +1,31 @@
 package com.example.katesudal.participantgroupmanagement.Activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.example.katesudal.participantgroupmanagement.Adapter.ItemSectionNameAdapter;
+import com.example.katesudal.participantgroupmanagement.Model.Project;
+import com.example.katesudal.participantgroupmanagement.Model.Section;
+import com.example.katesudal.participantgroupmanagement.PreferencesService;
 import com.example.katesudal.participantgroupmanagement.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.realm.RealmList;
 
 public class CreateSectionNameActivity extends AppCompatActivity implements View.OnClickListener{
     private EditText editTextProjectName;
     private EditText editTextSectionName;
     private Button buttoAddSectionName;
     private ListView listViewSectionName;
+    private LinearLayout buttonCreateProject;
     ItemSectionNameAdapter itemSectionNameAdapter;
     List<String> sectionNames;
 
@@ -29,9 +37,11 @@ public class CreateSectionNameActivity extends AppCompatActivity implements View
         editTextSectionName = (EditText) findViewById(R.id.editTextSectionName);
         buttoAddSectionName = (Button) findViewById(R.id.buttonAddSectionName);
         listViewSectionName = (ListView) findViewById(R.id.listViewSectionName);
+        buttonCreateProject = (LinearLayout) findViewById(R.id.buttonCreateProject);
         itemSectionNameAdapter = new ItemSectionNameAdapter(this);
         sectionNames = new ArrayList<String>();
         buttoAddSectionName.setOnClickListener(this);
+        buttonCreateProject.setOnClickListener(this);
     }
 
     @Override
@@ -42,6 +52,21 @@ public class CreateSectionNameActivity extends AppCompatActivity implements View
             itemSectionNameAdapter.setSectionNames(sectionNames);
             listViewSectionName.setAdapter(itemSectionNameAdapter);
             itemSectionNameAdapter.notifyDataSetChanged();
+        }
+        if(view.getId()==R.id.buttonCreateProject){
+            String projectName = String.valueOf(editTextProjectName.getText());
+            Project project = new Project();
+            project.setProjectName(projectName);
+            RealmList<Section> sections = new RealmList<>();
+            for(int sectionNameIndex = 0; sectionNameIndex<sectionNames.size(); sectionNameIndex++){
+                Section section = new Section();
+                section.setSectionName(sectionNames.get(sectionNameIndex));
+                sections.add(section);
+            }
+            project.setSectionIDs(sections);
+            PreferencesService.savePreferences("Project", project, this);
+            Intent intent = new Intent(this, CreateProjectActivity.class);
+            startActivity(intent);
         }
     }
 }

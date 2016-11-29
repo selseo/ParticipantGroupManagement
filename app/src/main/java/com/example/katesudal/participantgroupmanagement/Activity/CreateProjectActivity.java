@@ -4,6 +4,7 @@ import android.content.ClipData;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -12,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.katesudal.participantgroupmanagement.Model.Participant;
+import com.example.katesudal.participantgroupmanagement.Model.Project;
+import com.example.katesudal.participantgroupmanagement.PreferencesService;
 import com.example.katesudal.participantgroupmanagement.R;
 
 import io.realm.Realm;
@@ -26,6 +29,7 @@ public class CreateProjectActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         realm = Realm.getDefaultInstance();
+        Project project = (Project) PreferencesService.getPreferences("Project",Project.class,this);
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         setContentView(R.layout.activity_create_project);
         layoutUnselectedParticipantName = (ViewGroup) findViewById(R.id.layoutUnselectedParticipantName);
@@ -42,6 +46,10 @@ public class CreateProjectActivity extends AppCompatActivity {
             itemLayout.addView(itemView);
             itemView.setOnTouchListener(new OnTouchItem());
         }
+    }
+
+    private void createSectionLayout(){
+
     }
 
     private void setOnDragListener(){
