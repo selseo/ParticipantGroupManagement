@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
         }
         if(view.getId()==R.id.buttonCreateProject){
-            Intent intent = new Intent(view.getContext(), CreateProjectActivity.class);
+            Intent intent = new Intent(view.getContext(), CreateSectionNameActivity.class);
             startActivity(intent);
         }
     }

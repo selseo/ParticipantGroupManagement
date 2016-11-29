@@ -19,7 +19,8 @@
         <activity android:name=".ViewEncounterActivity" />
         <activity android:name=".EditProjectActivity" />
         <activity android:name=".AddParticipantActivity" />
-        <activity android:name=".EditParticipantActivity"></activity>
+        <activity android:name=".EditParticipantActivity" />
+        <activity android:name=".CreateSectionNameActivity"></activity>
     </application>
 
 </manifest>

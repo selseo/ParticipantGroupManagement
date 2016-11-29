@@ -27,6 +27,7 @@ public class CreateProjectActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_project);
         layoutUnselectedParticipantName = (ViewGroup) findViewById(R.id.layoutUnselectedParticipantName);
         createParticipantNameItem(realm,layoutUnselectedParticipantName,inflater);
+        setOnDragListener();
     }
 
     private void createParticipantNameItem(Realm realm, ViewGroup itemLayout, LayoutInflater inflater) {
@@ -40,6 +41,9 @@ public class CreateProjectActivity extends AppCompatActivity {
         }
     }
 
+    private void setOnDragListener(){
+        layoutUnselectedParticipantName.setOnDragListener(new OnDragItem());
+    }
 
     class OnTouchItem implements View.OnTouchListener {
 
