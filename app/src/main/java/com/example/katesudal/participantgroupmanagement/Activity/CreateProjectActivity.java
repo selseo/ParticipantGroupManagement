@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.katesudal.participantgroupmanagement.Model.Participant;
@@ -22,6 +23,7 @@ import io.realm.RealmResults;
 
 public class CreateProjectActivity extends AppCompatActivity {
     private ViewGroup layoutUnselectedParticipantName;
+    private LinearLayout layoutGroups;
     private Realm realm;
     private int number = 4;
 
@@ -33,7 +35,9 @@ public class CreateProjectActivity extends AppCompatActivity {
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         setContentView(R.layout.activity_create_project);
         layoutUnselectedParticipantName = (ViewGroup) findViewById(R.id.layoutUnselectedParticipantName);
+        layoutGroups = (LinearLayout) findViewById(R.id.layoutGroups);
         createParticipantNameItem(realm,layoutUnselectedParticipantName,inflater);
+        createSectionLayout(project,inflater,layoutGroups);
         setOnDragListener();
     }
 
@@ -48,8 +52,15 @@ public class CreateProjectActivity extends AppCompatActivity {
         }
     }
 
-    private void createSectionLayout(){
-
+    private void createSectionLayout(Project project, LayoutInflater inflater,LinearLayout layout){
+        for(int sectionIndex = 0; sectionIndex<project.getSectionIDs().size();sectionIndex++){
+            View layoutView = inflater.inflate(R.layout.layout_group, null);
+            TextView textViewSectionName = (TextView) layoutView.findViewById(R.id.textViewGroupName);
+            ViewGroup layoutGroupSelectedParticipants = (ViewGroup) findViewById(R.id.layoutGroupSelectedParticipants);
+            String sectionName = project.getSectionIDs().get(sectionIndex).getSectionName();
+            textViewSectionName.setText(sectionName);
+            layout.addView(layoutView);
+        }
     }
 
     private void setOnDragListener(){

@@ -6,19 +6,20 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="#e7f7fb"
         android:layout_weight="5">
         <com.example.katesudal.participantgroupmanagement.FlowLayout
             android:id="@+id/layoutUnselectedParticipantName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:background="#e7f7fb"
             android:orientation="horizontal"/>
     </ScrollView>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="5">
+        android:layout_weight="5"
+        android:background="#8bbbc7">
         <LinearLayout
             android:id="@+id/layoutGroups"
             android:layout_width="match_parent"
