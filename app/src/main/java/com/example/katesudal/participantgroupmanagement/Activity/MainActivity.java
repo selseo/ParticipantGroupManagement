@@ -3,6 +3,7 @@ package com.example.katesudal.participantgroupmanagement.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -14,6 +15,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private Button buttonEditParticipant;
     private Button buttonCreateProject;
+    private Button buttonViewEncounter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +26,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonCreateProject.setOnClickListener(this);
         buttonEditParticipant = (Button) findViewById(R.id.buttonEditParticipant);
         buttonEditParticipant.setOnClickListener(this);
+        buttonViewEncounter = (Button) findViewById(R.id.buttonViewEncounter);
+        buttonViewEncounter.setOnClickListener(this);
     }
 
     @Override
@@ -34,6 +38,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if(view.getId()==R.id.buttonGotoCreateProject){
             Intent intent = new Intent(view.getContext(), CreateSectionNameActivity.class);
+            startActivity(intent);
+        }
+        if(view.getId()==R.id.buttonViewEncounter){
+            Log.d("EncounterResult","Click");
+            Intent intent = new Intent(view.getContext(),ViewEncounterActivity.class);
             startActivity(intent);
         }
     }
