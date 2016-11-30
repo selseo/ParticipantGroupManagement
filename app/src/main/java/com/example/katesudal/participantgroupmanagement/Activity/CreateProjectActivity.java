@@ -140,7 +140,6 @@ public class CreateProjectActivity extends AppCompatActivity implements View.OnC
         viewgroup.removeView(viewState);
         ViewGroup containView;
         if(view.getId()==R.id.layoutGroupSelectedParticipants){
-//            containView = (ViewGroup) findViewById(R.id.layoutUnselectedParticipantName);
             containView = view;
         }
         else{
@@ -154,13 +153,11 @@ public class CreateProjectActivity extends AppCompatActivity implements View.OnC
     public void onClick(View view) {
         if(view.getId()==R.id.buttonSubmitCreateProject){
             project.setProjectID((int) generateProjectID(realm));
-            RealmResults<Participant> participants = realm.where(Participant.class).findAll();
             for(int sectionIndex=0; sectionIndex<project.getSectionIDs().size(); sectionIndex++){
                 ViewGroup sectionView = (ViewGroup) layoutGroups.getChildAt(sectionIndex);
                 ViewGroup sectionViewSub = (ViewGroup) sectionView.getChildAt(0);
                 FlowLayout sectionViewSubContenner = (FlowLayout) sectionViewSub.getChildAt(1);
                 RealmList<Participant> selectedParticipants = new RealmList<>();
-                Log.d("sectionIndex",sectionView+" "+sectionIndex);
                 for(int participantIndex=0; participantIndex<sectionViewSubContenner.getChildCount(); participantIndex++){
                     View rootContainerView = sectionViewSubContenner.getChildAt(participantIndex);
                     TextView textViewNameParticipant = (TextView) rootContainerView.findViewById(R.id.textViewItemParticipantName);
@@ -168,9 +165,6 @@ public class CreateProjectActivity extends AppCompatActivity implements View.OnC
                     RealmResults<Participant> participant = realm.where(Participant.class)
                             .equalTo("participantName",participantName)
                             .findAll();
-
-                    Log.d("participantIndex", participantIndex+"");
-                    Log.d("participantName",participantName);
                     selectedParticipants.add(participant.first());
                 }
                 project.getSectionIDs().get(sectionIndex).setParticipantIDs(selectedParticipants);
