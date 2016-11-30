@@ -8,6 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.katesudal.participantgroupmanagement.Model.Participant;
+import com.example.katesudal.participantgroupmanagement.Model.Section;
 import com.example.katesudal.participantgroupmanagement.R;
 
 import java.util.List;
@@ -20,9 +22,11 @@ public class ItemSectionNameAdapter extends BaseAdapter implements View.OnClickL
     Context context;
     List<String> sectionNames;
     ViewHolder holder;
+    private ItemSectionNameListener itemSectionNameListener;
 
-    public ItemSectionNameAdapter(Context context) {
+    public ItemSectionNameAdapter(Context context, ItemSectionNameListener itemSectionNameListener) {
         this.context = context;
+        this.itemSectionNameListener = itemSectionNameListener;
     }
 
     public List<String> getSectionNames() {
@@ -60,15 +64,15 @@ public class ItemSectionNameAdapter extends BaseAdapter implements View.OnClickL
         holder.textViewSectionName.setText(sectionNames.get(i));
         ImageView iconDeleteSectionName = holder.iconDeleteSectionName;
         holder.iconDeleteSectionName.setTag(holder);
-//        iconDeleteSectionName.setOnClickListener(this);
+        iconDeleteSectionName.setOnClickListener(this);
         return view;
     }
     @Override
     public void onClick(View view) {
         ItemSectionNameAdapter.ViewHolder holder = (ItemSectionNameAdapter.ViewHolder) view.getTag();
         if (view.getId() == holder.iconDeleteSectionName.getId()) {
-//            sectionNames.remove();
-//            itemParticipantListener.deleteParticipantById(participants, view);
+            String sectionName = (String) holder.textViewSectionName.getText();
+            itemSectionNameListener.deleteSectionName(view,sectionName);
         }
 
     }
@@ -81,5 +85,9 @@ public class ItemSectionNameAdapter extends BaseAdapter implements View.OnClickL
             textViewSectionName = (TextView) convertView.findViewById(R.id.textViewCreatedSessionName);
             iconDeleteSectionName = (ImageView) convertView.findViewById(R.id.iconDeleteSectionName);
         }
+    }
+
+    public interface ItemSectionNameListener{
+        void deleteSectionName(View view,String sectionName);
     }
 }

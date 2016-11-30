@@ -3,6 +3,7 @@ package com.example.katesudal.participantgroupmanagement.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,12 +21,15 @@ import java.util.List;
 
 import io.realm.RealmList;
 
-public class CreateSectionNameActivity extends AppCompatActivity implements View.OnClickListener{
+public class CreateSectionNameActivity extends AppCompatActivity
+        implements View.OnClickListener,
+        ItemSectionNameAdapter.ItemSectionNameListener{
     private EditText editTextProjectName;
     private EditText editTextSectionName;
     private Button buttoAddSectionName;
     private ListView listViewSectionName;
     private LinearLayout buttonCreateProject;
+    private LinearLayout buttonCancelCreateSectionName;
     ItemSectionNameAdapter itemSectionNameAdapter;
     List<String> sectionNames;
 
@@ -38,10 +42,12 @@ public class CreateSectionNameActivity extends AppCompatActivity implements View
         buttoAddSectionName = (Button) findViewById(R.id.buttonAddSectionName);
         listViewSectionName = (ListView) findViewById(R.id.listViewSectionName);
         buttonCreateProject = (LinearLayout) findViewById(R.id.buttonCreateProject);
-        itemSectionNameAdapter = new ItemSectionNameAdapter(this);
+        buttonCancelCreateSectionName = (LinearLayout) findViewById(R.id.buttonCancelCreateSectionName);
+        itemSectionNameAdapter = new ItemSectionNameAdapter(this, this);
         sectionNames = new ArrayList<String>();
         buttoAddSectionName.setOnClickListener(this);
         buttonCreateProject.setOnClickListener(this);
+        buttonCancelCreateSectionName.setOnClickListener(this);
     }
 
     @Override
@@ -68,5 +74,16 @@ public class CreateSectionNameActivity extends AppCompatActivity implements View
             Intent intent = new Intent(this, CreateProjectActivity.class);
             startActivity(intent);
         }
+        if(view.getId()==R.id.buttonCancelCreateSectionName){
+            onBackPressed();
+        }
+    }
+
+    @Override
+    public void deleteSectionName(View view,String sectionName) {
+        sectionNames.remove(sectionName);
+        itemSectionNameAdapter.setSectionNames(sectionNames);
+        listViewSectionName.setAdapter(itemSectionNameAdapter);
+        itemSectionNameAdapter.notifyDataSetChanged();
     }
 }

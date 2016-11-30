@@ -60,6 +60,7 @@ public class CreateProjectActivity extends AppCompatActivity implements View.OnC
         createParticipantNameItem(realm,layoutUnselectedParticipantName,inflater);
         createSectionLayout(project,inflater,layoutGroups);
         buttonSubmitCreateProject.setOnClickListener(this);
+        buttonCancelCreateProject.setOnClickListener(this);
     }
 
     private void createParticipantNameItem(Realm realm, ViewGroup itemLayout, LayoutInflater inflater) {
@@ -175,6 +176,9 @@ public class CreateProjectActivity extends AppCompatActivity implements View.OnC
             realm.commitTransaction();
             Intent intent = new Intent(view.getContext(), CreateProjectResultActivity.class);
             startActivity(intent);
+        }
+        if(view.getId()==R.id.buttonCancelCreateProject){
+            onBackPressed();
         }
     }
 
