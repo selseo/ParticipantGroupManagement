@@ -12,7 +12,7 @@
     tools:context="com.example.katesudal.participantgroupmanagement.Activity.MainActivity">
 
     <Button
-        android:id="@+id/buttonCreateProject"
+        android:id="@+id/buttonGotoCreateProject"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Create Project" />

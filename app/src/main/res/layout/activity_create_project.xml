@@ -3,19 +3,27 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/layoutCreateProject"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
     <ScrollView
+        android:id="@+id/scrollViewUnselected"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="#e7f7fb"
         android:layout_weight="5">
         <com.example.katesudal.participantgroupmanagement.FlowLayout
             android:id="@+id/layoutUnselectedParticipantName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
+            android:background="#e7f7fb"
             android:orientation="horizontal"/>
     </ScrollView>
     <ScrollView
+        android:id="@+id/scrollViewSelected"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="5"
@@ -34,6 +42,7 @@
         android:layout_weight="1"
         android:orientation="horizontal">
         <LinearLayout
+            android:id="@+id/buttonSubmitCreateProject"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1">
@@ -44,6 +53,7 @@
                 android:text="Submit"/>
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/buttonCancelCreateProject"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1">
@@ -54,5 +64,5 @@
                 android:text="Cancel"/>
         </LinearLayout>
     </LinearLayout>
-
+    </LinearLayout>
 </LinearLayout>

@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         Realm.init(getApplicationContext());
         setContentView(R.layout.activity_main);
-        buttonCreateProject = (Button) findViewById(R.id.buttonCreateProject);
+        buttonCreateProject = (Button) findViewById(R.id.buttonGotoCreateProject);
         buttonCreateProject.setOnClickListener(this);
         buttonEditParticipant = (Button) findViewById(R.id.buttonEditParticipant);
         buttonEditParticipant.setOnClickListener(this);
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent intent = new Intent(view.getContext(), EditParticipantActivity.class);
             startActivity(intent);
         }
-        if(view.getId()==R.id.buttonCreateProject){
+        if(view.getId()==R.id.buttonGotoCreateProject){
             Intent intent = new Intent(view.getContext(), CreateSectionNameActivity.class);
             startActivity(intent);
         }

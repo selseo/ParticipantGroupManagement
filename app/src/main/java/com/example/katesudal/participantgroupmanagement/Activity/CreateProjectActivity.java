@@ -1,9 +1,11 @@
 package com.example.katesudal.participantgroupmanagement.Activity;
 
 import android.content.ClipData;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Layout;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
@@ -11,34 +13,53 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.example.katesudal.participantgroupmanagement.FlowLayout;
 import com.example.katesudal.participantgroupmanagement.Model.Participant;
 import com.example.katesudal.participantgroupmanagement.Model.Project;
 import com.example.katesudal.participantgroupmanagement.PreferencesService;
 import com.example.katesudal.participantgroupmanagement.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.realm.Realm;
+import io.realm.RealmList;
 import io.realm.RealmResults;
 
-public class CreateProjectActivity extends AppCompatActivity {
+public class CreateProjectActivity extends AppCompatActivity implements View.OnClickListener{
     private ViewGroup layoutUnselectedParticipantName;
+    private ViewGroup layoutGroupSelectedParticipants;
     private LinearLayout layoutGroups;
+    private LinearLayout buttonSubmitCreateProject;
+    private LinearLayout buttonCancelCreateProject;
+    private ScrollView scrollViewUnselected;
+    private ScrollView scrollViewSelected;
+    private Project project;
     private Realm realm;
-    private int number = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         realm = Realm.getDefaultInstance();
-        Project project = (Project) PreferencesService.getPreferences("Project",Project.class,this);
+        project = (Project) PreferencesService.getPreferences("Project",Project.class,this);
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         setContentView(R.layout.activity_create_project);
         layoutUnselectedParticipantName = (ViewGroup) findViewById(R.id.layoutUnselectedParticipantName);
         layoutGroups = (LinearLayout) findViewById(R.id.layoutGroups);
+        buttonSubmitCreateProject = (LinearLayout) findViewById(R.id.buttonSubmitCreateProject);
+        buttonCancelCreateProject = (LinearLayout) findViewById(R.id.buttonCancelCreateProject);
+        scrollViewUnselected = (ScrollView) findViewById(R.id.scrollViewUnselected);
+        scrollViewSelected = (ScrollView) findViewById(R.id.scrollViewSelected);
+        buttonSubmitCreateProject.setOnDragListener(new OnDragItem());
+        buttonCancelCreateProject.setOnDragListener(new OnDragItem());
+        scrollViewUnselected.setOnDragListener(new OnDragItem());
+        scrollViewSelected.setOnDragListener(new OnDragItem());
         createParticipantNameItem(realm,layoutUnselectedParticipantName,inflater);
         createSectionLayout(project,inflater,layoutGroups);
-        setOnDragListener();
+        buttonSubmitCreateProject.setOnClickListener(this);
     }
 
     private void createParticipantNameItem(Realm realm, ViewGroup itemLayout, LayoutInflater inflater) {
@@ -56,16 +77,16 @@ public class CreateProjectActivity extends AppCompatActivity {
         for(int sectionIndex = 0; sectionIndex<project.getSectionIDs().size();sectionIndex++){
             View layoutView = inflater.inflate(R.layout.layout_group, null);
             TextView textViewSectionName = (TextView) layoutView.findViewById(R.id.textViewGroupName);
-            ViewGroup layoutGroupSelectedParticipants = (ViewGroup) findViewById(R.id.layoutGroupSelectedParticipants);
+            LinearLayout layoutGroupName = (LinearLayout) layoutView.findViewById(R.id.layoutGroupName);
+            layoutGroupSelectedParticipants = (FlowLayout) layoutView.findViewById(R.id.layoutGroupSelectedParticipants);
             String sectionName = project.getSectionIDs().get(sectionIndex).getSectionName();
             textViewSectionName.setText(sectionName);
             layout.addView(layoutView);
+            layoutGroupSelectedParticipants.setOnDragListener(new OnDragItem());
+            layoutGroupName.setOnDragListener(new OnDragItem());
         }
     }
 
-    private void setOnDragListener(){
-        layoutUnselectedParticipantName.setOnDragListener(new OnDragItem());
-    }
 
     class OnTouchItem implements View.OnTouchListener {
 
@@ -100,16 +121,11 @@ public class CreateProjectActivity extends AppCompatActivity {
                     break;
 
                 case DragEvent.ACTION_DROP: {
-                    View viewState = (View) dragEvent.getLocalState();
-                    ViewGroup viewgroup = (ViewGroup) viewState.getParent();
-                    viewgroup.removeView(viewState);
-                    ViewGroup containView = (ViewGroup) view;
-                    containView.addView(viewState);
-                    viewState.setVisibility(View.VISIBLE);
+                    pasteItem((ViewGroup) view, dragEvent);
                     break;
                 }
                 case DragEvent.ACTION_DRAG_ENDED: {
-                    return (true);
+                    break;
                 }
                 default:
                     break;
@@ -117,4 +133,65 @@ public class CreateProjectActivity extends AppCompatActivity {
             return true;
         }
     }
+
+    private void pasteItem(ViewGroup view, DragEvent dragEvent) {
+        View viewState = (View) dragEvent.getLocalState();
+        ViewGroup viewgroup = (ViewGroup) viewState.getParent();
+        viewgroup.removeView(viewState);
+        ViewGroup containView;
+        if(view.getId()==R.id.layoutGroupSelectedParticipants){
+//            containView = (ViewGroup) findViewById(R.id.layoutUnselectedParticipantName);
+            containView = view;
+        }
+        else{
+            containView = (ViewGroup) findViewById(R.id.layoutUnselectedParticipantName);
+        }
+        containView.addView(viewState);
+        viewState.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onClick(View view) {
+        if(view.getId()==R.id.buttonSubmitCreateProject){
+            project.setProjectID((int) generateProjectID(realm));
+            RealmResults<Participant> participants = realm.where(Participant.class).findAll();
+            for(int sectionIndex=0; sectionIndex<project.getSectionIDs().size(); sectionIndex++){
+                ViewGroup sectionView = (ViewGroup) layoutGroups.getChildAt(sectionIndex);
+                ViewGroup sectionViewSub = (ViewGroup) sectionView.getChildAt(0);
+                FlowLayout sectionViewSubContenner = (FlowLayout) sectionViewSub.getChildAt(1);
+                RealmList<Participant> selectedParticipants = new RealmList<>();
+                Log.d("sectionIndex",sectionView+" "+sectionIndex);
+                for(int participantIndex=0; participantIndex<sectionViewSubContenner.getChildCount(); participantIndex++){
+                    View rootContainerView = sectionViewSubContenner.getChildAt(participantIndex);
+                    TextView textViewNameParticipant = (TextView) rootContainerView.findViewById(R.id.textViewItemParticipantName);
+                    String participantName = (String) textViewNameParticipant.getText();
+                    RealmResults<Participant> participant = realm.where(Participant.class)
+                            .equalTo("participantName",participantName)
+                            .findAll();
+
+                    Log.d("participantIndex", participantIndex+"");
+                    Log.d("participantName",participantName);
+                    selectedParticipants.add(participant.first());
+                }
+                project.getSectionIDs().get(sectionIndex).setParticipantIDs(selectedParticipants);
+                project.getSectionIDs().get(sectionIndex).setSectionID(sectionIndex+1);
+            }
+            realm.beginTransaction();
+            realm.copyToRealm(project);
+            realm.commitTransaction();
+            Intent intent = new Intent(view.getContext(), CreateProjectResultActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    private long generateProjectID(Realm realm) {
+        Number num = realm.where(Participant.class).max("participantID");
+        if(num==null){
+            return 1;
+        }
+        else{
+            return (long)num+1;
+        }
+    }
+
 }

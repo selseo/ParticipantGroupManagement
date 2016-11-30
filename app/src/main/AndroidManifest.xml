@@ -20,7 +20,8 @@
         <activity android:name=".Activity.EditProjectActivity" />
         <activity android:name=".Activity.AddParticipantActivity" />
         <activity android:name=".Activity.EditParticipantActivity" />
-        <activity android:name=".Activity.CreateSectionNameActivity"></activity>
+        <activity android:name=".Activity.CreateSectionNameActivity" />
+        <activity android:name=".Activity.CreateProjectResultActivity"></activity>
     </application>
 
 </manifest>
