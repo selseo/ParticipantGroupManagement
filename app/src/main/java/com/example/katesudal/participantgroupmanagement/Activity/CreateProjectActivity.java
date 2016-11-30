@@ -157,10 +157,10 @@ public class CreateProjectActivity extends AppCompatActivity implements View.OnC
             for(int sectionIndex=0; sectionIndex<project.getSectionIDs().size(); sectionIndex++){
                 ViewGroup sectionView = (ViewGroup) layoutGroups.getChildAt(sectionIndex);
                 ViewGroup sectionViewSub = (ViewGroup) sectionView.getChildAt(0);
-                FlowLayout sectionViewSubContenner = (FlowLayout) sectionViewSub.getChildAt(1);
+                FlowLayout sectionViewSubContainer = (FlowLayout) sectionViewSub.getChildAt(1);
                 RealmList<Participant> selectedParticipants = new RealmList<>();
-                for(int participantIndex=0; participantIndex<sectionViewSubContenner.getChildCount(); participantIndex++){
-                    View rootContainerView = sectionViewSubContenner.getChildAt(participantIndex);
+                for(int participantIndex=0; participantIndex<sectionViewSubContainer.getChildCount(); participantIndex++){
+                    View rootContainerView = sectionViewSubContainer.getChildAt(participantIndex);
                     TextView textViewNameParticipant = (TextView) rootContainerView.findViewById(R.id.textViewItemParticipantName);
                     String participantName = (String) textViewNameParticipant.getText();
                     RealmResults<Participant> participant = realm.where(Participant.class)
