@@ -70,7 +70,7 @@ public class EditProjectActivity extends AppCompatActivity
     public void editProjectById(List<Project> projects, View view) {
         int projectID = projects.get(listViewProject.getPositionForView(view)).getProjectID();
         Intent intent = new Intent(this, EditEachProjectActivity.class);
-        intent.putExtra("ProjectID", projectID);
+        intent.putExtra("projectID", projectID);
         startActivity(intent);
     }
 }
