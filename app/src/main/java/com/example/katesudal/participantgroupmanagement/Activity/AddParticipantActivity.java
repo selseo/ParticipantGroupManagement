@@ -18,6 +18,7 @@ public class AddParticipantActivity extends AppCompatActivity implements Realm.T
     private EditText editTextParticipantSex;
     private EditText editTextParticipantType;
     private Button buttonAddParticipant;
+    private Button buttonCancelAddParticipant;
     private Participant participant;
 
     @Override
@@ -28,7 +29,9 @@ public class AddParticipantActivity extends AppCompatActivity implements Realm.T
         editTextParticipantSex = (EditText) findViewById(R.id.editTextParticipantSex);
         editTextParticipantType = (EditText) findViewById(R.id.editTextParticipantType);
         buttonAddParticipant = (Button) findViewById(R.id.buttonAddParticipant);
+        buttonCancelAddParticipant = (Button) findViewById(R.id.buttonCancelAddParticipant);
         buttonAddParticipant.setOnClickListener(this);
+        buttonCancelAddParticipant.setOnClickListener(this);
     }
 
     public void createParticipantRealm(Participant participant) {
@@ -66,6 +69,9 @@ public class AddParticipantActivity extends AppCompatActivity implements Realm.T
             createParticipantRealm(participant);
             Intent intent = new Intent(view.getContext(), EditParticipantActivity.class);
             startActivity(intent);
+        }
+        if(view.getId()==R.id.buttonCancelAddParticipant){
+            onBackPressed();
         }
     }
 }
