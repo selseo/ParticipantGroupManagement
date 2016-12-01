@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.katesudal.participantgroupmanagement.Adapter.ItemProjectAdapter;
@@ -21,6 +22,7 @@ public class EditProjectActivity extends AppCompatActivity
         implements View.OnClickListener,ItemProjectAdapter.ItemProjectListener {
     Realm realm;
     private ListView listViewProject;
+    private Button buttonBacktoMainFromEditProject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,8 @@ public class EditProjectActivity extends AppCompatActivity
         realm = Realm.getDefaultInstance();
         setContentView(R.layout.activity_edit_project);
         listViewProject = (ListView) findViewById(R.id.listViewProject);
+        buttonBacktoMainFromEditProject = (Button) findViewById(R.id.buttonBacktoMainFromEditProject);
+        buttonBacktoMainFromEditProject.setOnClickListener(this);
         viewProject(realm);
     }
 
@@ -44,7 +48,9 @@ public class EditProjectActivity extends AppCompatActivity
 
     @Override
     public void onClick(View view) {
-
+        if(view.getId()==R.id.buttonBacktoMainFromEditProject){
+            onBackPressed();
+        }
     }
 
     @Override

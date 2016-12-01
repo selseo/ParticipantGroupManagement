@@ -29,12 +29,12 @@ public class EditEachParticipant extends AppCompatActivity implements View.OnCli
         realm = Realm.getDefaultInstance();
         setContentView(R.layout.activity_add_participant);
         participantID = getIntent().getExtras().getLong("participantID");
-        Log.d("ParticipantID=", String.valueOf(participantID));
         editTextParticipantName = (EditText) findViewById(R.id.editTextParticipantName);
         editTextParticipantSex = (EditText) findViewById(R.id.editTextParticipantSex);
         editTextParticipantType = (EditText) findViewById(R.id.editTextParticipantType);
         buttonSaveParticipant = (Button) findViewById(R.id.buttonAddParticipant);
         buttonCancelEditParticipant = (Button) findViewById(R.id.buttonCancelAddParticipant);
+        buttonSaveParticipant.setText("Save");
         buttonSaveParticipant.setOnClickListener(this);
         buttonCancelEditParticipant.setOnClickListener(this);
         showParticipantInformation();
