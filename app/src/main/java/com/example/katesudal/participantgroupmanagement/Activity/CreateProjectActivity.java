@@ -183,7 +183,7 @@ public class CreateProjectActivity extends AppCompatActivity implements View.OnC
     }
 
     private long generateProjectID(Realm realm) {
-        Number num = realm.where(Participant.class).max("participantID");
+        Number num = realm.where(Project.class).max("projectID");
         if(num==null){
             return 1;
         }

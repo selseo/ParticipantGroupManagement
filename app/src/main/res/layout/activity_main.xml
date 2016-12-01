@@ -17,19 +17,17 @@
         android:layout_height="wrap_content"
         android:text="Create Project" />
     <Button
-        android:id="@+id/buttonViewEncounter"
+        android:id="@+id/buttonGotoViewEncounter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="View Encounter"
-        android:onClick="gotoViewEncounter"/>
+        android:text="View Encounter" />
     <Button
-        android:id="@+id/buttonEditProject"
+        android:id="@+id/buttonGotoEditProject"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Edit Project"
-        android:onClick="gotoEditProject"/>
+        android:text="Edit Project" />
     <Button
-        android:id="@+id/buttonEditParticipant"
+        android:id="@+id/buttonGotoEditParticipant"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Edit Participant" />

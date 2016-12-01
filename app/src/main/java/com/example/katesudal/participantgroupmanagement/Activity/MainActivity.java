@@ -13,26 +13,29 @@ import io.realm.Realm;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button buttonEditParticipant;
-    private Button buttonCreateProject;
-    private Button buttonViewEncounter;
+    private Button buttonGotoEditParticipant;
+    private Button buttonGotoCreateProject;
+    private Button buttonGotoViewEncounter;
+    private Button buttonGotoEditProject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Realm.init(getApplicationContext());
         setContentView(R.layout.activity_main);
-        buttonCreateProject = (Button) findViewById(R.id.buttonGotoCreateProject);
-        buttonCreateProject.setOnClickListener(this);
-        buttonEditParticipant = (Button) findViewById(R.id.buttonEditParticipant);
-        buttonEditParticipant.setOnClickListener(this);
-        buttonViewEncounter = (Button) findViewById(R.id.buttonViewEncounter);
-        buttonViewEncounter.setOnClickListener(this);
+        buttonGotoCreateProject = (Button) findViewById(R.id.buttonGotoCreateProject);
+        buttonGotoCreateProject.setOnClickListener(this);
+        buttonGotoEditParticipant = (Button) findViewById(R.id.buttonGotoEditParticipant);
+        buttonGotoEditParticipant.setOnClickListener(this);
+        buttonGotoViewEncounter = (Button) findViewById(R.id.buttonGotoViewEncounter);
+        buttonGotoViewEncounter.setOnClickListener(this);
+        buttonGotoEditProject = (Button) findViewById(R.id.buttonGotoEditProject);
+        buttonGotoEditProject.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
-        if(view.getId()==R.id.buttonEditParticipant){
+        if(view.getId()==R.id.buttonGotoEditParticipant){
             Intent intent = new Intent(view.getContext(), EditParticipantActivity.class);
             startActivity(intent);
         }
@@ -40,9 +43,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent intent = new Intent(view.getContext(), CreateSectionNameActivity.class);
             startActivity(intent);
         }
-        if(view.getId()==R.id.buttonViewEncounter){
-            Log.d("EncounterResult","Click");
+        if(view.getId()==R.id.buttonGotoViewEncounter){
             Intent intent = new Intent(view.getContext(),ViewEncounterActivity.class);
+            startActivity(intent);
+        }
+        if(view.getId()==R.id.buttonGotoEditProject){
+            Intent intent = new Intent(view.getContext(),EditProjectActivity.class);
             startActivity(intent);
         }
     }

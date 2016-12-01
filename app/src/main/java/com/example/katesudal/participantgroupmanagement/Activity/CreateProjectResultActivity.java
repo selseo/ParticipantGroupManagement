@@ -27,6 +27,7 @@ public class CreateProjectResultActivity extends AppCompatActivity {
         String result ="";
         RealmResults<Project> projects = realm.where(Project.class).findAll();
         for(int projectIndex = 0; projectIndex < projects.size(); projectIndex++){
+            result=result+"Project ID : "+projects.get(projectIndex).getProjectID()+"\n";
             result=result+"Project name : "+projects.get(projectIndex).getProjectName() +"\n"+"Section :\n";
             for(int sectionIndex = 0; sectionIndex < projects.get(projectIndex).getSectionIDs().size();sectionIndex++){
                 result = result+projects.get(projectIndex).getSectionIDs().get(sectionIndex).getSectionID()
