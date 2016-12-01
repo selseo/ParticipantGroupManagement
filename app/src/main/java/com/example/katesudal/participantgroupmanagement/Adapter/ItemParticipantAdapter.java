@@ -64,6 +64,9 @@ public class ItemParticipantAdapter extends BaseAdapter implements View.OnClickL
         viewHolder.textViewParticipantName.setText(participants.get(i).getParticipantName());
         viewHolder.textViewParticipantSex.setText(participants.get(i).getParticipantSex());
         viewHolder.textViewParticipantType.setText(participants.get(i).getParticipantType());
+        ImageView iconEditParticipant = viewHolder.iconEditParticipant;
+        viewHolder.iconEditParticipant.setTag(viewHolder);
+        iconEditParticipant.setOnClickListener(this);
         ImageView iconDeleteParticipant = viewHolder.iconDeleteParticipant;
         viewHolder.iconDeleteParticipant.setTag(viewHolder);
         iconDeleteParticipant.setOnClickListener(this);
@@ -78,6 +81,9 @@ public class ItemParticipantAdapter extends BaseAdapter implements View.OnClickL
         if (view.getId() == holder.iconDeleteParticipant.getId()) {
             itemParticipantListener.deleteParticipantById(participants, view);
         }
+        if(view.getId() == holder.iconEditParticipant.getId()){
+            itemParticipantListener.editParticipantById(participants,view);
+        }
 
     }
 
@@ -85,17 +91,20 @@ public class ItemParticipantAdapter extends BaseAdapter implements View.OnClickL
         private TextView textViewParticipantName;
         private TextView textViewParticipantSex;
         private TextView textViewParticipantType;
+        private ImageView iconEditParticipant;
         private ImageView iconDeleteParticipant;
 
         public ViewHolder(View convertView) {
             textViewParticipantName = (TextView) convertView.findViewById(R.id.textViewParticipantName);
             textViewParticipantSex = (TextView) convertView.findViewById(R.id.textViewParticipantSex);
             textViewParticipantType = (TextView) convertView.findViewById(R.id.textViewParticipantType);
+            iconEditParticipant = (ImageView) convertView.findViewById(R.id.iconEditParticipant);
             iconDeleteParticipant = (ImageView) convertView.findViewById(R.id.iconDeleteParticipant);
         }
     }
 
     public interface ItemParticipantListener{
         void deleteParticipantById(List<Participant> participant, View view);
+        void editParticipantById(List<Participant> participant, View view);
     }
 }

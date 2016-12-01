@@ -84,4 +84,12 @@ public class EditParticipantActivity extends AppCompatActivity
         realm.commitTransaction();
         viewParticipant(realm);
     }
+
+    @Override
+    public void editParticipantById(List<Participant> participants, View view) {
+        long participantID = participants.get(listViewParticipant.getPositionForView(view)).getParticipantID();
+        Intent intent = new Intent(this,EditEachParticipant.class);
+        intent.putExtra("participantID",participantID);
+        startActivity(intent);
+    }
 }

@@ -29,7 +29,12 @@
             android:layout_weight="1"
             android:textSize="20sp"/>
     </LinearLayout>
-
+    <ImageView
+        android:id="@+id/iconEditParticipant"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:src="@mipmap/ic_launcher"/>
     <ImageView
         android:id="@+id/iconDeleteParticipant"
         android:layout_width="0dp"
