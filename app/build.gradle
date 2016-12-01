@@ -27,6 +27,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.0.1'
     //Gson for preferences
     compile 'com.squareup.retrofit2:converter-gson:2.0.2'
+    //Table Sort
+    compile 'de.codecrafters.tableview:tableview:2.4.1'
     testCompile 'junit:junit:4.12'
 }
 //for realm
