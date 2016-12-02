@@ -3,4 +3,8 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorNormalBlueSea">#127687</color>
+    <color name="background">#fdfbf0</color>
+    <color name="colorDarkBlueSea">#035563</color>
+    <color name="colorLightBlueSea">#59a7b4</color>
 </resources>
