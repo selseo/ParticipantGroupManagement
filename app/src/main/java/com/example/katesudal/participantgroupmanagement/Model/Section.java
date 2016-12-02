@@ -4,6 +4,7 @@ import java.util.List;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by katesuda.l on 28/11/2559.
@@ -27,7 +28,7 @@ public class Section extends RealmObject {
         this.sectionName = sectionName;
     }
 
-    public List<Participant> getParticipantIDs() {
+    public RealmList<Participant> getParticipantIDs() {
         return participantIDs;
     }
 

@@ -68,7 +68,7 @@ public class EditProjectActivity extends AppCompatActivity
 
     @Override
     public void editProjectById(List<Project> projects, View view) {
-        int projectID = projects.get(listViewProject.getPositionForView(view)).getProjectID();
+        long projectID = projects.get(listViewProject.getPositionForView(view)).getProjectID();
         Intent intent = new Intent(this, EditEachProjectActivity.class);
         intent.putExtra("projectID", projectID);
         startActivity(intent);

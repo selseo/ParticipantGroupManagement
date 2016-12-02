@@ -4,13 +4,16 @@ import java.util.List;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by katesuda.l on 28/11/2559.
  */
 
 public class Project extends RealmObject {
-    int projectID;
+    @PrimaryKey
+    long projectID;
+
     String projectName;
     RealmList<Section> sectionIDs;
 
@@ -28,11 +31,11 @@ public class Project extends RealmObject {
         this.sectionIDs = sectionIDs;
     }
 
-    public int getProjectID() {
+    public long getProjectID() {
         return projectID;
     }
 
-    public void setProjectID(int projectID) {
+    public void setProjectID(long projectID) {
         this.projectID = projectID;
     }
 
@@ -44,7 +47,7 @@ public class Project extends RealmObject {
         this.projectName = projectName;
     }
 
-    public List<Section> getSectionIDs() {
+    public RealmList<Section> getSectionIDs() {
         return sectionIDs;
     }
 

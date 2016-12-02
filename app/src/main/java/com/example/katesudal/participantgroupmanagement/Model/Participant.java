@@ -1,11 +1,13 @@
 package com.example.katesudal.participantgroupmanagement.Model;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by katesuda.l on 28/11/2559.
  */
 public class Participant extends RealmObject {
+    @PrimaryKey
     long participantID;
     String participantName;
     String participantSex;

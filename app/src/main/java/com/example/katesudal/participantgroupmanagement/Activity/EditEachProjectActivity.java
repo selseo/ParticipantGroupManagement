@@ -1,9 +1,11 @@
 package com.example.katesudal.participantgroupmanagement.Activity;
 
 import android.content.ClipData;
+import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -16,16 +18,20 @@ import android.widget.TextView;
 import com.example.katesudal.participantgroupmanagement.FlowLayout;
 import com.example.katesudal.participantgroupmanagement.Model.Participant;
 import com.example.katesudal.participantgroupmanagement.Model.Project;
+import com.example.katesudal.participantgroupmanagement.Model.Section;
 import com.example.katesudal.participantgroupmanagement.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmList;
 import io.realm.RealmResults;
 
 public class EditEachProjectActivity extends AppCompatActivity implements View.OnClickListener{
-    int projectID;
+    long projectID;
     Realm realm;
+    Project project;
     private LinearLayout buttonSaveEditedProject;
     private LinearLayout buttonCancelEditProject;
     private LinearLayout layoutEditProject;
@@ -37,7 +43,10 @@ public class EditEachProjectActivity extends AppCompatActivity implements View.O
         realm = Realm.getDefaultInstance();
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         setContentView(R.layout.activity_edit_each_project);
-        projectID = getIntent().getExtras().getInt("projectID");
+        projectID = getIntent().getExtras().getLong("projectID");
+        project = realm.where(Project.class)
+                .equalTo("projectID",projectID)
+                .findFirst();
         layoutEditProject = (LinearLayout) findViewById(R.id.layoutEditProject);
         buttonSaveEditedProject = (LinearLayout) findViewById(R.id.buttonSaveEditedProject);
         buttonCancelEditProject = (LinearLayout) findViewById(R.id.buttonCancelEditProject);
@@ -49,9 +58,6 @@ public class EditEachProjectActivity extends AppCompatActivity implements View.O
     }
 
     private void createSectionWithParticipantItem(LayoutInflater inflater, LinearLayout layout) {
-        Project project = realm.where(Project.class)
-                .equalTo("projectID",projectID)
-                .findFirst();
         for(int sectionIndex = 0; sectionIndex < project.getSectionIDs().size(); sectionIndex++){
             View layoutView = inflater.inflate(R.layout.layout_group, null);
             TextView textViewSectionName = (TextView) layoutView.findViewById(R.id.textViewGroupName);
@@ -80,6 +86,8 @@ public class EditEachProjectActivity extends AppCompatActivity implements View.O
     public void onClick(View view) {
         if(view.getId()==R.id.buttonSaveEditedProject){
             saveEditProject();
+            Intent intent = new Intent(this,EditProjectActivity.class);
+            startActivity(intent);
         }
         if(view.getId()==R.id.buttonCancelEditProject){
             onBackPressed();
@@ -87,6 +95,25 @@ public class EditEachProjectActivity extends AppCompatActivity implements View.O
     }
 
     private void saveEditProject() {
+        for(int sectionIndex = 0; sectionIndex < project.getSectionIDs().size();sectionIndex++ ){
+            Section section = project.getSectionIDs().get(sectionIndex);
+            ViewGroup sectionView = (ViewGroup) layoutEditProject.getChildAt(sectionIndex);
+            ViewGroup sectionViewSub = (ViewGroup) sectionView.getChildAt(0);
+            FlowLayout sectionViewSubContainer = (FlowLayout) sectionViewSub.getChildAt(1);
+            RealmList<Participant> participantList = new RealmList<>();
+            for(int participantIndex = 0; participantIndex < sectionViewSubContainer.getChildCount();participantIndex++){
+                View rootContainerView = sectionViewSubContainer.getChildAt(participantIndex);
+                TextView textViewNameParticipant = (TextView) rootContainerView.findViewById(R.id.textViewItemParticipantName);
+                String participantName = (String) textViewNameParticipant.getText();
+                Participant participant = realm.where(Participant.class)
+                        .equalTo("participantName",participantName)
+                        .findFirst();
+                participantList.add(participant);
+            }
+            realm.beginTransaction();
+            section.setParticipantIDs(participantList);
+            realm.commitTransaction();
+        }
     }
 
     class OnTouchItem implements View.OnTouchListener {

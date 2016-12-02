@@ -153,33 +153,37 @@ public class CreateProjectActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onClick(View view) {
         if(view.getId()==R.id.buttonSubmitCreateProject){
-            project.setProjectID((int) generateProjectID(realm));
-            for(int sectionIndex=0; sectionIndex<project.getSectionIDs().size(); sectionIndex++){
-                ViewGroup sectionView = (ViewGroup) layoutGroups.getChildAt(sectionIndex);
-                ViewGroup sectionViewSub = (ViewGroup) sectionView.getChildAt(0);
-                FlowLayout sectionViewSubContainer = (FlowLayout) sectionViewSub.getChildAt(1);
-                RealmList<Participant> selectedParticipants = new RealmList<>();
-                for(int participantIndex=0; participantIndex<sectionViewSubContainer.getChildCount(); participantIndex++){
-                    View rootContainerView = sectionViewSubContainer.getChildAt(participantIndex);
-                    TextView textViewNameParticipant = (TextView) rootContainerView.findViewById(R.id.textViewItemParticipantName);
-                    String participantName = (String) textViewNameParticipant.getText();
-                    RealmResults<Participant> participant = realm.where(Participant.class)
-                            .equalTo("participantName",participantName)
-                            .findAll();
-                    selectedParticipants.add(participant.first());
-                }
-                project.getSectionIDs().get(sectionIndex).setParticipantIDs(selectedParticipants);
-                project.getSectionIDs().get(sectionIndex).setSectionID(sectionIndex+1);
-            }
-            realm.beginTransaction();
-            realm.copyToRealm(project);
-            realm.commitTransaction();
+            submitNewProject();
             Intent intent = new Intent(view.getContext(), CreateProjectResultActivity.class);
             startActivity(intent);
         }
         if(view.getId()==R.id.buttonCancelCreateProject){
             onBackPressed();
         }
+    }
+
+    private void submitNewProject() {
+        project.setProjectID((int) generateProjectID(realm));
+        for(int sectionIndex=0; sectionIndex<project.getSectionIDs().size(); sectionIndex++){
+            ViewGroup sectionView = (ViewGroup) layoutGroups.getChildAt(sectionIndex);
+            ViewGroup sectionViewSub = (ViewGroup) sectionView.getChildAt(0);
+            FlowLayout sectionViewSubContainer = (FlowLayout) sectionViewSub.getChildAt(1);
+            RealmList<Participant> selectedParticipants = new RealmList<>();
+            for(int participantIndex=0; participantIndex<sectionViewSubContainer.getChildCount(); participantIndex++){
+                View rootContainerView = sectionViewSubContainer.getChildAt(participantIndex);
+                TextView textViewNameParticipant = (TextView) rootContainerView.findViewById(R.id.textViewItemParticipantName);
+                String participantName = (String) textViewNameParticipant.getText();
+                RealmResults<Participant> participant = realm.where(Participant.class)
+                        .equalTo("participantName",participantName)
+                        .findAll();
+                selectedParticipants.add(participant.first());
+            }
+            project.getSectionIDs().get(sectionIndex).setParticipantIDs(selectedParticipants);
+            project.getSectionIDs().get(sectionIndex).setSectionID(sectionIndex+1);
+        }
+        realm.beginTransaction();
+        realm.copyToRealm(project);
+        realm.commitTransaction();
     }
 
     private long generateProjectID(Realm realm) {
