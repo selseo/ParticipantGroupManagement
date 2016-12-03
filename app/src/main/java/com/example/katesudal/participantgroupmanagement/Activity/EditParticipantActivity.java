@@ -37,6 +37,7 @@ public class EditParticipantActivity extends AppCompatActivity
         buttonGotoAddParticipant = (Button) findViewById(R.id.buttonGotoAddParticipant);
         listViewParticipant = (ListView) findViewById(R.id.listViewParticipant);
         buttonBacktoMain = (LinearLayout) findViewById(R.id.buttonBacktoMain);
+        listViewParticipant.setDividerHeight(20);
         buttonGotoAddParticipant.setOnClickListener(this);
         buttonBacktoMain.setOnClickListener(this);
         viewParticipant(realm);
