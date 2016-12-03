@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.katesudal.participantgroupmanagement.Model.PairEncounter;
+import com.example.katesudal.participantgroupmanagement.R;
 
 import java.text.NumberFormat;
 import java.util.List;
@@ -21,7 +22,7 @@ import static java.lang.String.format;
  */
 
 public class PairEncounterTableAdapter extends LongPressAwareTableDataAdapter<PairEncounter> {
-    private static final int TEXT_SIZE = 14;
+    private static final int TEXT_SIZE = 18;
     private static final NumberFormat PRICE_FORMATTER = NumberFormat.getNumberInstance();
 
 
@@ -63,13 +64,14 @@ public class PairEncounterTableAdapter extends LongPressAwareTableDataAdapter<Pa
 
         final TextView textView = new TextView(getContext());
         textView.setText(timesString);
-        textView.setPadding(20, 10, 20, 10);
+        textView.setTextColor(getResources().getColor(R.color.colorNormalBrown));
+        textView.setPadding(30,15,30,15);
         textView.setTextSize(TEXT_SIZE);
 
         if (pairEncounter.getEncounterTimes() < 1) {
-            textView.setTextColor(0xFF2E7D32);
+            textView.setTextColor(getResources().getColor(R.color.colorPrimary));
         } else if (pairEncounter.getEncounterTimes() > 5) {
-            textView.setTextColor(0xFFC62828);
+            textView.setTextColor(getResources().getColor(R.color.colorNormalRed));
         }
 
         return textView;
@@ -86,7 +88,8 @@ public class PairEncounterTableAdapter extends LongPressAwareTableDataAdapter<Pa
     private View renderString(String value) {
         final TextView textView = new TextView(getContext());
         textView.setText(value);
-        textView.setPadding(20, 10, 20, 10);
+        textView.setTextColor(getResources().getColor(R.color.colorNormalBrown));
+        textView.setPadding(30,15,30,15);
         textView.setTextSize(TEXT_SIZE);
         return textView;
     }
