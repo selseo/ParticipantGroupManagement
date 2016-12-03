@@ -11,5 +11,7 @@
     <color name="colorDarkBrown">#2b1000</color>
     <color name="colorNormalBrown">#4b2007</color>
     <color name="colorLightBrown">#935a39</color>
-    <color name="colorDarkCream">#ceba9e</color>
+    <color name="colorNormalCream">#ceba9e</color>
+    <color name="colorDarkCream">#9b876b</color>
+    <color name="colorLightCream">#ede1d1</color>
 </resources>

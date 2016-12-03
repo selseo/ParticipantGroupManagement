@@ -3,9 +3,11 @@ package com.example.katesudal.participantgroupmanagement.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 
 import com.example.katesudal.participantgroupmanagement.Model.Participant;
 import com.example.katesudal.participantgroupmanagement.R;
@@ -15,19 +17,25 @@ import io.realm.Realm;
 public class AddParticipantActivity extends AppCompatActivity implements Realm.Transaction,View.OnClickListener{
 
     private EditText editTextParticipantName;
-    private EditText editTextParticipantSex;
-    private EditText editTextParticipantType;
+    private RadioButton radioMale;
+    private RadioButton radioFemale;
+    private RadioButton radioStaff;
+    private RadioButton radioParticipant;
     private Button buttonAddParticipant;
     private Button buttonCancelAddParticipant;
     private Participant participant;
+    private String participantSex;
+    private String participantType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_participant);
         editTextParticipantName = (EditText) findViewById(R.id.editTextParticipantName);
-        editTextParticipantSex = (EditText) findViewById(R.id.editTextParticipantSex);
-        editTextParticipantType = (EditText) findViewById(R.id.editTextParticipantType);
+        radioMale = (RadioButton) findViewById(R.id.radioMale);
+        radioFemale = (RadioButton) findViewById(R.id.radioFemale);
+        radioStaff = (RadioButton) findViewById(R.id.radioStaff);
+        radioParticipant = (RadioButton) findViewById(R.id.radioParticipant);
         buttonAddParticipant = (Button) findViewById(R.id.buttonAddParticipant);
         buttonCancelAddParticipant = (Button) findViewById(R.id.buttonCancelAddParticipant);
         buttonAddParticipant.setOnClickListener(this);
@@ -63,8 +71,18 @@ public class AddParticipantActivity extends AppCompatActivity implements Realm.T
     public void onClick(View view) {
         if(view.getId()==R.id.buttonAddParticipant){
             String participantName = String.valueOf(editTextParticipantName.getText());
-            String participantSex = String.valueOf(editTextParticipantSex.getText());
-            String participantType = String.valueOf(editTextParticipantType.getText());
+            if(radioMale.isChecked()){
+                participantSex="Male";
+            }
+            else if(radioFemale.isChecked()){
+                participantSex="Female";
+            }
+            if(radioParticipant.isChecked()){
+                participantType="Participant";
+            }
+            else if(radioStaff.isChecked()){
+                participantType="Staff";
+            }
             Participant participant = new Participant(participantName,participantSex,participantType);
             createParticipantRealm(participant);
             Intent intent = new Intent(view.getContext(), EditParticipantActivity.class);
