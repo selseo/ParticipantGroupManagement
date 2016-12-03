@@ -2,18 +2,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:padding="10dp"
+    android:layout_marginTop="10dp"
+    android:background="@drawable/background_section_item">
     <TextView
         android:id="@+id/textViewCreatedSessionName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="5"
-        android:textSize="28sp"/>
+        android:textColor="@color/colorDarkBlueSea"
+        android:textSize="24sp"/>
     <ImageView
         android:id="@+id/iconDeleteSectionName"
         android:layout_width="0dp"
         android:layout_height="30dp"
         android:layout_weight="1"
         android:layout_gravity="center_vertical"
-        android:src="@drawable/ic_delete"/>
+        android:src="@drawable/ic_delete"
+        android:alpha="0.4"/>
 </LinearLayout>

@@ -7,4 +7,9 @@
     <color name="background">#fdfbf0</color>
     <color name="colorDarkBlueSea">#035563</color>
     <color name="colorLightBlueSea">#59a7b4</color>
+    <color name="colorBlack">#000</color>
+    <color name="colorDarkBrown">#2b1000</color>
+    <color name="colorNormalBrown">#4b2007</color>
+    <color name="colorLightBrown">#935a39</color>
+    <color name="colorDarkCream">#ceba9e</color>
 </resources>

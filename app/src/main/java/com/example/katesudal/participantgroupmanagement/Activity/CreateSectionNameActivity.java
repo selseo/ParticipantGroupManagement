@@ -23,7 +23,7 @@ import io.realm.RealmList;
 
 public class CreateSectionNameActivity extends AppCompatActivity
         implements View.OnClickListener,
-        ItemSectionNameAdapter.ItemSectionNameListener{
+        ItemSectionNameAdapter.ItemSectionNameListener {
     private EditText editTextProjectName;
     private EditText editTextSectionName;
     private Button buttoAddSectionName;
@@ -32,6 +32,7 @@ public class CreateSectionNameActivity extends AppCompatActivity
     private LinearLayout buttonCancelCreateSectionName;
     ItemSectionNameAdapter itemSectionNameAdapter;
     List<String> sectionNames;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,10 @@ public class CreateSectionNameActivity extends AppCompatActivity
         listViewSectionName = (ListView) findViewById(R.id.listViewSectionName);
         buttonCreateProject = (LinearLayout) findViewById(R.id.buttonCreateProject);
         buttonCancelCreateSectionName = (LinearLayout) findViewById(R.id.buttonCancelCreateSectionName);
+        listViewSectionName.setFooterDividersEnabled(true);
+        listViewSectionName.setHeaderDividersEnabled(true);
+        listViewSectionName.setDividerHeight(20);
+//        listViewSectionName.setDivider(getResources().getDrawable(R.color.background));
         itemSectionNameAdapter = new ItemSectionNameAdapter(this, this);
         sectionNames = new ArrayList<String>();
         buttoAddSectionName.setOnClickListener(this);
@@ -52,19 +57,19 @@ public class CreateSectionNameActivity extends AppCompatActivity
 
     @Override
     public void onClick(View view) {
-        if(view.getId()==R.id.buttonAddSectionName){
+        if (view.getId() == R.id.buttonAddSectionName) {
             String sectionName = String.valueOf(editTextSectionName.getText());
             sectionNames.add(sectionName);
             itemSectionNameAdapter.setSectionNames(sectionNames);
             listViewSectionName.setAdapter(itemSectionNameAdapter);
             itemSectionNameAdapter.notifyDataSetChanged();
         }
-        if(view.getId()==R.id.buttonCreateProject){
+        if (view.getId() == R.id.buttonCreateProject) {
             String projectName = String.valueOf(editTextProjectName.getText());
             Project project = new Project();
             project.setProjectName(projectName);
             RealmList<Section> sections = new RealmList<>();
-            for(int sectionNameIndex = 0; sectionNameIndex<sectionNames.size(); sectionNameIndex++){
+            for (int sectionNameIndex = 0; sectionNameIndex < sectionNames.size(); sectionNameIndex++) {
                 Section section = new Section();
                 section.setSectionName(sectionNames.get(sectionNameIndex));
                 sections.add(section);
@@ -74,16 +79,20 @@ public class CreateSectionNameActivity extends AppCompatActivity
             Intent intent = new Intent(this, CreateProjectActivity.class);
             startActivity(intent);
         }
-        if(view.getId()==R.id.buttonCancelCreateSectionName){
+        if (view.getId() == R.id.buttonCancelCreateSectionName) {
             onBackPressed();
         }
     }
 
     @Override
-    public void deleteSectionName(View view,String sectionName) {
+    public void deleteSectionName(View view, String sectionName) {
         sectionNames.remove(sectionName);
         itemSectionNameAdapter.setSectionNames(sectionNames);
         listViewSectionName.setAdapter(itemSectionNameAdapter);
         itemSectionNameAdapter.notifyDataSetChanged();
     }
+
+
+
+
 }
