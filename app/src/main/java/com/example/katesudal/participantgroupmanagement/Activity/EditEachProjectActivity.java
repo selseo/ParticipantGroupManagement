@@ -5,13 +5,11 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -21,12 +19,10 @@ import com.example.katesudal.participantgroupmanagement.Model.Project;
 import com.example.katesudal.participantgroupmanagement.Model.Section;
 import com.example.katesudal.participantgroupmanagement.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmList;
-import io.realm.RealmResults;
 
 public class EditEachProjectActivity extends AppCompatActivity implements View.OnClickListener{
     long projectID;
@@ -54,10 +50,10 @@ public class EditEachProjectActivity extends AppCompatActivity implements View.O
         buttonCancelEditProject.setOnClickListener(this);
         buttonSaveEditedProject.setOnDragListener(new OnDragItem());
         buttonCancelEditProject.setOnDragListener(new OnDragItem());
-        createSectionWithParticipantItem(inflater,layoutEditProject);
+        viewSectionWithParticipantItem(inflater,layoutEditProject);
     }
 
-    private void createSectionWithParticipantItem(LayoutInflater inflater, LinearLayout layout) {
+    private void viewSectionWithParticipantItem(LayoutInflater inflater, LinearLayout layout) {
         for(int sectionIndex = 0; sectionIndex < project.getSectionIDs().size(); sectionIndex++){
             View layoutView = inflater.inflate(R.layout.layout_group, null);
             TextView textViewSectionName = (TextView) layoutView.findViewById(R.id.textViewGroupName);
@@ -68,11 +64,11 @@ public class EditEachProjectActivity extends AppCompatActivity implements View.O
             layout.addView(layoutView);
             layoutGroupSelectedParticipants.setOnDragListener(new OnDragItem());
             layoutGroupName.setOnDragListener(new OnDragItem());
-            createParticipantItemInSection(project.getSectionIDs().get(sectionIndex).getParticipantIDs(),layoutGroupSelectedParticipants,inflater);
+            viewParticipantItemInSection(project.getSectionIDs().get(sectionIndex).getParticipantIDs(),layoutGroupSelectedParticipants,inflater);
         }
     }
 
-    private void createParticipantItemInSection(List<Participant> participants,ViewGroup itemLayout, LayoutInflater inflater) {
+    private void viewParticipantItemInSection(List<Participant> participants, ViewGroup itemLayout, LayoutInflater inflater) {
         for (int participantIndex = 0; participantIndex < participants.size(); participantIndex++) {
             View itemView = inflater.inflate(R.layout.item_participant_name, null);
             TextView itemName = (TextView) itemView.findViewById(R.id.textViewItemParticipantName);

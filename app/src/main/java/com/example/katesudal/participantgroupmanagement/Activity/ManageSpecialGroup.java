@@ -43,7 +43,6 @@ public class ManageSpecialGroup extends AppCompatActivity
     private void viewSpecialGroup() {
         List<SpecialGroup> specialGroupList = new ArrayList<>();
         RealmResults<SpecialGroup> specialGroups = realm.where(SpecialGroup.class).findAll();
-        if(specialGroups.size()==0) return;
         for(int specialGroupIndex = 0; specialGroupIndex <specialGroups.size(); specialGroupIndex++){
             SpecialGroup specialGroup = specialGroups.get(specialGroupIndex);
             specialGroupList.add(specialGroup);
@@ -60,19 +59,30 @@ public class ManageSpecialGroup extends AppCompatActivity
         }
         if(view.getId()==R.id.buttonAddSpecialGroupName){
             specialGroupName = String.valueOf(editTextSpecialGroupName.getText());
-            Intent intent = new Intent(this,AddSpecialGroup.class);
+            Intent intent = new Intent(this,AddSpecialGroupActivity.class);
             intent.putExtra("specialGroupName", specialGroupName);
             startActivity(intent);
         }
     }
 
     @Override
-    public void deleteSpecialGroupById(List<SpecialGroup> projects, View view) {
-
+    public void deleteSpecialGroupById(List<SpecialGroup> specialGroups, View view) {
+        RealmResults<SpecialGroup> specialGroup =realm.where(SpecialGroup.class)
+                .equalTo("specialGroupID",specialGroups.get(
+                        listViewSpecialGroup.getPositionForView(view))
+                        .getSpecialGroupID())
+                .findAll();
+        realm.beginTransaction();
+        specialGroup.deleteAllFromRealm();
+        realm.commitTransaction();
+        viewSpecialGroup();
     }
 
     @Override
-    public void editSpecialGroupById(List<SpecialGroup> projects, View view) {
-
+    public void editSpecialGroupById(List<SpecialGroup> specialGroups, View view) {
+        long specialGroupID = specialGroups.get(listViewSpecialGroup.getPositionForView(view)).getSpecialGroupID();
+        Intent intent = new Intent(this, EditSpecialGroupActivity.class);
+        intent.putExtra("specialGroupID", specialGroupID);
+        startActivity(intent);
     }
 }

@@ -25,7 +25,8 @@
         <activity android:name=".Activity.EditEachProjectActivity" />
         <activity android:name=".Activity.EditEachParticipant" />
         <activity android:name=".Activity.ManageSpecialGroup" />
-        <activity android:name=".Activity.AddSpecialGroup"></activity>
+        <activity android:name=".Activity.AddSpecialGroupActivity"></activity>
+        <activity android:name=".Activity.EditSpecialGroupActivity"></activity>
     </application>
 
 </manifest>

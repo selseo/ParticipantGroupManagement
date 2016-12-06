@@ -3,8 +3,8 @@ package com.example.katesudal.participantgroupmanagement.Activity;
 import android.content.ClipData;
 import android.content.Intent;
 import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
@@ -12,7 +12,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -25,10 +24,17 @@ import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmList;
+import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
-public class AddSpecialGroup extends AppCompatActivity implements View.OnClickListener{
-    private String specialGroupName;
+/**
+ * Created by katesuda.l on 06/12/2559.
+ */
+
+public class EditSpecialGroupActivity extends AppCompatActivity implements View.OnClickListener{
+    Realm realm;
+    long specialGroupID;
+    SpecialGroup specialGroup;
     private TextView textViewSpecialGroupName;
     private ViewGroup layoutAllParticipantName;
     private ViewGroup layoutNewSpecialGroup;
@@ -36,17 +42,17 @@ public class AddSpecialGroup extends AppCompatActivity implements View.OnClickLi
     private ScrollView scrollViewNewSpecialGroup;
     private Button buttonCreateSpecialGroup;
     private Button buttonCancelCreateSpecialGroup;
-    private SpecialGroup specialGroup;
-    private Realm realm;
-    private LayoutInflater inflater;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_special_group);
         realm = Realm.getDefaultInstance();
-        specialGroupName = getIntent().getExtras().getString("specialGroupName");
-        inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        setContentView(R.layout.activity_add_special_group);
+        specialGroupID = getIntent().getExtras().getLong("specialGroupID");
+        specialGroup = realm.where(SpecialGroup.class)
+                .equalTo("specialGroupID",specialGroupID)
+                .findFirst();
         textViewSpecialGroupName = (TextView) findViewById(R.id.textViewSpecialGroupName);
         layoutAllParticipantName = (ViewGroup) findViewById(R.id.layoutAllParticipantName);
         layoutNewSpecialGroup = (ViewGroup) findViewById(R.id.layoutNewSpecialGroup);
@@ -54,31 +60,49 @@ public class AddSpecialGroup extends AppCompatActivity implements View.OnClickLi
         scrollViewNewSpecialGroup = (ScrollView) findViewById(R.id.scrollViewNewSpecialGroup);
         buttonCreateSpecialGroup = (Button) findViewById(R.id.buttonCreateSpecialGroup);
         buttonCancelCreateSpecialGroup = (Button) findViewById(R.id.buttonCancelCreateSpecialGroup);
-        textViewSpecialGroupName.setText(specialGroupName);
+        textViewSpecialGroupName.setText(specialGroup.getSpecialGroupName());
+        textViewSpecialGroupName.setOnDragListener(new OnDragItem());
         layoutAllParticipantName.setOnDragListener(new OnDragItem());
         layoutNewSpecialGroup.setOnDragListener(new OnDragItem());
         scrollViewAllParticipantName.setOnDragListener(new OnDragItem());
         scrollViewNewSpecialGroup.setOnDragListener(new OnDragItem());
         buttonCreateSpecialGroup.setOnClickListener(this);
+        buttonCreateSpecialGroup.setText("Save");
         buttonCancelCreateSpecialGroup.setOnClickListener(this);
-        createParticipantNameItem(realm,layoutAllParticipantName,inflater);
+        viewAllUnselectedParticipant(specialGroup.getParticipantIDs(),inflater);
+        viewParticipantInSpecialGroup(specialGroup.getParticipantIDs(),layoutNewSpecialGroup,inflater);
+
     }
 
-    private void createParticipantNameItem(Realm realm, ViewGroup itemLayout, LayoutInflater inflater) {
-        RealmResults<Participant> participants = realm.where(Participant.class).findAll();
-        for (int participantIndex = 0; participantIndex < participants.size(); participantIndex++) {
+    private void viewAllUnselectedParticipant(RealmList<Participant> participantIDs, LayoutInflater inflater) {
+        RealmResults<Participant> allRealmParticipants = realm.where(Participant.class).findAll();
+        List<Participant> allParticipants = new ArrayList<>();
+        allParticipants.addAll(allRealmParticipants);
+        allParticipants.removeAll(participantIDs);
+        for (int participantIndex = 0; participantIndex < allParticipants.size(); participantIndex++) {
             View itemView = inflater.inflate(R.layout.item_participant_name, null);
             TextView itemName = (TextView) itemView.findViewById(R.id.textViewItemParticipantName);
-            itemName.setText(participants.get(participantIndex).getParticipantName());
-            itemLayout.addView(itemView);
+            itemName.setText(allParticipants.get(participantIndex).getParticipantName());
+            layoutAllParticipantName.addView(itemView);
             itemView.setOnTouchListener(new OnTouchItem());
         }
     }
 
+    private void viewParticipantInSpecialGroup(RealmList<Participant> participantIDs, ViewGroup layoutNewSpecialGroup, LayoutInflater inflater) {
+        for (int participantIndex = 0; participantIndex < participantIDs.size(); participantIndex++) {
+            View itemView = inflater.inflate(R.layout.item_participant_name, null);
+            TextView itemName = (TextView) itemView.findViewById(R.id.textViewItemParticipantName);
+            itemName.setText(participantIDs.get(participantIndex).getParticipantName());
+            layoutNewSpecialGroup.addView(itemView);
+            itemView.setOnTouchListener(new OnTouchItem());
+        }
+    }
+
+
     @Override
     public void onClick(View view) {
         if(view.getId()==R.id.buttonCreateSpecialGroup){
-            createNewSpecialGroup();
+            saveSpecialGroup();
             Intent intent = new Intent(this,ManageSpecialGroup.class);
             startActivity(intent);
         }
@@ -87,34 +111,20 @@ public class AddSpecialGroup extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    private void createNewSpecialGroup() {
-        specialGroup = new SpecialGroup();
-        specialGroup.setSpecialGroupName(specialGroupName);
-        specialGroup.setSpecialGroupID(generateSpecialGroupID(realm));
-        RealmList<Participant> selectedParticipantList = new RealmList<>();
-        for(int participantIndex=0; participantIndex<layoutNewSpecialGroup.getChildCount(); participantIndex++){
+    private void saveSpecialGroup() {
+        RealmList<Participant> participants = new RealmList<>();
+        for(int participantIndex = 0; participantIndex < layoutNewSpecialGroup.getChildCount();participantIndex++){
             View rootContainerView = layoutNewSpecialGroup.getChildAt(participantIndex);
             TextView textViewNameParticipant = (TextView) rootContainerView.findViewById(R.id.textViewItemParticipantName);
             String participantName = (String) textViewNameParticipant.getText();
-            RealmResults<Participant> participant = realm.where(Participant.class)
+            Participant participant = realm.where(Participant.class)
                     .equalTo("participantName",participantName)
-                    .findAll();
-            selectedParticipantList.add(participant.first());
+                    .findFirst();
+            participants.add(participant);
         }
-        specialGroup.setParticipantIDs(selectedParticipantList);
         realm.beginTransaction();
-        realm.copyToRealm(specialGroup);
+        specialGroup.setParticipantIDs(participants);
         realm.commitTransaction();
-    }
-
-    private long generateSpecialGroupID(Realm realm) {
-        Number num = realm.where(SpecialGroup.class).max("specialGroupID");
-        if(num==null){
-            return 1;
-        }
-        else{
-            return (long)num+1;
-        }
     }
 
     class OnTouchItem implements View.OnTouchListener {
@@ -170,8 +180,11 @@ public class AddSpecialGroup extends AppCompatActivity implements View.OnClickLi
         ViewGroup containView;
         if(view.getId()==R.id.layoutNewSpecialGroup||view.getId()==R.id.scrollViewNewSpecialGroup){
             containView = (ViewGroup) findViewById(R.id.layoutNewSpecialGroup);
-            containView.addView(viewState);
         }
+        else{
+            containView = (ViewGroup) findViewById(R.id.layoutAllParticipantName);
+        }
+        containView.addView(viewState);
         viewState.setVisibility(View.VISIBLE);
     }
 }
