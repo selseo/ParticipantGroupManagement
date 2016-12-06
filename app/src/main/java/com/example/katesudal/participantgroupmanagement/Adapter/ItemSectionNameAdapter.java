@@ -8,8 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.katesudal.participantgroupmanagement.Model.Participant;
-import com.example.katesudal.participantgroupmanagement.Model.Section;
 import com.example.katesudal.participantgroupmanagement.R;
 
 import java.util.List;

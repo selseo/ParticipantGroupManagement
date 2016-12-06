@@ -1,8 +1,8 @@
 package com.example.katesudal.participantgroupmanagement.Activity;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -17,8 +17,6 @@ import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
-
-import static java.security.AccessController.getContext;
 
 public class EditParticipantActivity extends AppCompatActivity
         implements View.OnClickListener,

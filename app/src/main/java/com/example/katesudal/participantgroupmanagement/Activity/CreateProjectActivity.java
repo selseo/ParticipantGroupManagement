@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Layout;
-import android.util.Log;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -21,9 +19,6 @@ import com.example.katesudal.participantgroupmanagement.Model.Participant;
 import com.example.katesudal.participantgroupmanagement.Model.Project;
 import com.example.katesudal.participantgroupmanagement.PreferencesService;
 import com.example.katesudal.participantgroupmanagement.R;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmList;

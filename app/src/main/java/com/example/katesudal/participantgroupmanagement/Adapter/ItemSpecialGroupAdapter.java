@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.katesudal.participantgroupmanagement.Activity.ManageSpecialGroup;
 import com.example.katesudal.participantgroupmanagement.Model.SpecialGroup;
 import com.example.katesudal.participantgroupmanagement.R;
 

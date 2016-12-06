@@ -1,7 +1,6 @@
 package com.example.katesudal.participantgroupmanagement;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 
 import com.example.katesudal.participantgroupmanagement.Model.PairEncounter;
@@ -10,7 +9,6 @@ import de.codecrafters.tableview.SortableTableView;
 import de.codecrafters.tableview.model.TableColumnWeightModel;
 import de.codecrafters.tableview.toolkit.SimpleTableHeaderAdapter;
 import de.codecrafters.tableview.toolkit.SortStateViewProviders;
-import de.codecrafters.tableview.toolkit.TableDataRowBackgroundProviders;
 
 /**
  * Created by katesuda.l on 01/12/2559.

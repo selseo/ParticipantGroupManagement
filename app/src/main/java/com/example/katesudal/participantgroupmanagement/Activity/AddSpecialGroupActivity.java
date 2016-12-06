@@ -3,25 +3,20 @@ package com.example.katesudal.participantgroupmanagement.Activity;
 import android.content.ClipData;
 import android.content.Intent;
 import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.katesudal.participantgroupmanagement.Model.Participant;
 import com.example.katesudal.participantgroupmanagement.Model.SpecialGroup;
 import com.example.katesudal.participantgroupmanagement.R;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmList;

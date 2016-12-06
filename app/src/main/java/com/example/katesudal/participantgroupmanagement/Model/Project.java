@@ -1,6 +1,5 @@
 package com.example.katesudal.participantgroupmanagement.Model;
 
-import java.util.List;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;

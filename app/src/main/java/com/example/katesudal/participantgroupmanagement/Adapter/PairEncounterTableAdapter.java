@@ -10,12 +10,9 @@ import com.example.katesudal.participantgroupmanagement.R;
 
 import java.text.NumberFormat;
 import java.util.List;
-import java.util.Locale;
 
 import de.codecrafters.tableview.TableView;
 import de.codecrafters.tableview.toolkit.LongPressAwareTableDataAdapter;
-
-import static java.lang.String.format;
 
 /**
  * Created by katesuda.l on 01/12/2559.
