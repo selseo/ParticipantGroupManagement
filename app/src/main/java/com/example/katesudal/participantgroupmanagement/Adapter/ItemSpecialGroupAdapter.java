@@ -6,8 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.katesudal.participantgroupmanagement.Activity.ManageSpecialGroup;
 import com.example.katesudal.participantgroupmanagement.Model.SpecialGroup;
 import com.example.katesudal.participantgroupmanagement.R;
 
@@ -19,18 +21,21 @@ import java.util.List;
 
 public class ItemSpecialGroupAdapter extends BaseAdapter implements View.OnClickListener {
     Context context;
+    private ListView listViewSpecialGroup;
     List<SpecialGroup> specialGroups;
     private ItemSpecialGroupListener itemSpecialGroupListener;
     private View view;
+    private List<SpecialGroup> specialGroupList;
 
     public ItemSpecialGroupAdapter(){}
 
-    public ItemSpecialGroupAdapter(Context context, ItemSpecialGroupListener itemSpecialGroupListener, List<SpecialGroup> specialGroups, View view) {
-        this.context = context;
-        this.itemSpecialGroupListener = itemSpecialGroupListener;
-        this.specialGroups = specialGroups;
+    public ItemSpecialGroupAdapter(Context context, List<SpecialGroup> specialGroupList,ItemSpecialGroupListener itemSpecialGroupListener, ListView listViewSpecialGroup) {
         this.view = view;
+        this.specialGroupList = specialGroupList;
+        this.context = context;
+        this.listViewSpecialGroup = listViewSpecialGroup;
     }
+
 
     @Override
     public void onClick(View view) {

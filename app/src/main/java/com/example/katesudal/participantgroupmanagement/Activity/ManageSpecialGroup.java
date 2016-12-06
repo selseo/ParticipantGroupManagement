@@ -12,7 +12,11 @@ import com.example.katesudal.participantgroupmanagement.Adapter.ItemSpecialGroup
 import com.example.katesudal.participantgroupmanagement.Model.SpecialGroup;
 import com.example.katesudal.participantgroupmanagement.R;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class ManageSpecialGroup extends AppCompatActivity
         implements View.OnClickListener, ItemSpecialGroupAdapter.ItemSpecialGroupListener{
@@ -21,15 +25,30 @@ public class ManageSpecialGroup extends AppCompatActivity
     private ListView listViewSpecialGroup;
     private EditText editTextSpecialGroupName;
     private String specialGroupName;
+    private Realm realm;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        realm = Realm.getDefaultInstance();
         setContentView(R.layout.activity_manage_special_group);
         buttonBacktoMainFromManageSpecialGroup = (Button) findViewById(R.id.buttonBacktoMainFromManageSpecialGroup);
         buttonBacktoMainFromManageSpecialGroup.setOnClickListener(this);
         buttonAddSpecialGroup = (Button) findViewById(R.id.buttonAddSpecialGroupName);
         buttonAddSpecialGroup.setOnClickListener(this);
         editTextSpecialGroupName = (EditText) findViewById(R.id.editTextSpecialGroupName);
+        listViewSpecialGroup = (ListView) findViewById(R.id.listViewSpecialGroup);
+        viewSpecialGroup();
+    }
+
+    private void viewSpecialGroup() {
+        List<SpecialGroup> specialGroupList = new ArrayList<>();
+        RealmResults<SpecialGroup> specialGroups = realm.where(SpecialGroup.class).findAll();
+        for(int specialGroupIndex = 0; specialGroupIndex <specialGroups.size(); specialGroupIndex++){
+            SpecialGroup specialGroup = specialGroups.get(specialGroupIndex);
+            specialGroupList.add(specialGroup);
+        }
+        ItemSpecialGroupAdapter itemspecialGroupAdapter = new ItemSpecialGroupAdapter(this,specialGroupList,this,listViewSpecialGroup);
+        listViewSpecialGroup.setAdapter(itemspecialGroupAdapter);
     }
 
     @Override
