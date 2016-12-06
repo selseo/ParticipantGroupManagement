@@ -5,22 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/background"
     tools:context="com.example.katesudal.participantgroupmanagement.Activity.EditProjectActivity">
     <ListView
         android:id="@+id/listViewProject"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="10"
-        android:orientation="vertical">
+        android:layout_margin="10dp"
+        android:orientation="vertical"
+        android:divider="@android:color/transparent">
     </ListView>
     <Button
         android:id="@+id/buttonBacktoMainFromEditProject"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:background="@drawable/button_back_to_main"
         android:text="Back to main"/>
 </LinearLayout>

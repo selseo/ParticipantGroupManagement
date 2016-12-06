@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/background"
     tools:context="com.example.katesudal.participantgroupmanagement.Activity.EditEachProjectActivity">
     <ScrollView
         android:id="@+id/scrollViewEditProject"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="10"
-        android:background="#8bbbc7">
+        android:layout_weight="10">
         <LinearLayout
             android:id="@+id/layoutEditProject"
             android:layout_width="match_parent"
@@ -20,6 +20,10 @@
 
         </LinearLayout>
     </ScrollView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:background="@color/colorLightBrown"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -29,22 +33,31 @@
             android:id="@+id/buttonSaveEditedProject"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:background="@drawable/button_create">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="@color/colorDarkBrown"
                 android:text="Save"/>
         </LinearLayout>
+        <View
+            android:layout_width="0.1dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorLightBrown"/>
         <LinearLayout
             android:id="@+id/buttonCancelEditProject"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:background="@drawable/button_create">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
+                android:textColor="@color/colorNormalBrown"
                 android:text="Cancel"/>
         </LinearLayout>
     </LinearLayout>

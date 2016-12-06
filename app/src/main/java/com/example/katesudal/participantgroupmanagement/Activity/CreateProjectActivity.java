@@ -32,6 +32,7 @@ public class CreateProjectActivity extends AppCompatActivity implements View.OnC
     private LinearLayout buttonCancelCreateProject;
     private ScrollView scrollViewUnselected;
     private ScrollView scrollViewSelected;
+    private TextView textViewCreatedProjectName;
     private Project project;
     private Realm realm;
 
@@ -42,12 +43,14 @@ public class CreateProjectActivity extends AppCompatActivity implements View.OnC
         project = (Project) PreferencesService.getPreferences("Project",Project.class,this);
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         setContentView(R.layout.activity_create_project);
+        textViewCreatedProjectName = (TextView) findViewById(R.id.textViewCreatedProjectName);
         layoutUnselectedParticipantName = (ViewGroup) findViewById(R.id.layoutUnselectedParticipantName);
         layoutGroups = (LinearLayout) findViewById(R.id.layoutGroups);
         buttonSubmitCreateProject = (LinearLayout) findViewById(R.id.buttonSubmitCreateProject);
         buttonCancelCreateProject = (LinearLayout) findViewById(R.id.buttonCancelCreateProject);
         scrollViewUnselected = (ScrollView) findViewById(R.id.scrollViewUnselected);
         scrollViewSelected = (ScrollView) findViewById(R.id.scrollViewSelected);
+        textViewCreatedProjectName.setText("Project Name : "+project.getProjectName());
         buttonSubmitCreateProject.setOnDragListener(new OnDragItem());
         buttonCancelCreateProject.setOnDragListener(new OnDragItem());
         scrollViewUnselected.setOnDragListener(new OnDragItem());

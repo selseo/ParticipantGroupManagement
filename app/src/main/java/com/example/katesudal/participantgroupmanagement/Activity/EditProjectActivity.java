@@ -30,6 +30,7 @@ public class EditProjectActivity extends AppCompatActivity
         setContentView(R.layout.activity_edit_project);
         listViewProject = (ListView) findViewById(R.id.listViewProject);
         buttonBacktoMainFromEditProject = (Button) findViewById(R.id.buttonBacktoMainFromEditProject);
+        listViewProject.setDividerHeight(20);
         buttonBacktoMainFromEditProject.setOnClickListener(this);
         viewProject(realm);
     }

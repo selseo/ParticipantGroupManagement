@@ -2,13 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:gravity="center"
+    android:background="@drawable/background_section_item">
 
     <TextView
         android:id="@+id/textViewProjectNameForEdit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="5"
+        android:textColor="@color/colorDarkBlueSea"
         android:textSize="28sp"/>
 
     <ImageView
@@ -17,6 +24,7 @@
         android:layout_height="40dp"
         android:layout_weight="1"
         android:layout_gravity="center_vertical"
+        android:alpha="0.5"
         android:src="@drawable/ic_edit"/>
     <ImageView
         android:id="@+id/iconDeleteProject"
@@ -24,6 +32,7 @@
         android:layout_height="30dp"
         android:layout_weight="1"
         android:layout_gravity="center_vertical"
+        android:alpha="0.5"
         android:src="@drawable/ic_delete"/>
 
 </LinearLayout>
