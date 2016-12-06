@@ -12,5 +12,6 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textSize="22sp"
+        android:textColor="@color/colorDarkBrown"
         android:text="Bobby"/>
 </LinearLayout>

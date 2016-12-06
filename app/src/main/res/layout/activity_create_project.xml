@@ -2,32 +2,44 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background">
 
     <LinearLayout
         android:id="@+id/layoutCreateProject"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+        <TextView
+            android:id="@+id/textViewCreatedProjectNsme"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textSize="20sp"
+            android:textColor="@color/colorDarkBlueSea">
+        </TextView>
     <ScrollView
         android:id="@+id/scrollViewUnselected"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="5">
+        android:layout_weight="6"
+        android:background="@color/colorVeryLightBrown">
         <com.example.katesudal.participantgroupmanagement.FlowLayout
             android:id="@+id/layoutUnselectedParticipantName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
-            android:background="#e7f7fb"
             android:orientation="horizontal"/>
     </ScrollView>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/colorDarkBrown"/>
     <ScrollView
         android:id="@+id/scrollViewSelected"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="5"
-        android:background="#8bbbc7">
+        android:layout_weight="6">
         <LinearLayout
             android:id="@+id/layoutGroups"
             android:layout_width="match_parent"
@@ -36,6 +48,10 @@
 
         </LinearLayout>
     </ScrollView>
+        <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:background="@color/colorLightBrown"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -45,22 +61,31 @@
             android:id="@+id/buttonSubmitCreateProject"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:background="@drawable/button_create">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
+                android:textColor="@color/colorDarkBrown"
+                android:textStyle="bold"
                 android:text="Submit"/>
         </LinearLayout>
+        <View
+            android:layout_width="0.1dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorLightBrown"/>
         <LinearLayout
             android:id="@+id/buttonCancelCreateProject"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:background="@drawable/button_create">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
+                android:textColor="@color/colorNormalBrown"
                 android:text="Cancel"/>
         </LinearLayout>
     </LinearLayout>
