@@ -11,6 +11,7 @@ import com.example.katesudal.participantgroupmanagement.Adapter.PairEncounterTab
 import com.example.katesudal.participantgroupmanagement.Model.PairEncounter;
 import com.example.katesudal.participantgroupmanagement.Model.Participant;
 import com.example.katesudal.participantgroupmanagement.Model.Section;
+import com.example.katesudal.participantgroupmanagement.Model.SpecialGroup;
 import com.example.katesudal.participantgroupmanagement.R;
 import com.example.katesudal.participantgroupmanagement.SortablePairEncounterTableView;
 
@@ -40,7 +41,6 @@ public class ViewEncounterActivity extends AppCompatActivity implements View.OnC
         if (tableViewEncounter != null) {
             final PairEncounterTableAdapter pairEncounterTableAdapter = new PairEncounterTableAdapter(this, pairEncounters, tableViewEncounter);
             tableViewEncounter.setDataAdapter(pairEncounterTableAdapter);
-//            tableViewEncounter.setSwipeToRefreshEnabled(true);
         }
     }
 
@@ -59,6 +59,7 @@ public class ViewEncounterActivity extends AppCompatActivity implements View.OnC
             }
         }
         RealmResults<Section> sections = realm.where(Section.class).findAll();
+        RealmResults<SpecialGroup> specialGroups = realm.where(SpecialGroup.class).findAll();
         for(int pairIndex = 0 ; pairIndex < pairEncounters.size() ;pairIndex++){
             int encounterCount=0;
             for(int sectionIndex = 0 ; sectionIndex < sections.size() ; sectionIndex++){
@@ -68,15 +69,17 @@ public class ViewEncounterActivity extends AppCompatActivity implements View.OnC
                     encounterCount++;
                 }
             }
+
+            for(int specialGroupIndex = 0 ; specialGroupIndex < specialGroups.size() ; specialGroupIndex++){
+                List<Participant> participantInSpecialGroups = specialGroups.get(specialGroupIndex).getParticipantIDs();
+                if(participantInSpecialGroups.contains(pairEncounters.get(pairIndex).getParticipantA())
+                        &&participantInSpecialGroups.contains(pairEncounters.get(pairIndex).getParticipantB())){
+                    encounterCount++;
+                }
+            }
             pairEncounters.get(pairIndex).setEncounterTimes(encounterCount);
         }
-        String result="";
-        for(PairEncounter pairEncounter: pairEncounters){
-            result = result+pairEncounter.getParticipantA().getParticipantName()+" & "
-                    +pairEncounter.getParticipantB().getParticipantName()+" = "
-                    +pairEncounter.getEncounterTimes()+"\n";
-        }
-        Log.d("EncounterResult = ",result);
+
     }
 
     @Override
