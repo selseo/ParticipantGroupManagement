@@ -24,14 +24,12 @@ public class ItemSpecialGroupAdapter extends BaseAdapter implements View.OnClick
     private ListView listViewSpecialGroup;
     List<SpecialGroup> specialGroups;
     private ItemSpecialGroupListener itemSpecialGroupListener;
-    private View view;
-    private List<SpecialGroup> specialGroupList;
 
     public ItemSpecialGroupAdapter(){}
 
-    public ItemSpecialGroupAdapter(Context context, List<SpecialGroup> specialGroupList,ItemSpecialGroupListener itemSpecialGroupListener, ListView listViewSpecialGroup) {
-        this.view = view;
-        this.specialGroupList = specialGroupList;
+    public ItemSpecialGroupAdapter(Context context, List<SpecialGroup> specialGroups,ItemSpecialGroupListener itemSpecialGroupListener, ListView listViewSpecialGroup) {
+        this.itemSpecialGroupListener = itemSpecialGroupListener;
+        this.specialGroups = specialGroups;
         this.context = context;
         this.listViewSpecialGroup = listViewSpecialGroup;
     }

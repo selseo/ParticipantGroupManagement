@@ -20,7 +20,11 @@ import com.example.katesudal.participantgroupmanagement.Model.Participant;
 import com.example.katesudal.participantgroupmanagement.Model.SpecialGroup;
 import com.example.katesudal.participantgroupmanagement.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.realm.Realm;
+import io.realm.RealmList;
 import io.realm.RealmResults;
 
 public class AddSpecialGroup extends AppCompatActivity implements View.OnClickListener{
@@ -41,8 +45,7 @@ public class AddSpecialGroup extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_special_group);
         realm = Realm.getDefaultInstance();
-//        specialGroupName = getIntent().getExtras().getString("specialGroupName");
-        specialGroupName="test";
+        specialGroupName = getIntent().getExtras().getString("specialGroupName");
         inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         textViewSpecialGroupName = (TextView) findViewById(R.id.textViewSpecialGroupName);
         layoutAllParticipantName = (ViewGroup) findViewById(R.id.layoutAllParticipantName);
@@ -85,6 +88,33 @@ public class AddSpecialGroup extends AppCompatActivity implements View.OnClickLi
     }
 
     private void createNewSpecialGroup() {
+        specialGroup = new SpecialGroup();
+        specialGroup.setSpecialGroupName(specialGroupName);
+        specialGroup.setSpecialGroupID(generateSpecialGroupID(realm));
+        RealmList<Participant> selectedParticipantList = new RealmList<>();
+        for(int participantIndex=0; participantIndex<layoutNewSpecialGroup.getChildCount(); participantIndex++){
+            View rootContainerView = layoutNewSpecialGroup.getChildAt(participantIndex);
+            TextView textViewNameParticipant = (TextView) rootContainerView.findViewById(R.id.textViewItemParticipantName);
+            String participantName = (String) textViewNameParticipant.getText();
+            RealmResults<Participant> participant = realm.where(Participant.class)
+                    .equalTo("participantName",participantName)
+                    .findAll();
+            selectedParticipantList.add(participant.first());
+        }
+        specialGroup.setParticipantIDs(selectedParticipantList);
+        realm.beginTransaction();
+        realm.copyToRealm(specialGroup);
+        realm.commitTransaction();
+    }
+
+    private long generateSpecialGroupID(Realm realm) {
+        Number num = realm.where(SpecialGroup.class).max("specialGroupID");
+        if(num==null){
+            return 1;
+        }
+        else{
+            return (long)num+1;
+        }
     }
 
     class OnTouchItem implements View.OnTouchListener {

@@ -43,6 +43,7 @@ public class ManageSpecialGroup extends AppCompatActivity
     private void viewSpecialGroup() {
         List<SpecialGroup> specialGroupList = new ArrayList<>();
         RealmResults<SpecialGroup> specialGroups = realm.where(SpecialGroup.class).findAll();
+        if(specialGroups.size()==0) return;
         for(int specialGroupIndex = 0; specialGroupIndex <specialGroups.size(); specialGroupIndex++){
             SpecialGroup specialGroup = specialGroups.get(specialGroupIndex);
             specialGroupList.add(specialGroup);

@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
         }
         if(view.getId()==R.id.buttonGotoEditSpecialSection){
-            Intent intent = new Intent(view.getContext(),AddSpecialGroup.class);
+            Intent intent = new Intent(view.getContext(),ManageSpecialGroup.class);
             startActivity(intent);
         }
     }
