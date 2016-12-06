@@ -14,7 +14,7 @@ import com.example.katesudal.participantgroupmanagement.R;
 
 import io.realm.Realm;
 
-public class AddParticipantActivity extends AppCompatActivity implements Realm.Transaction,View.OnClickListener{
+public class AddParticipantActivity extends AppCompatActivity implements Realm.Transaction, View.OnClickListener {
 
     private EditText editTextParticipantName;
     private RadioButton radioMale;
@@ -52,11 +52,10 @@ public class AddParticipantActivity extends AppCompatActivity implements Realm.T
 
     private long generateParticipantID(Realm realm) {
         Number num = realm.where(Participant.class).max("participantID");
-        if(num==null){
+        if (num == null) {
             return 1;
-        }
-        else{
-            return (long)num+1;
+        } else {
+            return num.longValue() + 1;
         }
     }
 
@@ -69,26 +68,24 @@ public class AddParticipantActivity extends AppCompatActivity implements Realm.T
 
     @Override
     public void onClick(View view) {
-        if(view.getId()==R.id.buttonAddParticipant){
+        if (view.getId() == R.id.buttonAddParticipant) {
             String participantName = String.valueOf(editTextParticipantName.getText());
-            if(radioMale.isChecked()){
-                participantSex="Male";
+            if (radioMale.isChecked()) {
+                participantSex = "Male";
+            } else if (radioFemale.isChecked()) {
+                participantSex = "Female";
             }
-            else if(radioFemale.isChecked()){
-                participantSex="Female";
+            if (radioParticipant.isChecked()) {
+                participantType = "Participant";
+            } else if (radioStaff.isChecked()) {
+                participantType = "Staff";
             }
-            if(radioParticipant.isChecked()){
-                participantType="Participant";
-            }
-            else if(radioStaff.isChecked()){
-                participantType="Staff";
-            }
-            Participant participant = new Participant(participantName,participantSex,participantType);
+            Participant participant = new Participant(participantName, participantSex, participantType);
             createParticipantRealm(participant);
             Intent intent = new Intent(view.getContext(), EditParticipantActivity.class);
             startActivity(intent);
         }
-        if(view.getId()==R.id.buttonCancelAddParticipant){
+        if (view.getId() == R.id.buttonCancelAddParticipant) {
             onBackPressed();
         }
     }

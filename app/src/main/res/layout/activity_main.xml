@@ -58,6 +58,7 @@
         android:textColor="@color/colorDarkBlueSea"
         android:text="Edit Participant" />
     <Button
+        android:id="@+id/buttonGotoEditSpecialSection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -66,6 +67,6 @@
         android:padding="15dp"
         android:background="@drawable/button_menu"
         android:textColor="@color/colorDarkBlueSea"
-        android:text="Edit Participant" />
+        android:text="Edit Special Section" />
 
 </LinearLayout>

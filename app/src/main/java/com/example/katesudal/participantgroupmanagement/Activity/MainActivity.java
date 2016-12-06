@@ -3,7 +3,6 @@ package com.example.katesudal.participantgroupmanagement.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -17,6 +16,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button buttonGotoCreateProject;
     private Button buttonGotoViewEncounter;
     private Button buttonGotoEditProject;
+    private Button buttonGotoEditSpecialSection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonGotoViewEncounter.setOnClickListener(this);
         buttonGotoEditProject = (Button) findViewById(R.id.buttonGotoEditProject);
         buttonGotoEditProject.setOnClickListener(this);
+        buttonGotoEditSpecialSection = (Button) findViewById(R.id.buttonGotoEditSpecialSection);
+        buttonGotoEditSpecialSection.setOnClickListener(this);
     }
 
     @Override
@@ -49,6 +51,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if(view.getId()==R.id.buttonGotoEditProject){
             Intent intent = new Intent(view.getContext(),EditProjectActivity.class);
+            startActivity(intent);
+        }
+        if(view.getId()==R.id.buttonGotoEditSpecialSection){
+            Intent intent = new Intent(view.getContext(),AddSpecialGroup.class);
             startActivity(intent);
         }
     }

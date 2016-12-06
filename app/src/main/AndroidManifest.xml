@@ -23,7 +23,9 @@
         <activity android:name=".Activity.CreateSectionNameActivity" />
         <activity android:name=".Activity.CreateProjectResultActivity" />
         <activity android:name=".Activity.EditEachProjectActivity" />
-        <activity android:name=".Activity.EditEachParticipant"></activity>
+        <activity android:name=".Activity.EditEachParticipant" />
+        <activity android:name=".Activity.ManageSpecialGroup" />
+        <activity android:name=".Activity.AddSpecialGroup"></activity>
     </application>
 
 </manifest>
