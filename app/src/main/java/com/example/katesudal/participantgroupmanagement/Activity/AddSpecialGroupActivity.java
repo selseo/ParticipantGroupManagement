@@ -4,6 +4,7 @@ import android.content.ClipData;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -29,11 +31,12 @@ public class AddSpecialGroupActivity extends AppCompatActivity implements View.O
     private ViewGroup layoutNewSpecialGroup;
     private ScrollView scrollViewAllParticipantName;
     private ScrollView scrollViewNewSpecialGroup;
-    private Button buttonCreateSpecialGroup;
-    private Button buttonCancelCreateSpecialGroup;
+    private LinearLayout buttonCreateSpecialGroup;
+    private LinearLayout buttonCancelCreateSpecialGroup;
     private SpecialGroup specialGroup;
     private Realm realm;
     private LayoutInflater inflater;
+    private LinearLayout layoutTextViewSpecialGroupName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +50,10 @@ public class AddSpecialGroupActivity extends AppCompatActivity implements View.O
         layoutNewSpecialGroup = (ViewGroup) findViewById(R.id.layoutNewSpecialGroup);
         scrollViewAllParticipantName = (ScrollView) findViewById(R.id.scrollViewAllParticipantName);
         scrollViewNewSpecialGroup = (ScrollView) findViewById(R.id.scrollViewNewSpecialGroup);
-        buttonCreateSpecialGroup = (Button) findViewById(R.id.buttonCreateSpecialGroup);
-        buttonCancelCreateSpecialGroup = (Button) findViewById(R.id.buttonCancelCreateSpecialGroup);
+        buttonCreateSpecialGroup = (LinearLayout) findViewById(R.id.buttonCreateSpecialGroup);
+        buttonCancelCreateSpecialGroup = (LinearLayout) findViewById(R.id.buttonCancelCreateSpecialGroup);
+        layoutTextViewSpecialGroupName = (LinearLayout) findViewById(R.id.layoutTextViewSpecialGroupName);
+        layoutTextViewSpecialGroupName.setOnDragListener(new OnDragItem());
         textViewSpecialGroupName.setText(specialGroupName);
         textViewSpecialGroupName.setOnDragListener(new OnDragItem());
         layoutAllParticipantName.setOnDragListener(new OnDragItem());
@@ -57,15 +62,50 @@ public class AddSpecialGroupActivity extends AppCompatActivity implements View.O
         scrollViewNewSpecialGroup.setOnDragListener(new OnDragItem());
         buttonCreateSpecialGroup.setOnClickListener(this);
         buttonCancelCreateSpecialGroup.setOnClickListener(this);
+        buttonCreateSpecialGroup.setOnDragListener(new OnDragItem());
+        buttonCancelCreateSpecialGroup.setOnDragListener(new OnDragItem());
         createParticipantNameItem(realm,layoutAllParticipantName,inflater);
     }
 
     private void createParticipantNameItem(Realm realm, ViewGroup itemLayout, LayoutInflater inflater) {
         RealmResults<Participant> participants = realm.where(Participant.class).findAll();
         for (int participantIndex = 0; participantIndex < participants.size(); participantIndex++) {
+            Participant participant = participants.get(participantIndex);
             View itemView = inflater.inflate(R.layout.item_participant_name, null);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                if(participant.getParticipantType().equals("Staff")){
+                    itemView.setBackground(getDrawable(R.drawable.background_participant_staff_name_item));
+                }
+                else{
+                    itemView.setBackground(getDrawable(R.drawable.background_participant_name_item));
+                }
+
+            } else {
+                if(participant.getParticipantType().equals("Staff")){
+                    itemView.setBackgroundResource(R.drawable.background_participant_staff_name_item);
+                }
+                else{
+                    itemView.setBackgroundResource(R.drawable.background_participant_name_item);
+                }
+            }
             TextView itemName = (TextView) itemView.findViewById(R.id.textViewItemParticipantName);
-            itemName.setText(participants.get(participantIndex).getParticipantName());
+            itemName.setText(participant.getParticipantName());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if(participant.getParticipantSex().equals("Male")){
+                    itemName.setTextColor(getColor(R.color.colorVeryLightCream));
+                }
+                else{
+                    itemName.setTextColor(getColor(R.color.colorNormalWhite));
+                }
+            }
+            else{
+                if(participant.getParticipantSex().equals("Male")){
+                    itemName.setTextColor(ContextCompat.getColor(this,R.color.colorVeryLightCream));
+                }
+                else{
+                    itemName.setTextColor(ContextCompat.getColor(this,R.color.colorNormalWhite));
+                }
+            }
             itemLayout.addView(itemView);
             itemView.setOnTouchListener(new OnTouchItem());
         }

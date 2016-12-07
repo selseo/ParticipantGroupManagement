@@ -26,6 +26,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="4"
+            android:padding="10dp"
             android:background="@color/colorLightCream"/>
     </LinearLayout>
     <View

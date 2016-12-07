@@ -4,6 +4,8 @@ import android.content.ClipData;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
@@ -30,6 +32,7 @@ public class CreateProjectActivity extends AppCompatActivity implements View.OnC
     private LinearLayout layoutGroups;
     private LinearLayout buttonSubmitCreateProject;
     private LinearLayout buttonCancelCreateProject;
+    private LinearLayout layoutCreateProject;
     private ScrollView scrollViewUnselected;
     private ScrollView scrollViewSelected;
     private TextView textViewCreatedProjectName;
@@ -50,6 +53,8 @@ public class CreateProjectActivity extends AppCompatActivity implements View.OnC
         buttonCancelCreateProject = (LinearLayout) findViewById(R.id.buttonCancelCreateProject);
         scrollViewUnselected = (ScrollView) findViewById(R.id.scrollViewUnselected);
         scrollViewSelected = (ScrollView) findViewById(R.id.scrollViewSelected);
+        layoutCreateProject = (LinearLayout) findViewById(R.id.layoutCreateProject);
+        layoutCreateProject.setOnDragListener(new OnDragItem());
         textViewCreatedProjectName.setText("Project Name : "+project.getProjectName());
         buttonSubmitCreateProject.setOnDragListener(new OnDragItem());
         buttonCancelCreateProject.setOnDragListener(new OnDragItem());
@@ -64,9 +69,42 @@ public class CreateProjectActivity extends AppCompatActivity implements View.OnC
     private void createParticipantNameItem(Realm realm, ViewGroup itemLayout, LayoutInflater inflater) {
         RealmResults<Participant> participants = realm.where(Participant.class).findAll();
         for (int participantIndex = 0; participantIndex < participants.size(); participantIndex++) {
+            Participant participant = participants.get(participantIndex);
             View itemView = inflater.inflate(R.layout.item_participant_name, null);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                if(participant.getParticipantType().equals("Staff")){
+                    itemView.setBackground(getDrawable(R.drawable.background_participant_staff_name_item));
+                }
+                else{
+                    itemView.setBackground(getDrawable(R.drawable.background_participant_name_item));
+                }
+
+            } else {
+                if(participant.getParticipantType().equals("Staff")){
+                    itemView.setBackgroundResource(R.drawable.background_participant_staff_name_item);
+                }
+                else{
+                    itemView.setBackgroundResource(R.drawable.background_participant_name_item);
+                }
+            }
             TextView itemName = (TextView) itemView.findViewById(R.id.textViewItemParticipantName);
-            itemName.setText(participants.get(participantIndex).getParticipantName());
+            itemName.setText(participant.getParticipantName());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if(participant.getParticipantSex().equals("Male")){
+                    itemName.setTextColor(getColor(R.color.colorVeryLightCream));
+                }
+                else{
+                    itemName.setTextColor(getColor(R.color.colorNormalWhite));
+                }
+            }
+            else{
+                if(participant.getParticipantSex().equals("Male")){
+                    itemName.setTextColor(ContextCompat.getColor(this,R.color.colorVeryLightCream));
+                }
+                else{
+                    itemName.setTextColor(ContextCompat.getColor(this,R.color.colorNormalWhite));
+                }
+            }
             itemLayout.addView(itemView);
             itemView.setOnTouchListener(new OnTouchItem());
         }

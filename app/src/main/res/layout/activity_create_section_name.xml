@@ -17,6 +17,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:layout_marginTop="20dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:gravity="center_vertical">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:textColor="@color/colorDarkBrown"
+                    android:textSize="16sp"
+                    android:text="Project Name :"/>
+                <EditText
+                    android:id="@+id/editTextProjectName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:padding="3dp"
+                    android:background="@color/colorLightCream"
+                    android:textCursorDrawable="@drawable/cursor_cream"
+                    android:textColorHighlight="@color/colorDarkCream"
+                    android:textColor="@color/colorDarkBrown"
+                    android:textSize="16sp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:layout_marginTop="10dp"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
@@ -25,58 +52,30 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:textColor="@color/colorDarkBlueSea"
-                    android:textSize="18sp"
-                    android:text="Project Name :"/>
-                <EditText
-                    android:id="@+id/editTextProjectName"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:textColor="@color/colorNormalBlueSea"
-                    android:backgroundTint="@color/colorDarkBlueSea"
-                    android:drawableBottom="@color/colorDarkBlueSea"
-                    android:textSize="18sp"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:gravity="center_vertical">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:textColor="@color/colorDarkBlueSea"
-                    android:textSize="18sp"
+                    android:textColor="@color/colorDarkBrown"
+                    android:textSize="16sp"
                     android:text="Section Name :"/>
                 <EditText
                     android:id="@+id/editTextSectionName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:textColor="@color/colorNormalBlueSea"
-                    android:backgroundTint="@color/colorDarkBlueSea"
-                    android:drawableBottom="@color/colorDarkBlueSea"
-                    android:textSize="18sp"/>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="10dp">
+                    android:background="@color/colorLightCream"
+                    android:padding="3dp"
+                    android:textCursorDrawable="@drawable/cursor_cream"
+                    android:textColorHighlight="@color/colorDarkCream"
+                    android:textColor="@color/colorDarkBrown"
+                    android:textSize="16sp"/>
                 <Button
                     android:id="@+id/buttonAddSectionName"
-                    android:layout_height="match_parent"
-                    android:layout_width="match_parent"
-                    android:layout_margin="2dp"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
                     android:padding="1dp"
-                    android:background="@drawable/button_add_item"
-                    android:textSize="16sp"
+                    android:background="@drawable/button_add_participant"
                     android:textColor="@color/background"
                     android:text="+Add" />
-                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
         <ListView

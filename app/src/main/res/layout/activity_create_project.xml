@@ -8,23 +8,25 @@
     <LinearLayout
         android:id="@+id/layoutCreateProject"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:orientation="vertical">
         <TextView
             android:id="@+id/textViewCreatedProjectName"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
             android:gravity="center"
+            android:background="@color/colorLightCream"
             android:textSize="20sp"
-            android:textColor="@color/colorDarkBlueSea">
+            android:textColor="@color/colorDarkBrown">
         </TextView>
+    </LinearLayout>
     <ScrollView
         android:id="@+id/scrollViewUnselected"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="6"
-        android:background="@color/colorVeryLightBrown">
+        android:background="@color/background">
         <com.example.katesudal.participantgroupmanagement.FlowLayout
             android:id="@+id/layoutUnselectedParticipantName"
             android:layout_width="match_parent"
@@ -40,7 +42,8 @@
         android:id="@+id/scrollViewSelected"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="6">
+        android:layout_weight="6"
+        android:background="@color/colorVeryLightCream">
         <LinearLayout
             android:id="@+id/layoutGroups"
             android:layout_width="match_parent"
@@ -55,9 +58,9 @@
         android:background="@color/colorLightBrown"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:background="@color/background">
         <LinearLayout
             android:id="@+id/buttonSubmitCreateProject"
             android:layout_width="0dp"
@@ -90,5 +93,5 @@
                 android:text="Cancel"/>
         </LinearLayout>
     </LinearLayout>
-    </LinearLayout>
+
 </LinearLayout>

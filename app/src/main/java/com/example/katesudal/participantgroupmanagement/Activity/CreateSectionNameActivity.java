@@ -25,7 +25,7 @@ public class CreateSectionNameActivity extends AppCompatActivity
         ItemSectionNameAdapter.ItemSectionNameListener {
     private EditText editTextProjectName;
     private EditText editTextSectionName;
-    private Button buttoAddSectionName;
+    private Button buttonAddSectionName;
     private ListView listViewSectionName;
     private LinearLayout buttonCreateProject;
     private LinearLayout buttonCancelCreateSectionName;
@@ -39,7 +39,7 @@ public class CreateSectionNameActivity extends AppCompatActivity
         setContentView(R.layout.activity_create_section_name);
         editTextProjectName = (EditText) findViewById(R.id.editTextProjectName);
         editTextSectionName = (EditText) findViewById(R.id.editTextSectionName);
-        buttoAddSectionName = (Button) findViewById(R.id.buttonAddSectionName);
+        buttonAddSectionName = (Button) findViewById(R.id.buttonAddSectionName);
         listViewSectionName = (ListView) findViewById(R.id.listViewSectionName);
         buttonCreateProject = (LinearLayout) findViewById(R.id.buttonCreateProject);
         buttonCancelCreateSectionName = (LinearLayout) findViewById(R.id.buttonCancelCreateSectionName);
@@ -49,7 +49,7 @@ public class CreateSectionNameActivity extends AppCompatActivity
 //        listViewSectionName.setDivider(getResources().getDrawable(R.color.background));
         itemSectionNameAdapter = new ItemSectionNameAdapter(this, this);
         sectionNames = new ArrayList<String>();
-        buttoAddSectionName.setOnClickListener(this);
+        buttonAddSectionName.setOnClickListener(this);
         buttonCreateProject.setOnClickListener(this);
         buttonCancelCreateSectionName.setOnClickListener(this);
     }

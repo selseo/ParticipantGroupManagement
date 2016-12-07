@@ -37,6 +37,7 @@ public class ManageSpecialGroup extends AppCompatActivity
         buttonAddSpecialGroup.setOnClickListener(this);
         editTextSpecialGroupName = (EditText) findViewById(R.id.editTextSpecialGroupName);
         listViewSpecialGroup = (ListView) findViewById(R.id.listViewSpecialGroup);
+        listViewSpecialGroup.setDividerHeight(20);
         viewSpecialGroup();
     }
 

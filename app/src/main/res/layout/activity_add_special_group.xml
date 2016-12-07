@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="6"
-        android:background="@color/colorVeryLightBrown">
+        android:background="@color/background">
         <com.example.katesudal.participantgroupmanagement.FlowLayout
             android:id="@+id/layoutAllParticipantName"
             android:layout_width="match_parent"
@@ -19,19 +19,26 @@
             android:padding="10dp"
             android:orientation="horizontal"/>
     </ScrollView>
-    <TextView
-        android:id="@+id/textViewSpecialGroupName"
+    <LinearLayout
+        android:id="@+id/layoutTextViewSpecialGroupName"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:textSize="24sp"
-        android:gravity="center"/>
+        android:layout_weight="1">
+        <TextView
+            android:id="@+id/textViewSpecialGroupName"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="24sp"
+            android:gravity="center"
+            android:background="@color/colorNormalCream"
+            android:textColor="@color/colorDarkBrown"/>
+    </LinearLayout>
     <ScrollView
         android:id="@+id/scrollViewNewSpecialGroup"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="5"
-        android:background="@color/colorLightCream">
+        android:background="@color/colorVeryLightCream">
         <com.example.katesudal.participantgroupmanagement.FlowLayout
             android:id="@+id/layoutNewSpecialGroup"
             android:layout_width="match_parent"
@@ -39,22 +46,45 @@
             android:padding="10dp"
             android:orientation="horizontal"/>
     </ScrollView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:background="@color/colorLightBrown"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
-        <Button
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:background="@color/background">
+        <LinearLayout
             android:id="@+id/buttonCreateSpecialGroup"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Create"/>
-        <Button
+            android:background="@drawable/button_create">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textColor="@color/colorDarkBrown"
+                android:textStyle="bold"
+                android:text="Submit"/>
+        </LinearLayout>
+        <View
+            android:layout_width="0.1dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorLightBrown"/>
+        <LinearLayout
             android:id="@+id/buttonCancelCreateSpecialGroup"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Cancel"/>
+            android:background="@drawable/button_create">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textColor="@color/colorNormalBrown"
+                android:text="Cancel"/>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

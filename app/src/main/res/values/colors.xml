@@ -16,5 +16,7 @@
     <color name="colorNormalCream">#ceba9e</color>
     <color name="colorDarkCream">#9b876b</color>
     <color name="colorLightCream">#ede1d1</color>
+    <color name="colorVeryLightCream">#f1e7dd</color>
     <color name="colorNormalRed">#de0004</color>
+    <color name="colorNormalWhite">#ffffff</color>
 </resources>

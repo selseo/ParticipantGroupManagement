@@ -4,35 +4,46 @@
     android:id="@+id/activity_edit_special_section"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context="com.example.katesudal.participantgroupmanagement.Activity.ManageSpecialGroup">
     <LinearLayout
         android:id="@+id/layoutAddSpecial"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="70dp"
         android:orientation="horizontal"
         android:layout_alignParentTop="true"
+        android:gravity="center_vertical"
         android:padding="5dp">
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:gravity="center"
-            android:textSize="24sp"
+            android:textSize="16sp"
+            android:textColor="@color/colorDarkBrown"
             android:text="Section Name : "/>
         <EditText
             android:id="@+id/editTextSpecialGroupName"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:padding="3dp"/>
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="7dp"
+            android:padding="3dp"
+            android:background="@color/colorLightCream"
+            android:textCursorDrawable="@drawable/cursor_cream"
+            android:textColorHighlight="@color/colorDarkCream"
+            android:textColor="@color/colorDarkBrown"
+            android:textSize="20sp"/>
         <Button
             android:id="@+id/buttonAddSpecialGroupName"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
+            android:padding="1dp"
+            android:background="@drawable/button_add_participant"
+            android:textColor="@color/background"
             android:text="+ Add"/>
     </LinearLayout>
     <ListView
@@ -41,11 +52,18 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_below="@id/layoutAddSpecial"
+        android:layout_above="@+id/buttonBacktoMainFromManageSpecialGroup"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:divider="@android:color/transparent"
         />
     <Button
-        android:id="@+id/buttonBacktoMainFromManageSpecialGroup"
+        android:id="@id/buttonBacktoMainFromManageSpecialGroup"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="40dp"
         android:layout_alignParentBottom="true"
+        android:background="@drawable/button_back_to_main"
         android:text="Back to main"/>
 </RelativeLayout>
