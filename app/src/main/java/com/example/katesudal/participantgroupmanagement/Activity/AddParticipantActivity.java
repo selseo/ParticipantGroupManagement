@@ -71,16 +71,46 @@ public class AddParticipantActivity extends AppCompatActivity implements Realm.T
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.buttonAddParticipant) {
+            boolean sexIsChecked = false;
+            boolean typeIsChecked = false;
             String participantName = String.valueOf(editTextParticipantName.getText());
+            if(ValidateUtil.isInvalidParticipantName(participantName)){
+                AlertDialog.Builder dialogErrorBuilder = new AlertDialog.Builder(this);
+                dialogErrorBuilder.setMessage("Participant Name should begin with letter and contain only letter or number. \nPlease try another.");
+                dialogErrorBuilder.setCancelable(false);
+                dialogErrorBuilder.setPositiveButton("OK",new DialogInterface.OnClickListener(){
+                    public void onClick(DialogInterface dialog,int which){
+                        dialog.dismiss();
+                    }
+                });
+                dialogErrorBuilder.show();
+                return;
+            }
             if (radioMale.isChecked()) {
                 participantSex = "Male";
+                sexIsChecked = true;
             } else if (radioFemale.isChecked()) {
                 participantSex = "Female";
+                sexIsChecked = true;
             }
             if (radioParticipant.isChecked()) {
                 participantType = "Participant";
+                typeIsChecked = true;
             } else if (radioStaff.isChecked()) {
                 participantType = "Staff";
+                typeIsChecked = true;
+            }
+            if(!typeIsChecked||!sexIsChecked){
+                AlertDialog.Builder dialogErrorBuilder = new AlertDialog.Builder(this);
+                dialogErrorBuilder.setMessage("Sex or Type should be selected.");
+                dialogErrorBuilder.setCancelable(false);
+                dialogErrorBuilder.setPositiveButton("OK",new DialogInterface.OnClickListener(){
+                    public void onClick(DialogInterface dialog,int which){
+                        dialog.dismiss();
+                    }
+                });
+                dialogErrorBuilder.show();
+                return;
             }
             Participant participant = new Participant(participantName, participantSex, participantType);
             if(ValidateUtil.isDuplicateParticipantName(participantName)){

@@ -51,7 +51,7 @@ public class CreateSectionNameActivity extends AppCompatActivity
         listViewSectionName.setDividerHeight(20);
 //        listViewSectionName.setDivider(getResources().getDrawable(R.color.background));
         itemSectionNameAdapter = new ItemSectionNameAdapter(this, this);
-        sectionNames = new ArrayList<String>();
+        sectionNames = new ArrayList<>();
         buttonAddSectionName.setOnClickListener(this);
         buttonCreateProject.setOnClickListener(this);
         buttonCancelCreateSectionName.setOnClickListener(this);
@@ -61,9 +61,9 @@ public class CreateSectionNameActivity extends AppCompatActivity
     public void onClick(View view) {
         if (view.getId() == R.id.buttonAddSectionName) {
             String sectionName = String.valueOf(editTextSectionName.getText());
-            if(ValidateUtil.isInvalidSectionName(sectionName)) {
+            if(ValidateUtil.isInvalidName(sectionName)) {
                 AlertDialog.Builder dialogErrorBuilder = new AlertDialog.Builder(this);
-                dialogErrorBuilder.setMessage("Section Name should begin with alphabet or number. \nPlease try another.");
+                dialogErrorBuilder.setMessage("Section Name should begin with letter or number. \nPlease try another.");
                 dialogErrorBuilder.setCancelable(false);
                 dialogErrorBuilder.setPositiveButton("OK",new DialogInterface.OnClickListener(){
                     public void onClick(DialogInterface dialog,int which){
@@ -92,6 +92,18 @@ public class CreateSectionNameActivity extends AppCompatActivity
         }
         if (view.getId() == R.id.buttonCreateProject) {
             String projectName = String.valueOf(editTextProjectName.getText());
+            if(ValidateUtil.isInvalidName(projectName)) {
+                AlertDialog.Builder dialogErrorBuilder = new AlertDialog.Builder(this);
+                dialogErrorBuilder.setMessage("Project Name should begin with alphabet or number. \nPlease try another.");
+                dialogErrorBuilder.setCancelable(false);
+                dialogErrorBuilder.setPositiveButton("OK",new DialogInterface.OnClickListener(){
+                    public void onClick(DialogInterface dialog,int which){
+                        dialog.dismiss();
+                    }
+                });
+                dialogErrorBuilder.show();
+                return;
+            }
             if(ValidateUtil.isDuplicateProjectName(projectName)){
                 AlertDialog.Builder dialogErrorBuilder = new AlertDialog.Builder(this);
                 dialogErrorBuilder.setMessage("This Project Name is Duplicate. \nPlease try another.");

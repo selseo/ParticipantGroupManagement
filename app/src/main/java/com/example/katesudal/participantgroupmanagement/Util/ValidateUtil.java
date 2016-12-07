@@ -44,8 +44,12 @@ public class ValidateUtil {
         }
         return false;
     }
-    public static boolean isInvalidSectionName(String name){
+    public static boolean isInvalidName(String name){
         if(name.matches("^[a-zA-Z0-9]+.*")) return false;
+        return true;
+    }
+    public static boolean isInvalidParticipantName(String name){
+        if(name.matches("^[a-zA-Z][a-zA-Z0-9]*$")) return false;
         return true;
     }
 }
