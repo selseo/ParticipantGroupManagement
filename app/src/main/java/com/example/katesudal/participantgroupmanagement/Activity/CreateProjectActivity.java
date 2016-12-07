@@ -1,11 +1,14 @@
 package com.example.katesudal.participantgroupmanagement.Activity;
 
+import android.app.Dialog;
 import android.content.ClipData;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
@@ -189,16 +192,26 @@ public class CreateProjectActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onClick(View view) {
         if(view.getId()==R.id.buttonSubmitCreateProject){
-            submitNewProject();
-            Intent intent = new Intent(view.getContext(), CreateProjectResultActivity.class);
-            startActivity(intent);
+            submitNewProject(view);
         }
         if(view.getId()==R.id.buttonCancelCreateProject){
             onBackPressed();
         }
     }
 
-    private void submitNewProject() {
+    private void submitNewProject(View view) {
+        if(layoutUnselectedParticipantName.getChildCount()>0){
+            AlertDialog.Builder dialogErrorBuilder = new AlertDialog.Builder(this);
+            dialogErrorBuilder.setMessage("Please assign participant to any section");
+            dialogErrorBuilder.setCancelable(false);
+            dialogErrorBuilder.setPositiveButton("OK",new DialogInterface.OnClickListener(){
+                    public void onClick(DialogInterface dialog,int which){
+                        dialog.dismiss();
+                    }
+            });
+            dialogErrorBuilder.show();
+            return;
+        }
         project.setProjectID((int) generateProjectID(realm));
         for(int sectionIndex=0; sectionIndex<project.getSectionIDs().size(); sectionIndex++){
             ViewGroup sectionView = (ViewGroup) layoutGroups.getChildAt(sectionIndex);
@@ -220,6 +233,8 @@ public class CreateProjectActivity extends AppCompatActivity implements View.OnC
         realm.beginTransaction();
         realm.copyToRealm(project);
         realm.commitTransaction();
+        Intent intent = new Intent(view.getContext(), CreateProjectResultActivity.class);
+        startActivity(intent);
     }
 
     private long generateProjectID(Realm realm) {
