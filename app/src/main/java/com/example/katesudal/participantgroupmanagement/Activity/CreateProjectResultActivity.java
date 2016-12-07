@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.katesudal.participantgroupmanagement.Model.Project;
+import com.example.katesudal.participantgroupmanagement.Model.Section;
 import com.example.katesudal.participantgroupmanagement.R;
 
 import io.realm.Realm;
@@ -23,23 +24,24 @@ public class CreateProjectResultActivity extends AppCompatActivity implements Vi
         super.onCreate(savedInstanceState);
         Realm realm;
         realm = Realm.getDefaultInstance();
+        long lastProjectID = getIntent().getExtras().getLong("projectID");
         setContentView(R.layout.activity_create_project_result);
         TextView textViewResult = (TextView) findViewById(R.id.textViewResult);
         buttonBacktoMainFromCreateProject = (Button) findViewById(R.id.buttonBacktoMainFromCreateProject);
         buttonBacktoMainFromCreateProject.setOnClickListener(this);
-        String result ="";
-        RealmResults<Project> projects = realm.where(Project.class).findAll();
-        for(int projectIndex = 0; projectIndex < projects.size(); projectIndex++){
-            result=result+"Project ID : "+projects.get(projectIndex).getProjectID()+"\n";
-            result=result+"Project name : "+projects.get(projectIndex).getProjectName() +"\n"+"Section :\n";
-            for(int sectionIndex = 0; sectionIndex < projects.get(projectIndex).getSectionIDs().size();sectionIndex++){
-                result = result+projects.get(projectIndex).getSectionIDs().get(sectionIndex).getSectionID()
-                        +" "+projects.get(projectIndex).getSectionIDs().get(sectionIndex).getSectionName()
-                        +" : "+projects.get(projectIndex).getSectionIDs().get(sectionIndex).getParticipantIDs().size()+"\n";
+        Project lastProject = realm.where(Project.class)
+                .equalTo("projectID",lastProjectID)
+                .findFirst();
+        String result ="Preoject : "+lastProject.getProjectName()+"\n";
+        for(int sectionIndex = 0 ; sectionIndex<lastProject.getSectionIDs().size(); sectionIndex++){
+            Section section = lastProject.getSectionIDs().get(sectionIndex);
+            result = result +"   " +section.getSectionName()+" : ";
+            for(int participantIndex = 0; participantIndex < section.getParticipantIDs().size(); participantIndex++){
+                result = result + section.getParticipantIDs().get(participantIndex).getParticipantName()+", ";
             }
-            result=result+"\n";
+            result = result.substring(0,result.length()-2);
+            result = result+"\n";
         }
-        Log.d("Result",result);
         textViewResult.setText(result);
     }
 

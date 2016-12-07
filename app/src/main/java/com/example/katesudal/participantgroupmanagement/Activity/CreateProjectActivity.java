@@ -234,6 +234,7 @@ public class CreateProjectActivity extends AppCompatActivity implements View.OnC
         realm.copyToRealm(project);
         realm.commitTransaction();
         Intent intent = new Intent(view.getContext(), CreateProjectResultActivity.class);
+        intent.putExtra("projectID",project.getProjectID());
         startActivity(intent);
     }
 
