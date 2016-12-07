@@ -1,7 +1,9 @@
 package com.example.katesudal.participantgroupmanagement.Activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +16,7 @@ import com.example.katesudal.participantgroupmanagement.Model.Project;
 import com.example.katesudal.participantgroupmanagement.Model.Section;
 import com.example.katesudal.participantgroupmanagement.PreferencesService;
 import com.example.katesudal.participantgroupmanagement.R;
+import com.example.katesudal.participantgroupmanagement.Util.ValidateUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +61,30 @@ public class CreateSectionNameActivity extends AppCompatActivity
     public void onClick(View view) {
         if (view.getId() == R.id.buttonAddSectionName) {
             String sectionName = String.valueOf(editTextSectionName.getText());
+            if(ValidateUtil.isInvalidSectionName(sectionName)) {
+                AlertDialog.Builder dialogErrorBuilder = new AlertDialog.Builder(this);
+                dialogErrorBuilder.setMessage("Section Name should begin with alphabet or number. \nPlease try another.");
+                dialogErrorBuilder.setCancelable(false);
+                dialogErrorBuilder.setPositiveButton("OK",new DialogInterface.OnClickListener(){
+                    public void onClick(DialogInterface dialog,int which){
+                        dialog.dismiss();
+                    }
+                });
+                dialogErrorBuilder.show();
+                return;
+            }
+            if(ValidateUtil.isDuplicateSectionName(sectionName,sectionNames)){
+                AlertDialog.Builder dialogErrorBuilder = new AlertDialog.Builder(this);
+                dialogErrorBuilder.setMessage("This Section Name is Duplicate. \nPlease try another.");
+                dialogErrorBuilder.setCancelable(false);
+                dialogErrorBuilder.setPositiveButton("OK",new DialogInterface.OnClickListener(){
+                    public void onClick(DialogInterface dialog,int which){
+                        dialog.dismiss();
+                    }
+                });
+                dialogErrorBuilder.show();
+                return;
+            }
             sectionNames.add(sectionName);
             itemSectionNameAdapter.setSectionNames(sectionNames);
             listViewSectionName.setAdapter(itemSectionNameAdapter);
@@ -65,6 +92,30 @@ public class CreateSectionNameActivity extends AppCompatActivity
         }
         if (view.getId() == R.id.buttonCreateProject) {
             String projectName = String.valueOf(editTextProjectName.getText());
+            if(ValidateUtil.isDuplicateProjectName(projectName)){
+                AlertDialog.Builder dialogErrorBuilder = new AlertDialog.Builder(this);
+                dialogErrorBuilder.setMessage("This Project Name is Duplicate. \nPlease try another.");
+                dialogErrorBuilder.setCancelable(false);
+                dialogErrorBuilder.setPositiveButton("OK",new DialogInterface.OnClickListener(){
+                    public void onClick(DialogInterface dialog,int which){
+                        dialog.dismiss();
+                    }
+                });
+                dialogErrorBuilder.show();
+                return;
+            }
+            if(sectionNames.size()<1){
+                AlertDialog.Builder dialogErrorBuilder = new AlertDialog.Builder(this);
+                dialogErrorBuilder.setMessage("Please add any section");
+                dialogErrorBuilder.setCancelable(false);
+                dialogErrorBuilder.setPositiveButton("OK",new DialogInterface.OnClickListener(){
+                    public void onClick(DialogInterface dialog,int which){
+                        dialog.dismiss();
+                    }
+                });
+                dialogErrorBuilder.show();
+                return;
+            }
             Project project = new Project();
             project.setProjectName(projectName);
             RealmList<Section> sections = new RealmList<>();
