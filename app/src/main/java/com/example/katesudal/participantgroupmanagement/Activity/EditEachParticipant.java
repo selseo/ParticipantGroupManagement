@@ -1,7 +1,9 @@
 package com.example.katesudal.participantgroupmanagement.Activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.RadioButton;
 
 import com.example.katesudal.participantgroupmanagement.Model.Participant;
 import com.example.katesudal.participantgroupmanagement.R;
+import com.example.katesudal.participantgroupmanagement.Util.ValidateUtil;
 
 import io.realm.Realm;
 
@@ -69,8 +72,6 @@ public class EditEachParticipant extends AppCompatActivity implements View.OnCli
     public void onClick(View view) {
         if(view.getId()==R.id.buttonAddParticipant){
             saveEditedParticipant();
-            Intent intent = new Intent(this,EditParticipantActivity.class);
-            startActivity(intent);
         }
         if(view.getId()==R.id.buttonCancelAddParticipant){
             onBackPressed();
@@ -96,10 +97,25 @@ public class EditEachParticipant extends AppCompatActivity implements View.OnCli
         Participant participant =realm.where(Participant.class)
                 .equalTo("participantID",participantID)
                 .findFirst();
+        if(ValidateUtil.isDuplicateParticipantName(participantName)
+                &&!participant.getParticipantName().equals(participantName)){
+            AlertDialog.Builder dialogErrorBuilder = new AlertDialog.Builder(this);
+            dialogErrorBuilder.setMessage("This Participant Name is Duplicate. \nPlease try another.");
+            dialogErrorBuilder.setCancelable(false);
+            dialogErrorBuilder.setPositiveButton("OK",new DialogInterface.OnClickListener(){
+                public void onClick(DialogInterface dialog,int which){
+                    dialog.dismiss();
+                }
+            });
+            dialogErrorBuilder.show();
+            return;
+        }
         realm.beginTransaction();
         participant.setParticipantName(participantName);
         participant.setParticipantSex(participantSex);
         participant.setParticipantType(participantType);
         realm.commitTransaction();
+        Intent intent = new Intent(this,EditParticipantActivity.class);
+        startActivity(intent);
     }
 }
