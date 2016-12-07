@@ -97,6 +97,18 @@ public class EditEachParticipant extends AppCompatActivity implements View.OnCli
         Participant participant =realm.where(Participant.class)
                 .equalTo("participantID",participantID)
                 .findFirst();
+        if(ValidateUtil.isInvalidParticipantName(participantName)){
+            AlertDialog.Builder dialogErrorBuilder = new AlertDialog.Builder(this);
+            dialogErrorBuilder.setMessage("Participant Name should begin with letter and contain only letter or number. \nPlease try another.");
+            dialogErrorBuilder.setCancelable(false);
+            dialogErrorBuilder.setPositiveButton("OK",new DialogInterface.OnClickListener(){
+                public void onClick(DialogInterface dialog,int which){
+                    dialog.dismiss();
+                }
+            });
+            dialogErrorBuilder.show();
+            return;
+        }
         if(ValidateUtil.isDuplicateParticipantName(participantName)
                 &&!participant.getParticipantName().equals(participantName)){
             AlertDialog.Builder dialogErrorBuilder = new AlertDialog.Builder(this);
