@@ -1,7 +1,9 @@
 package com.example.katesudal.participantgroupmanagement.Activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +13,7 @@ import android.widget.ListView;
 import com.example.katesudal.participantgroupmanagement.Adapter.ItemSpecialGroupAdapter;
 import com.example.katesudal.participantgroupmanagement.Model.SpecialGroup;
 import com.example.katesudal.participantgroupmanagement.R;
+import com.example.katesudal.participantgroupmanagement.Util.ValidateUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +63,18 @@ public class ManageSpecialGroup extends AppCompatActivity
         }
         if(view.getId()==R.id.buttonAddSpecialGroupName){
             specialGroupName = String.valueOf(editTextSpecialGroupName.getText());
+            if(ValidateUtil.isInvalidName(specialGroupName)){
+                AlertDialog.Builder dialogErrorBuilder = new AlertDialog.Builder(this);
+                dialogErrorBuilder.setMessage("Special Group Name should begin with letter or number. \nPlease try another.");
+                dialogErrorBuilder.setCancelable(false);
+                dialogErrorBuilder.setPositiveButton("OK",new DialogInterface.OnClickListener(){
+                    public void onClick(DialogInterface dialog,int which){
+                        dialog.dismiss();
+                    }
+                });
+                dialogErrorBuilder.show();
+                return;
+            }
             Intent intent = new Intent(this,AddSpecialGroupActivity.class);
             intent.putExtra("specialGroupName", specialGroupName);
             startActivity(intent);
