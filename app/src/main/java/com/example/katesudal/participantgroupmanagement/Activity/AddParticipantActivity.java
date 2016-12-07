@@ -1,7 +1,9 @@
 package com.example.katesudal.participantgroupmanagement.Activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +12,7 @@ import android.widget.RadioButton;
 
 import com.example.katesudal.participantgroupmanagement.Model.Participant;
 import com.example.katesudal.participantgroupmanagement.R;
+import com.example.katesudal.participantgroupmanagement.Util.ValidateUtil;
 
 import io.realm.Realm;
 
@@ -80,6 +83,18 @@ public class AddParticipantActivity extends AppCompatActivity implements Realm.T
                 participantType = "Staff";
             }
             Participant participant = new Participant(participantName, participantSex, participantType);
+            if(ValidateUtil.isDuplicateParticipantName(participantName)){
+                AlertDialog.Builder dialogErrorBuilder = new AlertDialog.Builder(this);
+                dialogErrorBuilder.setMessage("This Participant Name is Duplicate. \nPlease try another.");
+                dialogErrorBuilder.setCancelable(false);
+                dialogErrorBuilder.setPositiveButton("OK",new DialogInterface.OnClickListener(){
+                    public void onClick(DialogInterface dialog,int which){
+                        dialog.dismiss();
+                    }
+                });
+                dialogErrorBuilder.show();
+                return;
+            }
             createParticipantRealm(participant);
             Intent intent = new Intent(view.getContext(), EditParticipantActivity.class);
             startActivity(intent);
