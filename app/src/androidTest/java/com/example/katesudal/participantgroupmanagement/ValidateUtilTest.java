@@ -76,5 +76,24 @@ public class ValidateUtilTest {
         Assert.assertTrue(validateUtil.isDuplicateProjectName("Project"));
     }
 
+    @Test
+    public void notDuplicateProjectName() throws Exception{
+        Realm.init(mainActivityRule.getActivity());
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        realm.deleteAll();
+        realm.commitTransaction();
+
+        Project project = new Project();
+        project.setProjectID(1);
+        project.setProjectName("Project");
+        realm.beginTransaction();
+        realm.copyToRealm(project);
+        realm.commitTransaction();
+
+        ValidateUtil validateUtil = new ValidateUtil();
+        Assert.assertFalse(validateUtil.isDuplicateProjectName("Teaching"));
+    }
+
 
 }
