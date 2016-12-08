@@ -71,7 +71,7 @@ public class ViewEncounterActivity extends AppCompatActivity implements View.OnC
         return encounterCount;
     }
 
-    private int countEncounterInSection(List<Section> sections, int pairIndex, int encounterCount) {
+    public int countEncounterInSection(List<Section> sections, int pairIndex, int encounterCount) {
         for (int sectionIndex = 0; sectionIndex < sections.size(); sectionIndex++) {
             List<Participant> participantInSection = sections.get(sectionIndex).getParticipantIDs();
             if (participantInSection.contains(pairEncounters.get(pairIndex).getParticipantA())

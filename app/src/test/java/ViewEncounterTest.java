@@ -1,6 +1,7 @@
 import com.example.katesudal.participantgroupmanagement.Activity.ViewEncounterActivity;
 import com.example.katesudal.participantgroupmanagement.Model.PairEncounter;
 import com.example.katesudal.participantgroupmanagement.Model.Participant;
+import com.example.katesudal.participantgroupmanagement.Model.Section;
 import com.example.katesudal.participantgroupmanagement.Model.SpecialGroup;
 
 import junit.framework.Assert;
@@ -43,5 +44,31 @@ public class ViewEncounterTest {
         viewEncounterActivity.pairEncounters.add(pairEncounter);
 
         Assert.assertEquals(1,viewEncounterActivity.countEncounterInSpecialGroup(specialGroups,0,0));
+    }
+
+    @Test
+    public void countEncounterInSection(){
+        List<Section> sections = new ArrayList<>();
+        Section section = new Section();
+        section.setSectionID(1);
+
+        Participant participant1 = new Participant();
+        participant1.setParticipantID(1);
+        Participant participant2 = new Participant();
+        participant2.setParticipantID(2);
+
+        section.setParticipantIDs(new RealmList<Participant>());
+        section.getParticipantIDs().add(participant1);
+        section.getParticipantIDs().add(participant2);
+
+        sections.add(section);
+
+        PairEncounter pairEncounter = new PairEncounter(0,participant1,participant2);
+
+        ViewEncounterActivity viewEncounterActivity = new ViewEncounterActivity();
+        viewEncounterActivity.pairEncounters = new ArrayList<>();
+        viewEncounterActivity.pairEncounters.add(pairEncounter);
+
+        Assert.assertEquals(1,viewEncounterActivity.countEncounterInSection(sections,0,0));
     }
 }
