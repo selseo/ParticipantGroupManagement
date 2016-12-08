@@ -1,0 +1,44 @@
+package com.example.katesudal.participantgroupmanagement;
+
+import android.support.test.rule.ActivityTestRule;
+
+import com.example.katesudal.participantgroupmanagement.Activity.MainActivity;
+import com.example.katesudal.participantgroupmanagement.Model.Participant;
+import com.example.katesudal.participantgroupmanagement.Util.ValidateUtil;
+
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+
+import io.realm.Realm;
+import io.realm.RealmList;
+
+public class ValidateUtilTest {
+    @Rule
+    public ActivityTestRule mainActivityRule = new ActivityTestRule<>(MainActivity.class);
+
+    @Test
+    public void isDuplicateParticipantName() throws Exception {
+        Realm.init(mainActivityRule.getActivity());
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        realm.deleteAll();
+        realm.commitTransaction();
+
+        RealmList<Participant> participants = new RealmList<>();
+        Participant participant = new Participant();
+        participant.setParticipantName("Tester");
+        participant.setParticipantID(1);
+        participants.add(participant);
+        realm.beginTransaction();
+        realm.copyToRealm(participants);
+        realm.commitTransaction();
+
+
+        ValidateUtil validateUtil = new ValidateUtil();
+        Assert.assertTrue(validateUtil.isDuplicateParticipantName("Tester"));
+    }
+
+
+}
