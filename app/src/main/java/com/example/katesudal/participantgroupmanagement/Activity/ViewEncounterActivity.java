@@ -21,7 +21,7 @@ import io.realm.RealmResults;
 
 public class ViewEncounterActivity extends AppCompatActivity implements View.OnClickListener {
     private Realm realm;
-    private List<PairEncounter> pairEncounters;
+    public List<PairEncounter> pairEncounters;
     private Button buttonBacktoMainFromViewEncounter;
 
     @Override
@@ -32,6 +32,10 @@ public class ViewEncounterActivity extends AppCompatActivity implements View.OnC
         buttonBacktoMainFromViewEncounter.setOnClickListener(this);
         encounterCalculate();
         SortablePairEncounterTableView tableViewEncounter = (SortablePairEncounterTableView) findViewById(R.id.tableViewEncounter);
+        createPairEncounterTableAdapter(tableViewEncounter);
+    }
+
+    private void createPairEncounterTableAdapter(SortablePairEncounterTableView tableViewEncounter) {
         if (tableViewEncounter != null) {
             final PairEncounterTableAdapter pairEncounterTableAdapter = new PairEncounterTableAdapter(this, pairEncounters, tableViewEncounter);
             tableViewEncounter.setDataAdapter(pairEncounterTableAdapter);
@@ -43,37 +47,49 @@ public class ViewEncounterActivity extends AppCompatActivity implements View.OnC
         pairEncounters = new ArrayList<>();
         realm = Realm.getDefaultInstance();
         RealmResults<Participant> participants = realm.where(Participant.class).findAll();
-        for (int participantAIndex = 0; participantAIndex < participants.size() - 1; participantAIndex++) {
-            for (int participantBIndex = participantAIndex + 1; participantBIndex < participants.size(); participantBIndex++) {
-                PairEncounter pairEncounter = new PairEncounter(
-                        0,
-                        participants.get(participantAIndex),
-                        participants.get(participantBIndex));
-                pairEncounters.add(pairEncounter);
-            }
+        for (int participantIndex = 0; participantIndex < participants.size() - 1; participantIndex++) {
+            addPairParticipant(participants, participantIndex);
         }
         RealmResults<Section> sections = realm.where(Section.class).findAll();
         RealmResults<SpecialGroup> specialGroups = realm.where(SpecialGroup.class).findAll();
         for (int pairIndex = 0; pairIndex < pairEncounters.size(); pairIndex++) {
             int encounterCount = 0;
-            for (int sectionIndex = 0; sectionIndex < sections.size(); sectionIndex++) {
-                List<Participant> participantInSection = sections.get(sectionIndex).getParticipantIDs();
-                if (participantInSection.contains(pairEncounters.get(pairIndex).getParticipantA())
-                        && participantInSection.contains(pairEncounters.get(pairIndex).getParticipantB())) {
-                    encounterCount++;
-                }
-            }
-
-            for (int specialGroupIndex = 0; specialGroupIndex < specialGroups.size(); specialGroupIndex++) {
-                List<Participant> participantInSpecialGroups = specialGroups.get(specialGroupIndex).getParticipantIDs();
-                if (participantInSpecialGroups.contains(pairEncounters.get(pairIndex).getParticipantA())
-                        && participantInSpecialGroups.contains(pairEncounters.get(pairIndex).getParticipantB())) {
-                    encounterCount++;
-                }
-            }
+            encounterCount = countEncounterInSection(sections, pairIndex, encounterCount);
+            encounterCount = encounterCount + countEncounterInSpecialGroup(specialGroups, pairIndex, encounterCount);
             pairEncounters.get(pairIndex).setEncounterTimes(encounterCount);
         }
+    }
 
+    public int countEncounterInSpecialGroup(List<SpecialGroup> specialGroups, int pairIndex, int encounterCount) {
+        for (int specialGroupIndex = 0; specialGroupIndex < specialGroups.size(); specialGroupIndex++) {
+            List<Participant> participantInSpecialGroups = specialGroups.get(specialGroupIndex).getParticipantIDs();
+            if (participantInSpecialGroups.contains(pairEncounters.get(pairIndex).getParticipantA())
+                    && participantInSpecialGroups.contains(pairEncounters.get(pairIndex).getParticipantB())) {
+                encounterCount++;
+            }
+        }
+        return encounterCount;
+    }
+
+    private int countEncounterInSection(List<Section> sections, int pairIndex, int encounterCount) {
+        for (int sectionIndex = 0; sectionIndex < sections.size(); sectionIndex++) {
+            List<Participant> participantInSection = sections.get(sectionIndex).getParticipantIDs();
+            if (participantInSection.contains(pairEncounters.get(pairIndex).getParticipantA())
+                    && participantInSection.contains(pairEncounters.get(pairIndex).getParticipantB())) {
+                encounterCount++;
+            }
+        }
+        return encounterCount;
+    }
+
+    private void addPairParticipant(RealmResults<Participant> participants, int participantAIndex) {
+        for (int participantBIndex = participantAIndex + 1; participantBIndex < participants.size(); participantBIndex++) {
+            PairEncounter pairEncounter = new PairEncounter(
+                    0,
+                    participants.get(participantAIndex),
+                    participants.get(participantBIndex));
+            pairEncounters.add(pairEncounter);
+        }
     }
 
     @Override
