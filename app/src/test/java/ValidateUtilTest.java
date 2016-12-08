@@ -41,6 +41,7 @@ public class ValidateUtilTest {
     @Test
     public void invalidParticipantName() throws  Exception{
         Assert.assertTrue(ValidateUtil.isInvalidParticipantName("1Bobby"));
+        Assert.assertTrue(ValidateUtil.isInvalidParticipantName("Bobby-1"));
     }
 
     @Test
