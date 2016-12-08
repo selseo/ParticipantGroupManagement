@@ -27,4 +27,9 @@ public class ValidateUtilTest {
 
         Assert.assertFalse(ValidateUtil.isDuplicateSectionName("English",names));
     }
+
+    @Test
+    public void invalidName() throws  Exception{
+        Assert.assertTrue(ValidateUtil.isInvalidName("$Thai"));
+    }
 }
