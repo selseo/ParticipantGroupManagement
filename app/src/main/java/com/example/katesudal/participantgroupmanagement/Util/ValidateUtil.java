@@ -6,7 +6,6 @@ import com.example.katesudal.participantgroupmanagement.Model.Project;
 import java.util.List;
 
 import io.realm.Realm;
-import io.realm.RealmList;
 import io.realm.RealmResults;
 
 /**
