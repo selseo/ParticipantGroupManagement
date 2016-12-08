@@ -37,4 +37,14 @@ public class ValidateUtilTest {
     public void validName() throws  Exception{
         Assert.assertFalse(ValidateUtil.isInvalidName("1-Thai"));
     }
+
+    @Test
+    public void invalidParticipantName() throws  Exception{
+        Assert.assertTrue(ValidateUtil.isInvalidParticipantName("1Bobby"));
+    }
+
+    @Test
+    public void validParticipantName() throws  Exception{
+        Assert.assertFalse(ValidateUtil.isInvalidParticipantName("Bobby1"));
+    }
 }
