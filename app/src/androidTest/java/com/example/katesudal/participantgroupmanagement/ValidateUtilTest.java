@@ -21,7 +21,6 @@ public class ValidateUtilTest {
 
     @Before
     public void setUp(){
-        Realm.init(mainActivityRule.getActivity());
         realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         realm.deleteAll();
