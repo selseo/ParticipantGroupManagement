@@ -13,20 +13,23 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import io.realm.Realm;
-import io.realm.RealmList;
 
 public class ValidateUtilTest {
+    Realm realm;
     @Rule
     public ActivityTestRule mainActivityRule = new ActivityTestRule<>(MainActivity.class);
 
-    @Test
-    public void duplicateParticipantName() throws Exception {
+    @Before
+    public void setUp(){
         Realm.init(mainActivityRule.getActivity());
-        Realm realm = Realm.getDefaultInstance();
+        realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         realm.deleteAll();
         realm.commitTransaction();
+    }
 
+    @Test
+    public void duplicateParticipantName() throws Exception {
         Participant participant = new Participant();
         participant.setParticipantName("Participant");
         participant.setParticipantID(1);
@@ -40,12 +43,6 @@ public class ValidateUtilTest {
 
     @Test
     public void notDuplicateParticipantName() throws Exception {
-        Realm.init(mainActivityRule.getActivity());
-        Realm realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
-        realm.deleteAll();
-        realm.commitTransaction();
-
         Participant participant = new Participant();
         participant.setParticipantName("Participant");
         participant.setParticipantID(1);
@@ -59,12 +56,6 @@ public class ValidateUtilTest {
 
     @Test
     public void duplicateProjectName() throws Exception{
-        Realm.init(mainActivityRule.getActivity());
-        Realm realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
-        realm.deleteAll();
-        realm.commitTransaction();
-
         Project project = new Project();
         project.setProjectID(1);
         project.setProjectName("Project");
@@ -78,12 +69,6 @@ public class ValidateUtilTest {
 
     @Test
     public void notDuplicateProjectName() throws Exception{
-        Realm.init(mainActivityRule.getActivity());
-        Realm realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
-        realm.deleteAll();
-        realm.commitTransaction();
-
         Project project = new Project();
         project.setProjectID(1);
         project.setProjectName("Project");
