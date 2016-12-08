@@ -20,7 +20,7 @@ public class ValidateUtilTest {
     public ActivityTestRule mainActivityRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void isDuplicateParticipantName() throws Exception {
+    public void duplicateParticipantName() throws Exception {
         Realm.init(mainActivityRule.getActivity());
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
@@ -39,7 +39,7 @@ public class ValidateUtilTest {
     }
 
     @Test
-    public void isDuplicateProjectName() throws Exception{
+    public void duplicateProjectName() throws Exception{
         Realm.init(mainActivityRule.getActivity());
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
@@ -55,7 +55,6 @@ public class ValidateUtilTest {
 
         ValidateUtil validateUtil = new ValidateUtil();
         Assert.assertTrue(validateUtil.isDuplicateProjectName("Project"));
-
     }
 
 
