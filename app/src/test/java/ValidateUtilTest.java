@@ -32,4 +32,9 @@ public class ValidateUtilTest {
     public void invalidName() throws  Exception{
         Assert.assertTrue(ValidateUtil.isInvalidName("$Thai"));
     }
+
+    @Test
+    public void validName() throws  Exception{
+        Assert.assertFalse(ValidateUtil.isInvalidName("1-Thai"));
+    }
 }
