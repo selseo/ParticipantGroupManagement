@@ -4,6 +4,7 @@ import android.support.test.rule.ActivityTestRule;
 
 import com.example.katesudal.participantgroupmanagement.Activity.MainActivity;
 import com.example.katesudal.participantgroupmanagement.Model.Participant;
+import com.example.katesudal.participantgroupmanagement.Model.Project;
 import com.example.katesudal.participantgroupmanagement.Util.ValidateUtil;
 
 import org.junit.Assert;
@@ -26,18 +27,35 @@ public class ValidateUtilTest {
         realm.deleteAll();
         realm.commitTransaction();
 
-        RealmList<Participant> participants = new RealmList<>();
         Participant participant = new Participant();
-        participant.setParticipantName("Tester");
+        participant.setParticipantName("Participant");
         participant.setParticipantID(1);
-        participants.add(participant);
         realm.beginTransaction();
-        realm.copyToRealm(participants);
+        realm.copyToRealm(participant);
         realm.commitTransaction();
 
+        ValidateUtil validateUtil = new ValidateUtil();
+        Assert.assertTrue(validateUtil.isDuplicateParticipantName("Participant"));
+    }
+
+    @Test
+    public void isDuplicateProjectName() throws Exception{
+        Realm.init(mainActivityRule.getActivity());
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        realm.deleteAll();
+        realm.commitTransaction();
+
+        Project project = new Project();
+        project.setProjectID(1);
+        project.setProjectName("Project");
+        realm.beginTransaction();
+        realm.copyToRealm(project);
+        realm.commitTransaction();
 
         ValidateUtil validateUtil = new ValidateUtil();
-        Assert.assertTrue(validateUtil.isDuplicateParticipantName("Tester"));
+        Assert.assertTrue(validateUtil.isDuplicateProjectName("Project"));
+
     }
 
 
