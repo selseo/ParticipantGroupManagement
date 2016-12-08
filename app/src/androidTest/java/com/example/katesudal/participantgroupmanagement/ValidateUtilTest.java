@@ -46,6 +46,8 @@ public class ValidateUtilTest {
         Participant participant = new Participant();
         participant.setParticipantName("Participant");
         participant.setParticipantID(1);
+        participant.setParticipantType("Staff");
+        participant.setParticipantSex("Male");
         realm.beginTransaction();
         realm.copyToRealm(participant);
         realm.commitTransaction();
