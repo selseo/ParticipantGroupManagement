@@ -1,3 +1,5 @@
+import android.util.Log;
+
 import com.example.katesudal.participantgroupmanagement.Activity.ViewEncounterActivity;
 import com.example.katesudal.participantgroupmanagement.Model.PairEncounter;
 import com.example.katesudal.participantgroupmanagement.Model.Participant;
@@ -70,5 +72,31 @@ public class ViewEncounterTest {
         viewEncounterActivity.pairEncounters.add(pairEncounter);
 
         Assert.assertEquals(1,viewEncounterActivity.countEncounterInSection(sections,0,0));
+    }
+
+    @Test
+    public void addPairParticipant(){
+        List<Participant> participants = new ArrayList<>();
+        Participant participant1 = new Participant();
+        participant1.setParticipantID(1);
+        Participant participant2 = new Participant();
+        participant2.setParticipantID(2);
+        participants.add(participant1);
+        participants.add(participant2);
+
+        ViewEncounterActivity viewEncounterActivity = new ViewEncounterActivity();
+        viewEncounterActivity.pairEncounters = new ArrayList<>();
+        int startIndex=0;
+        viewEncounterActivity.addPairParticipant(participants, startIndex);
+
+        int encounterStart = 0;
+        PairEncounter pairEncounter = new PairEncounter(encounterStart,participant1,participant2);
+
+        Assert.assertEquals(pairEncounter.getParticipantA().getParticipantID()
+                ,viewEncounterActivity.pairEncounters.get(startIndex).getParticipantA().getParticipantID());
+        Assert.assertEquals(pairEncounter.getParticipantB().getParticipantID()
+                ,viewEncounterActivity.pairEncounters.get(startIndex).getParticipantB().getParticipantID());
+        Assert.assertEquals(encounterStart
+                ,viewEncounterActivity.pairEncounters.get(startIndex).getEncounterTimes());
     }
 }

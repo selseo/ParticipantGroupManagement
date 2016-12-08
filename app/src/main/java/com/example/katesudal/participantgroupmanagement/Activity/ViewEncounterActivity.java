@@ -82,7 +82,7 @@ public class ViewEncounterActivity extends AppCompatActivity implements View.OnC
         return encounterCount;
     }
 
-    private void addPairParticipant(RealmResults<Participant> participants, int participantAIndex) {
+    public void addPairParticipant(List<Participant> participants, int participantAIndex) {
         for (int participantBIndex = participantAIndex + 1; participantBIndex < participants.size(); participantBIndex++) {
             PairEncounter pairEncounter = new PairEncounter(
                     0,
