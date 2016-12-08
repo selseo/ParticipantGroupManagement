@@ -28,6 +28,8 @@ public class ViewEncounterActivity extends AppCompatActivity implements View.OnC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_encounter);
+        Realm.init(getApplicationContext());
+        realm = Realm.getDefaultInstance();
         buttonBacktoMainFromViewEncounter = (Button) findViewById(R.id.buttonBacktoMainFromViewEncounter);
         buttonBacktoMainFromViewEncounter.setOnClickListener(this);
         encounterCalculate();
@@ -43,21 +45,33 @@ public class ViewEncounterActivity extends AppCompatActivity implements View.OnC
     }
 
 
-    private void encounterCalculate() {
+    public void encounterCalculate() {
         pairEncounters = new ArrayList<>();
-        realm = Realm.getDefaultInstance();
+
+        //1. create mapping
         RealmResults<Participant> participants = realm.where(Participant.class).findAll();
         for (int participantIndex = 0; participantIndex < participants.size() - 1; participantIndex++) {
             addPairParticipant(participants, participantIndex);
         }
+
+        //2. retreive data
         RealmResults<Section> sections = realm.where(Section.class).findAll();
         RealmResults<SpecialGroup> specialGroups = realm.where(SpecialGroup.class).findAll();
+
+        //2.1 count in section
         for (int pairIndex = 0; pairIndex < pairEncounters.size(); pairIndex++) {
             int encounterCount = 0;
             encounterCount = countEncounterInSection(sections, pairIndex, encounterCount);
-            encounterCount = encounterCount + countEncounterInSpecialGroup(specialGroups, pairIndex, encounterCount);
             pairEncounters.get(pairIndex).setEncounterTimes(encounterCount);
         }
+
+        //2.2. count special
+        for (int pairIndex = 0; pairIndex < pairEncounters.size(); pairIndex++) {
+            int encounterCount = pairEncounters.get(pairIndex).getEncounterTimes();
+            encounterCount = countEncounterInSpecialGroup(specialGroups, pairIndex, encounterCount);
+            pairEncounters.get(pairIndex).setEncounterTimes(encounterCount);
+        }
+
     }
 
     public int countEncounterInSpecialGroup(List<SpecialGroup> specialGroups, int pairIndex, int encounterCount) {
