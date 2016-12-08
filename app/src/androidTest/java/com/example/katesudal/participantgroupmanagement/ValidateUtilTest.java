@@ -39,6 +39,25 @@ public class ValidateUtilTest {
     }
 
     @Test
+    public void notDuplicateParticipantName() throws Exception {
+        Realm.init(mainActivityRule.getActivity());
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        realm.deleteAll();
+        realm.commitTransaction();
+
+        Participant participant = new Participant();
+        participant.setParticipantName("Participant");
+        participant.setParticipantID(1);
+        realm.beginTransaction();
+        realm.copyToRealm(participant);
+        realm.commitTransaction();
+
+        ValidateUtil validateUtil = new ValidateUtil();
+        Assert.assertFalse(validateUtil.isDuplicateParticipantName("Anna"));
+    }
+
+    @Test
     public void duplicateProjectName() throws Exception{
         Realm.init(mainActivityRule.getActivity());
         Realm realm = Realm.getDefaultInstance();
