@@ -24,8 +24,10 @@ import io.realm.RealmList;
 import io.realm.RealmResults;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
+import static android.support.test.espresso.matcher.ViewMatchers.isClickable;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -93,6 +95,7 @@ public class ViewEncounterTest {
                 hasSibling(withText("Anna")),
                 hasSibling(withText("Carl"))))
                 .check(matches(isDisplayed()));
+        onView(withId(R.id.buttonBacktoMainFromViewEncounter)).perform(click());
     }
 
 }
