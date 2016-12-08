@@ -19,4 +19,12 @@ public class ValidateUtilTest {
 
         Assert.assertTrue(ValidateUtil.isDuplicateSectionName("Thai",names));
     }
+
+    @Test
+    public void notDuplicateSectionName() throws  Exception{
+        List<String> names = new ArrayList<>();
+        names.add("Thai");
+
+        Assert.assertFalse(ValidateUtil.isDuplicateSectionName("English",names));
+    }
 }
