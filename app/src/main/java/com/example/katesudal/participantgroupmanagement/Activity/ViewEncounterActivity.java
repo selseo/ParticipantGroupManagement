@@ -21,7 +21,7 @@ import io.realm.RealmResults;
 
 public class ViewEncounterActivity extends AppCompatActivity implements View.OnClickListener {
     private Realm realm;
-    public List<PairEncounter> pairEncounters;
+//    public List<PairEncounter> pairEncounters;
     private Button buttonBacktoMainFromViewEncounter;
 
     @Override
@@ -32,12 +32,13 @@ public class ViewEncounterActivity extends AppCompatActivity implements View.OnC
         realm = Realm.getDefaultInstance();
         buttonBacktoMainFromViewEncounter = (Button) findViewById(R.id.buttonBacktoMainFromViewEncounter);
         buttonBacktoMainFromViewEncounter.setOnClickListener(this);
-        encounterCalculate();
+        List<PairEncounter> pairEncounters = new ArrayList<>();
+        pairEncounters = encounterCalculate(pairEncounters);
         SortablePairEncounterTableView tableViewEncounter = (SortablePairEncounterTableView) findViewById(R.id.tableViewEncounter);
-        createPairEncounterTableAdapter(tableViewEncounter);
+        createPairEncounterTableAdapter(tableViewEncounter,pairEncounters);
     }
 
-    private void createPairEncounterTableAdapter(SortablePairEncounterTableView tableViewEncounter) {
+    private void createPairEncounterTableAdapter(SortablePairEncounterTableView tableViewEncounter,List<PairEncounter> pairEncounters) {
         if (tableViewEncounter != null) {
             final PairEncounterTableAdapter pairEncounterTableAdapter = new PairEncounterTableAdapter(this, pairEncounters, tableViewEncounter);
             tableViewEncounter.setDataAdapter(pairEncounterTableAdapter);
@@ -45,14 +46,9 @@ public class ViewEncounterActivity extends AppCompatActivity implements View.OnC
     }
 
 
-    public void encounterCalculate() {
-        pairEncounters = new ArrayList<>();
-
+    public List<PairEncounter> encounterCalculate(List<PairEncounter> pairEncounters) {
         //1. create mapping
-        RealmResults<Participant> participants = realm.where(Participant.class).findAll();
-        for (int participantIndex = 0; participantIndex < participants.size() - 1; participantIndex++) {
-            addPairParticipant(participants, participantIndex);
-        }
+        pairEncounters =  createPairEncounterList(pairEncounters);
 
         //2. retreive data
         RealmResults<Section> sections = realm.where(Section.class).findAll();
@@ -61,20 +57,41 @@ public class ViewEncounterActivity extends AppCompatActivity implements View.OnC
         //2.1 count in section
         for (int pairIndex = 0; pairIndex < pairEncounters.size(); pairIndex++) {
             int encounterCount = 0;
-            encounterCount = countEncounterInSection(sections, pairIndex, encounterCount);
+            encounterCount = countEncounterInSection(pairEncounters,sections, pairIndex, encounterCount);
             pairEncounters.get(pairIndex).setEncounterTimes(encounterCount);
         }
 
         //2.2. count special
         for (int pairIndex = 0; pairIndex < pairEncounters.size(); pairIndex++) {
             int encounterCount = pairEncounters.get(pairIndex).getEncounterTimes();
-            encounterCount = countEncounterInSpecialGroup(specialGroups, pairIndex, encounterCount);
+            encounterCount = countEncounterInSpecialGroup(pairEncounters,specialGroups, pairIndex, encounterCount);
             pairEncounters.get(pairIndex).setEncounterTimes(encounterCount);
         }
 
+        return pairEncounters;
+
     }
 
-    public int countEncounterInSpecialGroup(List<SpecialGroup> specialGroups, int pairIndex, int encounterCount) {
+    private List<PairEncounter> createPairEncounterList(List<PairEncounter> pairEncounters) {
+        RealmResults<Participant> participants = realm.where(Participant.class).findAll();
+        for (int participantIndex = 0; participantIndex < participants.size() - 1; participantIndex++) {
+            pairEncounters = addPairParticipant(pairEncounters, participants, participantIndex);
+        }
+        return pairEncounters;
+    }
+
+    public List<PairEncounter> addPairParticipant(List<PairEncounter> pairEncounters, List<Participant> participants, int participantAIndex) {
+        for (int participantBIndex = participantAIndex + 1; participantBIndex < participants.size(); participantBIndex++) {
+            PairEncounter pairEncounter = new PairEncounter(
+                    0,
+                    participants.get(participantAIndex),
+                    participants.get(participantBIndex));
+            pairEncounters.add(pairEncounter);
+        }
+        return pairEncounters;
+    }
+
+    public int countEncounterInSpecialGroup(List<PairEncounter> pairEncounters, List<SpecialGroup> specialGroups, int pairIndex, int encounterCount) {
         for (int specialGroupIndex = 0; specialGroupIndex < specialGroups.size(); specialGroupIndex++) {
             List<Participant> participantInSpecialGroups = specialGroups.get(specialGroupIndex).getParticipantIDs();
             if (participantInSpecialGroups.contains(pairEncounters.get(pairIndex).getParticipantA())
@@ -85,7 +102,7 @@ public class ViewEncounterActivity extends AppCompatActivity implements View.OnC
         return encounterCount;
     }
 
-    public int countEncounterInSection(List<Section> sections, int pairIndex, int encounterCount) {
+    public int countEncounterInSection(List<PairEncounter> pairEncounters, List<Section> sections, int pairIndex, int encounterCount) {
         for (int sectionIndex = 0; sectionIndex < sections.size(); sectionIndex++) {
             List<Participant> participantInSection = sections.get(sectionIndex).getParticipantIDs();
             if (participantInSection.contains(pairEncounters.get(pairIndex).getParticipantA())
@@ -96,15 +113,7 @@ public class ViewEncounterActivity extends AppCompatActivity implements View.OnC
         return encounterCount;
     }
 
-    public void addPairParticipant(List<Participant> participants, int participantAIndex) {
-        for (int participantBIndex = participantAIndex + 1; participantBIndex < participants.size(); participantBIndex++) {
-            PairEncounter pairEncounter = new PairEncounter(
-                    0,
-                    participants.get(participantAIndex),
-                    participants.get(participantBIndex));
-            pairEncounters.add(pairEncounter);
-        }
-    }
+
 
     @Override
     public void onClick(View view) {

@@ -42,10 +42,10 @@ public class ViewEncounterTest {
         PairEncounter pairEncounter = new PairEncounter(0,participant1,participant2);
 
         ViewEncounterActivity viewEncounterActivity = new ViewEncounterActivity();
-        viewEncounterActivity.pairEncounters = new ArrayList<>();
-        viewEncounterActivity.pairEncounters.add(pairEncounter);
+        List<PairEncounter> pairEncounters = new ArrayList<>();
+        pairEncounters.add(pairEncounter);
 
-        Assert.assertEquals(1,viewEncounterActivity.countEncounterInSpecialGroup(specialGroups,0,0));
+        Assert.assertEquals(1, viewEncounterActivity.countEncounterInSpecialGroup(pairEncounters,specialGroups,0,0));
     }
 
     @Test
@@ -68,10 +68,10 @@ public class ViewEncounterTest {
         PairEncounter pairEncounter = new PairEncounter(0,participant1,participant2);
 
         ViewEncounterActivity viewEncounterActivity = new ViewEncounterActivity();
-        viewEncounterActivity.pairEncounters = new ArrayList<>();
-        viewEncounterActivity.pairEncounters.add(pairEncounter);
+        List<PairEncounter> pairEncounters = new ArrayList<>();
+        pairEncounters.add(pairEncounter);
 
-        Assert.assertEquals(1,viewEncounterActivity.countEncounterInSection(sections,0,0));
+        Assert.assertEquals(1,viewEncounterActivity.countEncounterInSection(pairEncounters,sections,0,0));
     }
 
     @Test
@@ -85,18 +85,18 @@ public class ViewEncounterTest {
         participants.add(participant2);
 
         ViewEncounterActivity viewEncounterActivity = new ViewEncounterActivity();
-        viewEncounterActivity.pairEncounters = new ArrayList<>();
+        List<PairEncounter> pairEncounters = new ArrayList<>();
         int startIndex=0;
-        viewEncounterActivity.addPairParticipant(participants, startIndex);
+        viewEncounterActivity.addPairParticipant(pairEncounters,participants, startIndex);
 
         int encounterStart = 0;
         PairEncounter pairEncounter = new PairEncounter(encounterStart,participant1,participant2);
 
         Assert.assertEquals(pairEncounter.getParticipantA().getParticipantID()
-                ,viewEncounterActivity.pairEncounters.get(startIndex).getParticipantA().getParticipantID());
+                ,pairEncounters.get(startIndex).getParticipantA().getParticipantID());
         Assert.assertEquals(pairEncounter.getParticipantB().getParticipantID()
-                ,viewEncounterActivity.pairEncounters.get(startIndex).getParticipantB().getParticipantID());
+                ,pairEncounters.get(startIndex).getParticipantB().getParticipantID());
         Assert.assertEquals(encounterStart
-                ,viewEncounterActivity.pairEncounters.get(startIndex).getEncounterTimes());
+                ,pairEncounters.get(startIndex).getEncounterTimes());
     }
 }
