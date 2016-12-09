@@ -29,7 +29,7 @@ import io.realm.RealmList;
 import io.realm.RealmResults;
 
 public class CreateSpecialGroupActivity extends AppCompatActivity implements View.OnClickListener{
-    private String specialGroupName;
+    public static String specialGroupName;
     private Realm realm;
 
     @BindView(R.id.textViewSpecialGroupName)

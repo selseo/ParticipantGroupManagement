@@ -32,6 +32,7 @@ public class ManageSpecialGroup extends AppCompatActivity
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Realm.init(getApplicationContext());
         realm = Realm.getDefaultInstance();
         setContentView(R.layout.activity_manage_special_group);
         buttonBacktoMainFromManageSpecialGroup = (Button) findViewById(R.id.buttonBacktoMainFromManageSpecialGroup);
