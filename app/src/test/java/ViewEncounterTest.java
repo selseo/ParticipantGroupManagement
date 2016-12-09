@@ -97,4 +97,26 @@ public class ViewEncounterTest {
         Assert.assertEquals(encounterStart
                 ,pairEncounters.get(startIndex).getEncounterTimes());
     }
+
+    @Test
+    public void setEncounterFromSpecialGroupToEachPair(){
+        int encounterStart = 0;
+        Participant participant1 = new Participant(1,"Anna","Female","Staff");
+        Participant participant2 = new Participant(2,"Bobby","Male","Participant");
+        PairEncounter pairEncounter = new PairEncounter(encounterStart,participant1,participant2);
+        List<PairEncounter> pairEncounters = new ArrayList<>();
+        pairEncounters.add(pairEncounter);
+
+        SpecialGroup specialGroup = new SpecialGroup();
+        specialGroup.setParticipantIDs(new RealmList<Participant>());
+        specialGroup.getParticipantIDs().add(participant1);
+        specialGroup.getParticipantIDs().add(participant2);
+        List<SpecialGroup> specialGroups = new ArrayList<>();
+        specialGroups.add(specialGroup);
+
+        ViewEncounterActivity viewEncounterActivity = new ViewEncounterActivity();
+        viewEncounterActivity.setEncounterFromSpecialGroupToEachPair(pairEncounters,specialGroups);
+
+        Assert.assertEquals(1,pairEncounters.get(0).getEncounterTimes());
+    }
 }
