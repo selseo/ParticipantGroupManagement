@@ -71,8 +71,8 @@ public class AddParticipantActivity extends AppCompatActivity implements View.On
     private void addNewParticipant(View view) {
         long participantID = generateParticipantID(realm);
         String participantName = String.valueOf(editTextParticipantName.getText());
-        String participantGender = setParticipantGender();
-        String participantType = setParticipantType();
+        String participantGender = setParticipantGender(radioMale.isChecked(),radioFemale.isChecked());
+        String participantType = setParticipantType(radioStaff.isChecked(),radioParticipant.isChecked());
 
         if(ValidateUtil.isInvalidParticipantName(participantName)){
             showInvalidParticipantNameDialog();
@@ -104,20 +104,21 @@ public class AddParticipantActivity extends AppCompatActivity implements View.On
         realm.commitTransaction();
     }
 
-    private String setParticipantGender() {
+    public String setParticipantGender(boolean isMaleChecked, boolean isFemaleChecked) {
         String gender="";
-        if (radioMale.isChecked()) {
+        if (isMaleChecked) {
             gender =  "Male";
-        } else if (radioFemale.isChecked()) {
+        } else if (isFemaleChecked) {
             gender = "Female";
         }
         return gender;
     }
-    private String setParticipantType() {
+
+    public String setParticipantType(boolean isStaffChecked, boolean isParticipantChecked) {
         String type="";
-        if (radioStaff.isChecked()) {
+        if (isStaffChecked) {
             type =  "Staff";
-        } else if (radioParticipant.isChecked()) {
+        } else if (isParticipantChecked) {
             type = "Participant";
         }
         return type;
