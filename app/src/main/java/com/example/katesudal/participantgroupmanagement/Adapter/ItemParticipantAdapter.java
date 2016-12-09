@@ -62,7 +62,7 @@ public class ItemParticipantAdapter extends BaseAdapter implements View.OnClickL
             viewHolder = (ViewHolder) view.getTag();
         }
         viewHolder.textViewParticipantName.setText(participants.get(i).getParticipantName());
-        viewHolder.textViewParticipantSex.setText(participants.get(i).getParticipantSex());
+        viewHolder.textViewParticipantGender.setText(participants.get(i).getParticipantGender());
         viewHolder.textViewParticipantType.setText(participants.get(i).getParticipantType());
         ImageView iconEditParticipant = viewHolder.iconEditParticipant;
         viewHolder.iconEditParticipant.setTag(viewHolder);
@@ -89,14 +89,14 @@ public class ItemParticipantAdapter extends BaseAdapter implements View.OnClickL
 
     private class ViewHolder {
         private TextView textViewParticipantName;
-        private TextView textViewParticipantSex;
+        private TextView textViewParticipantGender;
         private TextView textViewParticipantType;
         private ImageView iconEditParticipant;
         private ImageView iconDeleteParticipant;
 
         public ViewHolder(View convertView) {
             textViewParticipantName = (TextView) convertView.findViewById(R.id.textViewParticipantName);
-            textViewParticipantSex = (TextView) convertView.findViewById(R.id.textViewParticipantSex);
+            textViewParticipantGender = (TextView) convertView.findViewById(R.id.textViewParticipantGender);
             textViewParticipantType = (TextView) convertView.findViewById(R.id.textViewParticipantType);
             iconEditParticipant = (ImageView) convertView.findViewById(R.id.iconEditParticipant);
             iconDeleteParticipant = (ImageView) convertView.findViewById(R.id.iconDeleteParticipant);

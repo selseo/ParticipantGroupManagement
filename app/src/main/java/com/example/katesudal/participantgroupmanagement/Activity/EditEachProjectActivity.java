@@ -96,7 +96,7 @@ public class EditEachProjectActivity extends AppCompatActivity implements View.O
             TextView itemName = (TextView) itemView.findViewById(R.id.textViewItemParticipantName);
             itemName.setText(participant.getParticipantName());
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if(participant.getParticipantSex().equals("Male")){
+                if(participant.getParticipantGender().equals("Male")){
                     itemName.setTextColor(getColor(R.color.colorVeryLightCream));
                 }
                 else{
@@ -104,7 +104,7 @@ public class EditEachProjectActivity extends AppCompatActivity implements View.O
                 }
             }
             else{
-                if(participant.getParticipantSex().equals("Male")){
+                if(participant.getParticipantGender().equals("Male")){
                     itemName.setTextColor(ContextCompat.getColor(this,R.color.colorVeryLightCream));
                 }
                 else{

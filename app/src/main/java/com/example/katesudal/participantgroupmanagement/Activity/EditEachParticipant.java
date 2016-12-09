@@ -27,7 +27,7 @@ public class EditEachParticipant extends AppCompatActivity implements View.OnCli
     private RadioButton radioParticipant;
     private Button buttonSaveParticipant;
     private Button buttonCancelEditParticipant;
-    private String participantSex;
+    private String participantGender;
     private String participantType;
 
     @Override
@@ -54,10 +54,10 @@ public class EditEachParticipant extends AppCompatActivity implements View.OnCli
                 .equalTo("participantID",participantID)
                 .findFirst();
         editTextParticipantName.setText(participant.getParticipantName());
-        if(participant.getParticipantSex().equals("Male")){
+        if(participant.getParticipantGender().equals("Male")){
             radioMale.setChecked(true);
         }
-        else if(participant.getParticipantSex().equals("Female")){
+        else if(participant.getParticipantGender().equals("Female")){
             radioFemale.setChecked(true);
         }
         if(participant.getParticipantType().equals("Staff")){
@@ -82,11 +82,10 @@ public class EditEachParticipant extends AppCompatActivity implements View.OnCli
     private void saveEditedParticipant() {
         String participantName = String.valueOf(editTextParticipantName.getText());
         if(radioMale.isChecked()){
-            participantSex="Male";
+            participantGender="Male";
         }
         else if(radioFemale.isChecked()){
-            participantSex="Female";
-            Log.d("SetSex","Female");
+            participantGender="Female";
         }
         if(radioParticipant.isChecked()){
             participantType="Participant";
@@ -124,7 +123,7 @@ public class EditEachParticipant extends AppCompatActivity implements View.OnCli
         }
         realm.beginTransaction();
         participant.setParticipantName(participantName);
-        participant.setParticipantSex(participantSex);
+        participant.setParticipantGender(participantGender);
         participant.setParticipantType(participantType);
         realm.commitTransaction();
         Intent intent = new Intent(this,EditParticipantActivity.class);

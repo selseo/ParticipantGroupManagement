@@ -27,12 +27,7 @@ public class SortablePairEncounterTableView extends SortableTableView<PairEncoun
         super(context, attributes, styleAttributes);
 
         final SimpleTableHeaderAdapter simpleTableHeaderAdapter = new SimpleTableHeaderAdapter(context, "A", "B", "Times");
-//        simpleTableHeaderAdapter.setTextColor(ContextCompat.getColor(context, 0x0000));
         setHeaderAdapter(simpleTableHeaderAdapter);
-
-//        final int rowColorEven = ContextCompat.getColor(context, 0x619aad);
-//        final int rowColorOdd = ContextCompat.getColor(context, 0x619aad);
-//        setDataRowBackgroundProvider(TableDataRowBackgroundProviders.alternatingRowColors(rowColorEven, rowColorOdd));
         setHeaderSortStateViewProvider(SortStateViewProviders.brightArrows());
 
         final TableColumnWeightModel tableColumnWeightModel = new TableColumnWeightModel(3);

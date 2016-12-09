@@ -10,22 +10,22 @@ public class Participant extends RealmObject {
     @PrimaryKey
     long participantID;
     String participantName;
-    String participantSex;
+    String participantGender;
     String participantType;
 
     public Participant(){
     }
 
-    public Participant(String participantName, String participantSex, String participantType) {
+    public Participant(String participantName, String participantGender, String participantType) {
         this.participantName = participantName;
-        this.participantSex = participantSex;
+        this.participantGender = participantGender;
         this.participantType = participantType;
     }
 
-    public Participant(int participantID, String participantName, String participantSex, String participantType) {
+    public Participant(int participantID, String participantName, String participantGender, String participantType) {
         this.participantID = participantID;
         this.participantName = participantName;
-        this.participantSex = participantSex;
+        this.participantGender = participantGender;
         this.participantType = participantType;
     }
 
@@ -45,12 +45,12 @@ public class Participant extends RealmObject {
         this.participantName = participantName;
     }
 
-    public String getParticipantSex() {
-        return participantSex;
+    public String getParticipantGender() {
+        return participantGender;
     }
 
-    public void setParticipantSex(String participantSex) {
-        this.participantSex = participantSex;
+    public void setParticipantGender(String participantGender) {
+        this.participantGender = participantGender;
     }
 
     public String getParticipantType() {
