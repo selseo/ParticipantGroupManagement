@@ -1,11 +1,13 @@
 package com.example.katesudal.participantgroupmanagement.Activity;
 
 import android.content.ClipData;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
@@ -138,6 +140,10 @@ public class CreateSpecialGroupActivity extends AppCompatActivity implements Vie
     @Override
     public void onClick(View view) {
         if(view.getId()==R.id.buttonCreateSpecialGroup){
+            if(layoutNewSpecialGroup.getChildCount()<1){
+                showNoSelectedParticipant();
+                return;
+            }
             createNewSpecialGroup();
             Intent intent = new Intent(this,ManageSpecialGroup.class);
             startActivity(intent);
@@ -145,6 +151,18 @@ public class CreateSpecialGroupActivity extends AppCompatActivity implements Vie
         if(view.getId()==R.id.buttonCancelCreateSpecialGroup){
             onBackPressed();
         }
+    }
+
+    private void showNoSelectedParticipant() {
+        AlertDialog.Builder dialogErrorBuilder = new AlertDialog.Builder(this);
+        dialogErrorBuilder.setMessage("Please select participant at least one.");
+        dialogErrorBuilder.setCancelable(false);
+        dialogErrorBuilder.setPositiveButton("OK",new DialogInterface.OnClickListener(){
+            public void onClick(DialogInterface dialog,int which){
+                dialog.dismiss();
+            }
+        });
+        dialogErrorBuilder.show();
     }
 
     private void createNewSpecialGroup() {
