@@ -27,6 +27,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
 
 /**
  * Created by katesuda.l on 09/12/2559.
@@ -126,6 +127,16 @@ public class AddParticipantTest {
                 withText("OK")))
                 .perform(click());
         onView(withId(R.id.buttonAddParticipant)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void addParticipantSuccess() throws Exception{
+        onView(withId(R.id.editTextParticipantName)).perform(typeText("Anna"));
+        closeSoftKeyboard();
+        onView(withId(R.id.radioFemale)).perform(click());
+        onView(withId(R.id.radioStaff)).perform(click());
+        onView(withId(R.id.buttonAddParticipant)).perform(click());
+        onView(withId(R.id.buttonGotoAddParticipant)).check(matches(isDisplayed()));
     }
 
 
