@@ -18,7 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
 
-public class AddParticipantActivity extends AppCompatActivity implements Realm.Transaction, View.OnClickListener {
+public class AddParticipantActivity extends AppCompatActivity implements View.OnClickListener {
 
     @BindView(R.id.editTextParticipantName)
     EditText editTextParticipantName;
@@ -35,7 +35,7 @@ public class AddParticipantActivity extends AppCompatActivity implements Realm.T
     @BindView(R.id.buttonCancelAddParticipant)
     Button buttonCancelAddParticipant;
 
-    private Participant participant;
+    Realm realm;
 
 
     @Override
@@ -43,16 +43,10 @@ public class AddParticipantActivity extends AppCompatActivity implements Realm.T
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_participant);
         ButterKnife.bind(this);
+        Realm.init(getApplicationContext());
+        realm = Realm.getDefaultInstance();
         buttonAddParticipant.setOnClickListener(this);
         buttonCancelAddParticipant.setOnClickListener(this);
-    }
-
-    public void createParticipantRealm(Participant participant) {
-        Realm.init(getApplicationContext());
-        Realm realm = Realm.getDefaultInstance();
-        this.participant = participant;
-        this.participant.setParticipantID(generateParticipantID(realm));
-        this.execute(realm);
     }
 
     private long generateParticipantID(Realm realm) {
@@ -65,44 +59,49 @@ public class AddParticipantActivity extends AppCompatActivity implements Realm.T
     }
 
     @Override
-    public void execute(Realm realm) {
-        realm.beginTransaction();
-        realm.copyToRealm(participant);
-        realm.commitTransaction();
-    }
-
-    @Override
     public void onClick(View view) {
         if (view.getId() == R.id.buttonAddParticipant) {
-            String participantName = String.valueOf(editTextParticipantName.getText());
-            if(ValidateUtil.isInvalidParticipantName(participantName)){
-                showInvalidParticipantNameDialog();
-                return;
-            }
-
-            String participantGender = setParticipantGender();
-            String participantType = setParticipantType();
-
-            if(!(participantGender.equals("Male")||participantGender.equals("Female"))){
-                showUncheckedGenderOrTypeDialog();
-                return;
-            }
-            if(!(participantType.equals("Staff")||participantType.equals("Participant"))){
-                showUncheckedGenderOrTypeDialog();
-                return;
-            }
-            Participant participant = new Participant(participantName, participantGender, participantType);
-            if(ValidateUtil.isDuplicateParticipantName(participantName)){
-                showDuplicateParticipantNameDialog();
-                return;
-            }
-            createParticipantRealm(participant);
-            Intent intent = new Intent(view.getContext(), EditParticipantActivity.class);
-            startActivity(intent);
+            addNewParticipant(view);
         }
         if (view.getId() == R.id.buttonCancelAddParticipant) {
             onBackPressed();
         }
+    }
+
+    private void addNewParticipant(View view) {
+        long participantID = generateParticipantID(realm);
+        String participantName = String.valueOf(editTextParticipantName.getText());
+        String participantGender = setParticipantGender();
+        String participantType = setParticipantType();
+
+        if(ValidateUtil.isInvalidParticipantName(participantName)){
+            showInvalidParticipantNameDialog();
+            return;
+        }
+        if(!(participantGender.equals("Male")||participantGender.equals("Female"))){
+            showUncheckedGenderOrTypeDialog();
+            return;
+        }
+        if(!(participantType.equals("Staff")||participantType.equals("Participant"))){
+            showUncheckedGenderOrTypeDialog();
+            return;
+        }
+        if(ValidateUtil.isDuplicateParticipantName(participantName)){
+            showDuplicateParticipantNameDialog();
+            return;
+        }
+
+        addParticipantToRealm(participantID, participantName, participantGender, participantType);
+
+        Intent intent = new Intent(view.getContext(), EditParticipantActivity.class);
+        startActivity(intent);
+    }
+
+    private void addParticipantToRealm(long participantID, String participantName, String participantGender, String participantType) {
+        Participant participant = new Participant(participantID,participantName, participantGender, participantType);
+        realm.beginTransaction();
+        realm.copyToRealm(participant);
+        realm.commitTransaction();
     }
 
     private String setParticipantGender() {
