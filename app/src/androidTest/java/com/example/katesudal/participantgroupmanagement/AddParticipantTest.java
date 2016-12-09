@@ -6,8 +6,10 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.katesudal.participantgroupmanagement.Activity.AddParticipantActivity;
+import com.example.katesudal.participantgroupmanagement.Model.Participant;
 
 import org.hamcrest.Matcher;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -40,6 +42,13 @@ public class AddParticipantTest {
     public void setUp(){
         Realm.init(mainActivityRule.getActivity());
         realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        realm.deleteAll();
+        realm.commitTransaction();
+    }
+
+    @After
+    public void tearDown(){
         realm.beginTransaction();
         realm.deleteAll();
         realm.commitTransaction();
@@ -92,6 +101,26 @@ public class AddParticipantTest {
         closeSoftKeyboard();
         onView(withId(R.id.buttonAddParticipant)).perform(click());
         onView(withText("Gender or Type should be selected.")).check(matches(isDisplayed()));
+        onView(allOf(
+                instanceOf(Button.class),
+                withText("OK")))
+                .perform(click());
+        onView(withId(R.id.buttonAddParticipant)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void showDuplicateNameDialog() throws Exception{
+        Participant participant = new Participant(1,"Anna","Female","Staff");
+        realm.beginTransaction();
+        realm.copyToRealm(participant);
+        realm.commitTransaction();
+
+        onView(withId(R.id.editTextParticipantName)).perform(typeText("Anna"));
+        closeSoftKeyboard();
+        onView(withId(R.id.radioFemale)).perform(click());
+        onView(withId(R.id.radioStaff)).perform(click());
+        onView(withId(R.id.buttonAddParticipant)).perform(click());
+        onView(withText("This Participant Name is Duplicate. \nPlease try another.")).check(matches(isDisplayed()));
         onView(allOf(
                 instanceOf(Button.class),
                 withText("OK")))
