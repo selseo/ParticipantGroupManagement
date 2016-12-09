@@ -75,7 +75,7 @@ public class ManageSpecialGroup extends AppCompatActivity
                 dialogErrorBuilder.show();
                 return;
             }
-            Intent intent = new Intent(this,AddSpecialGroupActivity.class);
+            Intent intent = new Intent(this,CreateSpecialGroupActivity.class);
             intent.putExtra("specialGroupName", specialGroupName);
             startActivity(intent);
         }

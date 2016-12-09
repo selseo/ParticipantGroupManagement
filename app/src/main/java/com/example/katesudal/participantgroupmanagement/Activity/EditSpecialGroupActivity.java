@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -49,7 +48,7 @@ public class EditSpecialGroupActivity extends AppCompatActivity implements View.
         super.onCreate(savedInstanceState);
         realm = Realm.getDefaultInstance();
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-        setContentView(R.layout.activity_add_special_group);
+        setContentView(R.layout.activity_create_special_group);
         specialGroupID = getIntent().getExtras().getLong("specialGroupID");
         specialGroup = realm.where(SpecialGroup.class)
                 .equalTo("specialGroupID",specialGroupID)

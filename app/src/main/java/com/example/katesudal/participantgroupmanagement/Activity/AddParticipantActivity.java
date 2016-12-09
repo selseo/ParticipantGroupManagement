@@ -45,6 +45,10 @@ public class AddParticipantActivity extends AppCompatActivity implements View.On
         ButterKnife.bind(this);
         Realm.init(getApplicationContext());
         realm = Realm.getDefaultInstance();
+        setOnClick();
+    }
+
+    private void setOnClick() {
         buttonAddParticipant.setOnClickListener(this);
         buttonCancelAddParticipant.setOnClickListener(this);
     }

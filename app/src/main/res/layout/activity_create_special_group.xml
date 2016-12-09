@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.katesudal.participantgroupmanagement.Activity.AddSpecialGroupActivity">
+    tools:context="com.example.katesudal.participantgroupmanagement.Activity.CreateSpecialGroupActivity">
     <ScrollView
         android:id="@+id/scrollViewAllParticipantName"
         android:layout_width="match_parent"
