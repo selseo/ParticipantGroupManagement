@@ -32,6 +32,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 
 /**
  * Created by katesuda.l on 09/12/2559.
@@ -142,6 +143,15 @@ public class AddParticipantTest {
         onView(withId(R.id.buttonAddParticipant)).perform(click());
         onView(withId(R.id.buttonGotoAddParticipant)).check(matches(isDisplayed()));
         onView(allOf(withId(R.id.textViewParticipantName),withText("Anna"))).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void cancelAddParticipant() throws Exception{
+        onView(withId(R.id.editTextParticipantName)).perform(typeText("Anna"));
+        closeSoftKeyboard();
+        onView(withId(R.id.radioFemale)).perform(click());
+        onView(withId(R.id.radioStaff)).perform(click());
+        onView(withId(R.id.buttonCancelAddParticipant)).perform(click());
     }
 
 
