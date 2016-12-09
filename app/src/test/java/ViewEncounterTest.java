@@ -1,5 +1,3 @@
-import android.util.Log;
-
 import com.example.katesudal.participantgroupmanagement.Activity.ViewEncounterActivity;
 import com.example.katesudal.participantgroupmanagement.Model.PairEncounter;
 import com.example.katesudal.participantgroupmanagement.Model.Participant;
@@ -22,7 +20,7 @@ import io.realm.RealmList;
 public class ViewEncounterTest {
 
     @Test
-    public void countEncounterInSpecialGroup(){
+    public void countEncounterInEachSpecialGroup(){
         List<SpecialGroup> specialGroups = new ArrayList<>();
         SpecialGroup specialGroup = new SpecialGroup();
         specialGroup.setSpecialGroupID(1);
@@ -45,11 +43,11 @@ public class ViewEncounterTest {
         List<PairEncounter> pairEncounters = new ArrayList<>();
         pairEncounters.add(pairEncounter);
 
-        Assert.assertEquals(1, viewEncounterActivity.countEncounterInSpecialGroup(pairEncounters,specialGroups,0,0));
+        Assert.assertEquals(1, viewEncounterActivity.countEncounterInEachSpecialGroup(pairEncounters,specialGroups,0,0));
     }
 
     @Test
-    public void countEncounterInSection(){
+    public void countEncounterInEachSection(){
         List<Section> sections = new ArrayList<>();
         Section section = new Section();
         section.setSectionID(1);
@@ -71,7 +69,7 @@ public class ViewEncounterTest {
         List<PairEncounter> pairEncounters = new ArrayList<>();
         pairEncounters.add(pairEncounter);
 
-        Assert.assertEquals(1,viewEncounterActivity.countEncounterInSection(pairEncounters,sections,0,0));
+        Assert.assertEquals(1,viewEncounterActivity.countEncounterInEachSection(pairEncounters,sections,0,0));
     }
 
     @Test

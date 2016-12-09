@@ -57,14 +57,14 @@ public class ViewEncounterActivity extends AppCompatActivity implements View.OnC
         //2.1 count in section
         for (int pairIndex = 0; pairIndex < pairEncounters.size(); pairIndex++) {
             int encounterCount = 0;
-            encounterCount = countEncounterInSection(pairEncounters,sections, pairIndex, encounterCount);
+            encounterCount = countEncounterInEachSection(pairEncounters,sections, pairIndex, encounterCount);
             pairEncounters.get(pairIndex).setEncounterTimes(encounterCount);
         }
 
         //2.2. count special
         for (int pairIndex = 0; pairIndex < pairEncounters.size(); pairIndex++) {
             int encounterCount = pairEncounters.get(pairIndex).getEncounterTimes();
-            encounterCount = countEncounterInSpecialGroup(pairEncounters,specialGroups, pairIndex, encounterCount);
+            encounterCount = countEncounterInEachSpecialGroup(pairEncounters,specialGroups, pairIndex, encounterCount);
             pairEncounters.get(pairIndex).setEncounterTimes(encounterCount);
         }
 
@@ -91,7 +91,7 @@ public class ViewEncounterActivity extends AppCompatActivity implements View.OnC
         return pairEncounters;
     }
 
-    public int countEncounterInSpecialGroup(List<PairEncounter> pairEncounters, List<SpecialGroup> specialGroups, int pairIndex, int encounterCount) {
+    public int countEncounterInEachSpecialGroup(List<PairEncounter> pairEncounters, List<SpecialGroup> specialGroups, int pairIndex, int encounterCount) {
         for (int specialGroupIndex = 0; specialGroupIndex < specialGroups.size(); specialGroupIndex++) {
             List<Participant> participantInSpecialGroups = specialGroups.get(specialGroupIndex).getParticipantIDs();
             if (participantInSpecialGroups.contains(pairEncounters.get(pairIndex).getParticipantA())
@@ -102,7 +102,7 @@ public class ViewEncounterActivity extends AppCompatActivity implements View.OnC
         return encounterCount;
     }
 
-    public int countEncounterInSection(List<PairEncounter> pairEncounters, List<Section> sections, int pairIndex, int encounterCount) {
+    public int countEncounterInEachSection(List<PairEncounter> pairEncounters, List<Section> sections, int pairIndex, int encounterCount) {
         for (int sectionIndex = 0; sectionIndex < sections.size(); sectionIndex++) {
             List<Participant> participantInSection = sections.get(sectionIndex).getParticipantIDs();
             if (participantInSection.contains(pairEncounters.get(pairIndex).getParticipantA())
