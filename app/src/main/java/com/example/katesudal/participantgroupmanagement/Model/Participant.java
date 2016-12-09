@@ -22,7 +22,7 @@ public class Participant extends RealmObject {
         this.participantType = participantType;
     }
 
-    public Participant(int participantID, String participantName, String participantGender, String participantType) {
+    public Participant(long participantID, String participantName, String participantGender, String participantType) {
         this.participantID = participantID;
         this.participantName = participantName;
         this.participantGender = participantGender;
