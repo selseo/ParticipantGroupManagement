@@ -1,5 +1,6 @@
 package com.example.katesudal.participantgroupmanagement;
 
+import android.support.test.espresso.core.deps.guava.util.concurrent.ExecutionError;
 import android.support.test.rule.ActivityTestRule;
 import android.support.v7.widget.AppCompatButton;
 import android.view.View;
@@ -8,6 +9,8 @@ import android.widget.Button;
 import com.example.katesudal.participantgroupmanagement.Activity.AddParticipantActivity;
 import com.example.katesudal.participantgroupmanagement.Model.Participant;
 
+import junit.framework.Assert;
+
 import org.hamcrest.Matcher;
 import org.junit.After;
 import org.junit.Before;
@@ -15,6 +18,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
@@ -137,6 +141,7 @@ public class AddParticipantTest {
         onView(withId(R.id.radioStaff)).perform(click());
         onView(withId(R.id.buttonAddParticipant)).perform(click());
         onView(withId(R.id.buttonGotoAddParticipant)).check(matches(isDisplayed()));
+        onView(allOf(withId(R.id.textViewParticipantName),withText("Anna"))).check(matches(isDisplayed()));
     }
 
 
