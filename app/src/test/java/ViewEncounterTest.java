@@ -119,4 +119,26 @@ public class ViewEncounterTest {
 
         Assert.assertEquals(1,pairEncounters.get(0).getEncounterTimes());
     }
+
+    @Test
+    public void setEncounterFromSectionToEachPair(){
+        int encounterStart = 0;
+        Participant participant1 = new Participant(1,"Anna","Female","Staff");
+        Participant participant2 = new Participant(2,"Bobby","Male","Participant");
+        PairEncounter pairEncounter = new PairEncounter(encounterStart,participant1,participant2);
+        List<PairEncounter> pairEncounters = new ArrayList<>();
+        pairEncounters.add(pairEncounter);
+
+        Section section = new Section();
+        section.setParticipantIDs(new RealmList<Participant>());
+        section.getParticipantIDs().add(participant1);
+        section.getParticipantIDs().add(participant2);
+        List<Section> sections = new ArrayList<>();
+        sections.add(section);
+
+        ViewEncounterActivity viewEncounterActivity = new ViewEncounterActivity();
+        viewEncounterActivity.setEncounterFromSectionToEachPair(pairEncounters,sections);
+
+        Assert.assertEquals(1,pairEncounters.get(0).getEncounterTimes());
+    }
 }
