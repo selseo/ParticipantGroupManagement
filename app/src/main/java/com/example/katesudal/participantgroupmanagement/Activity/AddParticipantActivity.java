@@ -14,32 +14,35 @@ import com.example.katesudal.participantgroupmanagement.Model.Participant;
 import com.example.katesudal.participantgroupmanagement.R;
 import com.example.katesudal.participantgroupmanagement.Util.ValidateUtil;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.realm.Realm;
 
 public class AddParticipantActivity extends AppCompatActivity implements Realm.Transaction, View.OnClickListener {
 
-    private EditText editTextParticipantName;
-    private RadioButton radioMale;
-    private RadioButton radioFemale;
-    private RadioButton radioStaff;
-    private RadioButton radioParticipant;
-    private Button buttonAddParticipant;
-    private Button buttonCancelAddParticipant;
+    @BindView(R.id.editTextParticipantName)
+    EditText editTextParticipantName;
+    @BindView(R.id.radioMale)
+    RadioButton radioMale;
+    @BindView(R.id.radioFemale)
+    RadioButton radioFemale;
+    @BindView(R.id.radioStaff)
+    RadioButton radioStaff;
+    @BindView(R.id.radioParticipant)
+    RadioButton radioParticipant;
+    @BindView(R.id.buttonAddParticipant)
+    Button buttonAddParticipant;
+    @BindView(R.id.buttonCancelAddParticipant)
+    Button buttonCancelAddParticipant;
+
     private Participant participant;
-    private String participantSex;
-    private String participantType;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_participant);
-        editTextParticipantName = (EditText) findViewById(R.id.editTextParticipantName);
-        radioMale = (RadioButton) findViewById(R.id.radioMale);
-        radioFemale = (RadioButton) findViewById(R.id.radioFemale);
-        radioStaff = (RadioButton) findViewById(R.id.radioStaff);
-        radioParticipant = (RadioButton) findViewById(R.id.radioParticipant);
-        buttonAddParticipant = (Button) findViewById(R.id.buttonAddParticipant);
-        buttonCancelAddParticipant = (Button) findViewById(R.id.buttonCancelAddParticipant);
+        ButterKnife.bind(this);
         buttonAddParticipant.setOnClickListener(this);
         buttonCancelAddParticipant.setOnClickListener(this);
     }
@@ -71,58 +74,26 @@ public class AddParticipantActivity extends AppCompatActivity implements Realm.T
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.buttonAddParticipant) {
-            boolean sexIsChecked = false;
-            boolean typeIsChecked = false;
             String participantName = String.valueOf(editTextParticipantName.getText());
             if(ValidateUtil.isInvalidParticipantName(participantName)){
-                AlertDialog.Builder dialogErrorBuilder = new AlertDialog.Builder(this);
-                dialogErrorBuilder.setMessage("Participant Name should begin with letter and contain only letter or number. \nPlease try another.");
-                dialogErrorBuilder.setCancelable(false);
-                dialogErrorBuilder.setPositiveButton("OK",new DialogInterface.OnClickListener(){
-                    public void onClick(DialogInterface dialog,int which){
-                        dialog.dismiss();
-                    }
-                });
-                dialogErrorBuilder.show();
+                showInvalidParticipantNameDialog();
                 return;
             }
-            if (radioMale.isChecked()) {
-                participantSex = "Male";
-                sexIsChecked = true;
-            } else if (radioFemale.isChecked()) {
-                participantSex = "Female";
-                sexIsChecked = true;
-            }
-            if (radioParticipant.isChecked()) {
-                participantType = "Participant";
-                typeIsChecked = true;
-            } else if (radioStaff.isChecked()) {
-                participantType = "Staff";
-                typeIsChecked = true;
-            }
-            if(!typeIsChecked||!sexIsChecked){
-                AlertDialog.Builder dialogErrorBuilder = new AlertDialog.Builder(this);
-                dialogErrorBuilder.setMessage("Sex or Type should be selected.");
-                dialogErrorBuilder.setCancelable(false);
-                dialogErrorBuilder.setPositiveButton("OK",new DialogInterface.OnClickListener(){
-                    public void onClick(DialogInterface dialog,int which){
-                        dialog.dismiss();
-                    }
-                });
-                dialogErrorBuilder.show();
+
+            String participantGender = setParticipantGender();
+            String participantType = setParticipantType();
+
+            if(!(participantGender.equals("Male")||participantGender.equals("Female"))){
+                showUncheckedGenderOrTypeDialog();
                 return;
             }
-            Participant participant = new Participant(participantName, participantSex, participantType);
+            if(!(participantType.equals("Staff")||participantType.equals("Participant"))){
+                showUncheckedGenderOrTypeDialog();
+                return;
+            }
+            Participant participant = new Participant(participantName, participantGender, participantType);
             if(ValidateUtil.isDuplicateParticipantName(participantName)){
-                AlertDialog.Builder dialogErrorBuilder = new AlertDialog.Builder(this);
-                dialogErrorBuilder.setMessage("This Participant Name is Duplicate. \nPlease try another.");
-                dialogErrorBuilder.setCancelable(false);
-                dialogErrorBuilder.setPositiveButton("OK",new DialogInterface.OnClickListener(){
-                    public void onClick(DialogInterface dialog,int which){
-                        dialog.dismiss();
-                    }
-                });
-                dialogErrorBuilder.show();
+                showDuplicateParticipantNameDialog();
                 return;
             }
             createParticipantRealm(participant);
@@ -132,5 +103,60 @@ public class AddParticipantActivity extends AppCompatActivity implements Realm.T
         if (view.getId() == R.id.buttonCancelAddParticipant) {
             onBackPressed();
         }
+    }
+
+    private String setParticipantGender() {
+        String gender="";
+        if (radioMale.isChecked()) {
+            gender =  "Male";
+        } else if (radioFemale.isChecked()) {
+            gender = "Female";
+        }
+        return gender;
+    }
+    private String setParticipantType() {
+        String type="";
+        if (radioStaff.isChecked()) {
+            type =  "Staff";
+        } else if (radioParticipant.isChecked()) {
+            type = "Participant";
+        }
+        return type;
+    }
+
+    private void showDuplicateParticipantNameDialog() {
+        AlertDialog.Builder dialogErrorBuilder = new AlertDialog.Builder(this);
+        dialogErrorBuilder.setMessage("This Participant Name is Duplicate. \nPlease try another.");
+        dialogErrorBuilder.setCancelable(false);
+        dialogErrorBuilder.setPositiveButton("OK",new DialogInterface.OnClickListener(){
+            public void onClick(DialogInterface dialog,int which){
+                dialog.dismiss();
+            }
+        });
+        dialogErrorBuilder.show();
+    }
+
+    private void showUncheckedGenderOrTypeDialog() {
+        AlertDialog.Builder dialogErrorBuilder = new AlertDialog.Builder(this);
+        dialogErrorBuilder.setMessage("Gender or Type should be selected.");
+        dialogErrorBuilder.setCancelable(false);
+        dialogErrorBuilder.setPositiveButton("OK",new DialogInterface.OnClickListener(){
+            public void onClick(DialogInterface dialog,int which){
+                dialog.dismiss();
+            }
+        });
+        dialogErrorBuilder.show();
+    }
+
+    private void showInvalidParticipantNameDialog() {
+        AlertDialog.Builder dialogErrorBuilder = new AlertDialog.Builder(this);
+        dialogErrorBuilder.setMessage("Participant Name should begin with letter and contain only letter or number. \nPlease try another.");
+        dialogErrorBuilder.setCancelable(false);
+        dialogErrorBuilder.setPositiveButton("OK",new DialogInterface.OnClickListener(){
+            public void onClick(DialogInterface dialog,int which){
+                dialog.dismiss();
+            }
+        });
+        dialogErrorBuilder.show();
     }
 }
