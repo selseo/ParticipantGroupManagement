@@ -72,5 +72,19 @@ public class AddParticipantTest {
         onView(withId(R.id.buttonAddParticipant)).check(matches(isDisplayed()));
     }
 
+    @Test
+    public void showUncheckedTypeDialog() throws Exception{
+        onView(withId(R.id.editTextParticipantName)).perform(typeText("Anna"));
+        closeSoftKeyboard();
+        onView(withId(R.id.radioFemale)).perform(click());
+        onView(withId(R.id.buttonAddParticipant)).perform(click());
+        onView(withText("Gender or Type should be selected.")).check(matches(isDisplayed()));
+        onView(allOf(
+                instanceOf(Button.class),
+                withText("OK")))
+                .perform(click());
+        onView(withId(R.id.buttonAddParticipant)).check(matches(isDisplayed()));
+    }
+
 
 }
