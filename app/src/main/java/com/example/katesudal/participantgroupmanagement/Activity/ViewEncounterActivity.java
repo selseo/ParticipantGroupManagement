@@ -21,8 +21,6 @@ import io.realm.RealmResults;
 
 public class ViewEncounterActivity extends AppCompatActivity implements View.OnClickListener {
     private Realm realm;
-//    public List<PairEncounter> pairEncounters;
-    private Button buttonBacktoMainFromViewEncounter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +28,7 @@ public class ViewEncounterActivity extends AppCompatActivity implements View.OnC
         setContentView(R.layout.activity_view_encounter);
         Realm.init(getApplicationContext());
         realm = Realm.getDefaultInstance();
-        buttonBacktoMainFromViewEncounter = (Button) findViewById(R.id.buttonBacktoMainFromViewEncounter);
+        Button buttonBacktoMainFromViewEncounter = (Button) findViewById(R.id.buttonBacktoMainFromViewEncounter);
         buttonBacktoMainFromViewEncounter.setOnClickListener(this);
         List<PairEncounter> pairEncounters = new ArrayList<>();
         encounterCalculate(pairEncounters);
@@ -47,11 +45,11 @@ public class ViewEncounterActivity extends AppCompatActivity implements View.OnC
 
 
     public void encounterCalculate(List<PairEncounter> pairEncounters) {
-        createPairEncounterList(pairEncounters);
-
+        RealmResults<Participant> participants = realm.where(Participant.class).findAll();
         RealmResults<Section> sections = realm.where(Section.class).findAll();
         RealmResults<SpecialGroup> specialGroups = realm.where(SpecialGroup.class).findAll();
 
+        createPairEncounterList(pairEncounters,participants);
         setEncounterFromSectionToEachPair(pairEncounters, sections);
         setEncounterFromSpecialGroupToEachPair(pairEncounters, specialGroups);
     }
@@ -72,8 +70,7 @@ public class ViewEncounterActivity extends AppCompatActivity implements View.OnC
         }
     }
 
-    private void createPairEncounterList(List<PairEncounter> pairEncounters) {
-        RealmResults<Participant> participants = realm.where(Participant.class).findAll();
+    private void createPairEncounterList(List<PairEncounter> pairEncounters,List<Participant> participants) {
         for (int participantIndex = 0; participantIndex < participants.size() - 1; participantIndex++) {
             addPairParticipant(pairEncounters, participants, participantIndex);
         }
