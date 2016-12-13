@@ -100,14 +100,14 @@ public class AddSectionNameActivity extends AppCompatActivity
         Project project = new Project();
         project.setProjectName(projectName);
         RealmList<Section> sections = new RealmList<>();
-        setSectionNameList(sections);
+        setSectionNameList(sections,sectionNames);
         project.setSectionIDs(sections);
         PreferencesService.savePreferences("Project", project, this);
         Intent intent = new Intent(this, CreateProjectActivity.class);
         startActivity(intent);
     }
 
-    private void setSectionNameList(List<Section> sections) {
+    public void setSectionNameList(List<Section> sections,List<String> sectionNames) {
         for (int sectionNameIndex = 0; sectionNameIndex < sectionNames.size(); sectionNameIndex++) {
             Section section = new Section();
             section.setSectionName(sectionNames.get(sectionNameIndex));
