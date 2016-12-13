@@ -36,6 +36,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
 
 /**
  * Created by katesuda.l on 09/12/2559.
@@ -84,6 +85,8 @@ public class CreateSpecialGroupTest {
                 withText("OK")))
                 .perform(click());
         onView(withId(R.id.buttonCreateSpecialGroup)).check(matches(isDisplayed()));
+        onView(withId(R.id.buttonCancelCreateSpecialGroup)).perform(click());
+        onView(withId(R.id.buttonAddSpecialGroupName)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -104,7 +107,7 @@ public class CreateSpecialGroupTest {
                         .text("Bobby")));
         UiObject objGroupFood = device.findObject(new UiSelector()
                 .resourceId("com.example.katesudal.participantgroupmanagement:id/layoutNewSpecialGroup"));
-        objItemBobby.dragTo(objGroupFood,3);
+        objItemBobby.dragTo(objGroupFood,4);
         objItemAnna.dragTo(objGroupFood,3);
         onView(withId(R.id.buttonCreateSpecialGroup)).perform(click());
         onView(withText("Food")).check(matches(isDisplayed()));
