@@ -4,13 +4,10 @@ import android.os.SystemClock;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.uiautomator.By;
 import android.support.test.uiautomator.UiDevice;
-import android.support.test.uiautomator.UiObject;
 import android.support.test.uiautomator.UiObject2;
-import android.support.test.uiautomator.UiSelector;
 import android.widget.Button;
 
-import com.example.katesudal.participantgroupmanagement.Activity.CreateSectionNameActivity;
-import com.example.katesudal.participantgroupmanagement.Activity.ManageSpecialGroup;
+import com.example.katesudal.participantgroupmanagement.Activity.AddSectionNameActivity;
 import com.example.katesudal.participantgroupmanagement.Model.Participant;
 
 import org.junit.After;
@@ -28,7 +25,6 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -43,7 +39,7 @@ public class CreateProjectTest {
     Realm realm;
 
     @Rule
-    public ActivityTestRule mainActivityRule = new ActivityTestRule<>(CreateSectionNameActivity.class);
+    public ActivityTestRule mainActivityRule = new ActivityTestRule<>(AddSectionNameActivity.class);
 
     @Before
     public void setUp() {
