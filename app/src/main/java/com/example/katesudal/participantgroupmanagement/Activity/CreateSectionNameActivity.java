@@ -30,7 +30,7 @@ public class CreateSectionNameActivity extends AppCompatActivity
     private EditText editTextSectionName;
     private Button buttonAddSectionName;
     private ListView listViewSectionName;
-    private LinearLayout buttonCreateProject;
+    private LinearLayout buttonNextToCreateProject;
     private LinearLayout buttonCancelCreateSectionName;
     ItemSectionNameAdapter itemSectionNameAdapter;
     List<String> sectionNames;
@@ -44,7 +44,7 @@ public class CreateSectionNameActivity extends AppCompatActivity
         editTextSectionName = (EditText) findViewById(R.id.editTextSectionName);
         buttonAddSectionName = (Button) findViewById(R.id.buttonAddSectionName);
         listViewSectionName = (ListView) findViewById(R.id.listViewSectionName);
-        buttonCreateProject = (LinearLayout) findViewById(R.id.buttonCreateProject);
+        buttonNextToCreateProject = (LinearLayout) findViewById(R.id.buttonNextToCreateProject);
         buttonCancelCreateSectionName = (LinearLayout) findViewById(R.id.buttonCancelCreateSectionName);
         listViewSectionName.setFooterDividersEnabled(true);
         listViewSectionName.setHeaderDividersEnabled(true);
@@ -53,7 +53,7 @@ public class CreateSectionNameActivity extends AppCompatActivity
         itemSectionNameAdapter = new ItemSectionNameAdapter(this, this);
         sectionNames = new ArrayList<>();
         buttonAddSectionName.setOnClickListener(this);
-        buttonCreateProject.setOnClickListener(this);
+        buttonNextToCreateProject.setOnClickListener(this);
         buttonCancelCreateSectionName.setOnClickListener(this);
     }
 
@@ -89,8 +89,9 @@ public class CreateSectionNameActivity extends AppCompatActivity
             itemSectionNameAdapter.setSectionNames(sectionNames);
             listViewSectionName.setAdapter(itemSectionNameAdapter);
             itemSectionNameAdapter.notifyDataSetChanged();
+            editTextSectionName.setText("");
         }
-        if (view.getId() == R.id.buttonCreateProject) {
+        if (view.getId() == R.id.buttonNextToCreateProject) {
             String projectName = String.valueOf(editTextProjectName.getText());
             if(ValidateUtil.isInvalidName(projectName)) {
                 AlertDialog.Builder dialogErrorBuilder = new AlertDialog.Builder(this);
