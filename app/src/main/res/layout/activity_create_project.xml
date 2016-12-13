@@ -62,7 +62,7 @@
         android:orientation="horizontal"
         android:background="@color/background">
         <LinearLayout
-            android:id="@+id/buttonSubmitCreateProject"
+            android:id="@+id/buttonCreateProject"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -73,7 +73,7 @@
                 android:gravity="center"
                 android:textColor="@color/colorDarkBrown"
                 android:textStyle="bold"
-                android:text="Submit"/>
+                android:text="Create"/>
         </LinearLayout>
         <View
             android:layout_width="0.1dp"
