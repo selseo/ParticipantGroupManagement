@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         if(view.getId()==R.id.buttonGotoEditParticipant){
-            Intent intent = new Intent(view.getContext(), EditParticipantActivity.class);
+            Intent intent = new Intent(view.getContext(), ManageParticipantActivity.class);
             startActivity(intent);
         }
         if(view.getId()==R.id.buttonGotoCreateProject){

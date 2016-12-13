@@ -18,7 +18,7 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-public class EditParticipantActivity extends AppCompatActivity
+public class ManageParticipantActivity extends AppCompatActivity
         implements View.OnClickListener,
         ItemParticipantAdapter.ItemParticipantListener {
 
@@ -87,7 +87,7 @@ public class EditParticipantActivity extends AppCompatActivity
     @Override
     public void editParticipantById(List<Participant> participants, View view) {
         long participantID = participants.get(listViewParticipant.getPositionForView(view)).getParticipantID();
-        Intent intent = new Intent(this,EditEachParticipant.class);
+        Intent intent = new Intent(this,EditParticipant.class);
         intent.putExtra("participantID",participantID);
         startActivity(intent);
     }

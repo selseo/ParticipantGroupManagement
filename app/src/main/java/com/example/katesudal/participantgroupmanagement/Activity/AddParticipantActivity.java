@@ -97,7 +97,7 @@ public class AddParticipantActivity extends AppCompatActivity implements View.On
 
         addParticipantToRealm(participantID, participantName, participantGender, participantType);
 
-        Intent intent = new Intent(view.getContext(), EditParticipantActivity.class);
+        Intent intent = new Intent(view.getContext(), ManageParticipantActivity.class);
         startActivity(intent);
     }
 

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,7 +16,7 @@ import com.example.katesudal.participantgroupmanagement.Util.ValidateUtil;
 
 import io.realm.Realm;
 
-public class EditEachParticipant extends AppCompatActivity implements View.OnClickListener{
+public class EditParticipant extends AppCompatActivity implements View.OnClickListener{
     Realm realm;
     long participantID;
     private EditText editTextParticipantName;
@@ -126,7 +125,7 @@ public class EditEachParticipant extends AppCompatActivity implements View.OnCli
         participant.setParticipantGender(participantGender);
         participant.setParticipantType(participantType);
         realm.commitTransaction();
-        Intent intent = new Intent(this,EditParticipantActivity.class);
+        Intent intent = new Intent(this,ManageParticipantActivity.class);
         startActivity(intent);
     }
 }
