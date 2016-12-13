@@ -67,7 +67,7 @@
                 android:gravity="center"
                 android:textColor="@color/colorDarkBrown"
                 android:textStyle="bold"
-                android:text="Submit"/>
+                android:text="Create"/>
         </LinearLayout>
         <View
             android:layout_width="0.1dp"
