@@ -38,8 +38,8 @@ public class CreateProjectActivity extends AppCompatActivity implements View.OnC
     ViewGroup layoutUnselectedParticipantName;
     @BindView(R.id.layoutGroups)
     LinearLayout layoutGroups;
-    @BindView(R.id.buttonSubmitCreateProject)
-    LinearLayout buttonSubmitCreateProject;
+    @BindView(R.id.buttonCreateProject)
+    LinearLayout buttonCreateProject;
     @BindView(R.id.buttonCancelCreateProject)
     LinearLayout buttonCancelCreateProject;
     @BindView(R.id.layoutCreateProject)
@@ -53,6 +53,7 @@ public class CreateProjectActivity extends AppCompatActivity implements View.OnC
 
     private Project project;
     private Realm realm;
+    private boolean allSectionHasParticipant;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,11 +76,11 @@ public class CreateProjectActivity extends AppCompatActivity implements View.OnC
 
     private void setListener() {
         layoutCreateProject.setOnDragListener(new OnDragItem());
-        buttonSubmitCreateProject.setOnDragListener(new OnDragItem());
+        buttonCreateProject.setOnDragListener(new OnDragItem());
         buttonCancelCreateProject.setOnDragListener(new OnDragItem());
         scrollViewUnselected.setOnDragListener(new OnDragItem());
         scrollViewSelected.setOnDragListener(new OnDragItem());
-        buttonSubmitCreateProject.setOnClickListener(this);
+        buttonCreateProject.setOnClickListener(this);
         buttonCancelCreateProject.setOnClickListener(this);
     }
 
@@ -213,7 +214,7 @@ public class CreateProjectActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public void onClick(View view) {
-        if(view.getId()==R.id.buttonSubmitCreateProject){
+        if(view.getId()==R.id.buttonCreateProject){
             createNewProject(view);
         }
         if(view.getId()==R.id.buttonCancelCreateProject){
@@ -226,8 +227,13 @@ public class CreateProjectActivity extends AppCompatActivity implements View.OnC
             showDialogNotAssignAllParticipant();
             return;
         }
+        allSectionHasParticipant = true;
         project.setProjectID((int) generateProjectID(realm));
         setSectionInProject();
+        if(!allSectionHasParticipant) {
+            showAllSectionShouldHaveParticipant();
+            return;
+        }
         realm.beginTransaction();
         realm.copyToRealm(project);
         realm.commitTransaction();
@@ -235,6 +241,18 @@ public class CreateProjectActivity extends AppCompatActivity implements View.OnC
         Intent intent = new Intent(view.getContext(), CreateProjectResultActivity.class);
         intent.putExtra("projectID",project.getProjectID());
         startActivity(intent);
+    }
+
+    private void showAllSectionShouldHaveParticipant() {
+        AlertDialog.Builder dialogErrorBuilder = new AlertDialog.Builder(this);
+        dialogErrorBuilder.setMessage("All section should have participant.");
+        dialogErrorBuilder.setCancelable(false);
+        dialogErrorBuilder.setPositiveButton("OK",new DialogInterface.OnClickListener(){
+            public void onClick(DialogInterface dialog,int which){
+                dialog.dismiss();
+            }
+        });
+        dialogErrorBuilder.show();
     }
 
     private void setSectionInProject() {
@@ -250,6 +268,10 @@ public class CreateProjectActivity extends AppCompatActivity implements View.OnC
     }
 
     private void addParticipantToSectionInProject(FlowLayout sectionViewSubContainer, List<Participant> selectedParticipants) {
+        if(sectionViewSubContainer.getChildCount()<1) {
+            allSectionHasParticipant = false;
+            return;
+        }
         for(int participantIndex=0; participantIndex<sectionViewSubContainer.getChildCount(); participantIndex++){
             View rootContainerView = sectionViewSubContainer.getChildAt(participantIndex);
             TextView textViewNameParticipant = (TextView) rootContainerView.findViewById(R.id.textViewItemParticipantName);
@@ -263,7 +285,7 @@ public class CreateProjectActivity extends AppCompatActivity implements View.OnC
 
     private void showDialogNotAssignAllParticipant() {
         AlertDialog.Builder dialogErrorBuilder = new AlertDialog.Builder(this);
-        dialogErrorBuilder.setMessage("Please assign all participant to any section");
+        dialogErrorBuilder.setMessage("Please assign all participant to any section.");
         dialogErrorBuilder.setCancelable(false);
         dialogErrorBuilder.setPositiveButton("OK",new DialogInterface.OnClickListener(){
                 public void onClick(DialogInterface dialog,int which){
