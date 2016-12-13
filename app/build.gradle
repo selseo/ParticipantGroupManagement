@@ -44,6 +44,8 @@ dependencies {
     //butter knife
     compile 'com.jakewharton:butterknife:8.4.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
+    //UI automator test
+    androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
 }
 //for realm
 apply plugin: 'realm-android'
