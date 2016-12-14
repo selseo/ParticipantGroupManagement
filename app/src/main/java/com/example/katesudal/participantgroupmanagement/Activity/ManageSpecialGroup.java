@@ -83,16 +83,30 @@ public class ManageSpecialGroup extends AppCompatActivity
     }
 
     @Override
-    public void deleteSpecialGroupById(List<SpecialGroup> specialGroups, View view) {
-        RealmResults<SpecialGroup> specialGroup =realm.where(SpecialGroup.class)
-                .equalTo("specialGroupID",specialGroups.get(
-                        listViewSpecialGroup.getPositionForView(view))
-                        .getSpecialGroupID())
-                .findAll();
-        realm.beginTransaction();
-        specialGroup.deleteAllFromRealm();
-        realm.commitTransaction();
-        viewSpecialGroup();
+    public void deleteSpecialGroupById(final List<SpecialGroup> specialGroups,final View view) {
+        AlertDialog.Builder dialogErrorBuilder = new AlertDialog.Builder(this);
+        dialogErrorBuilder.setMessage("Do you want to delete?");
+        dialogErrorBuilder.setCancelable(false);
+        dialogErrorBuilder.setPositiveButton("Delete",new DialogInterface.OnClickListener(){
+            public void onClick(DialogInterface dialog,int which){
+                RealmResults<SpecialGroup> specialGroup =realm.where(SpecialGroup.class)
+                        .equalTo("specialGroupID",specialGroups.get(
+                                listViewSpecialGroup.getPositionForView(view))
+                                .getSpecialGroupID())
+                        .findAll();
+                realm.beginTransaction();
+                specialGroup.deleteAllFromRealm();
+                realm.commitTransaction();
+                viewSpecialGroup();
+                dialog.dismiss();
+            }
+        });
+        dialogErrorBuilder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        dialogErrorBuilder.show();
     }
 
     @Override

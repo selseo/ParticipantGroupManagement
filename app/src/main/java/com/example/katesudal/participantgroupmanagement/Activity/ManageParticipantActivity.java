@@ -1,7 +1,9 @@
 package com.example.katesudal.participantgroupmanagement.Activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -72,16 +74,30 @@ public class ManageParticipantActivity extends AppCompatActivity
     }
 
     @Override
-    public void deleteParticipantById(List<Participant> participants, View view) {
-        RealmResults<Participant> participant =realm.where(Participant.class)
-                .equalTo("participantID",participants.get(
-                        listViewParticipant.getPositionForView(view))
-                        .getParticipantID())
-                .findAll();
-        realm.beginTransaction();
-        participant.deleteAllFromRealm();
-        realm.commitTransaction();
-        viewParticipant(realm);
+    public void deleteParticipantById(final List<Participant> participants,final View view) {
+        AlertDialog.Builder dialogErrorBuilder = new AlertDialog.Builder(this);
+        dialogErrorBuilder.setMessage("Do you want to delete?");
+        dialogErrorBuilder.setCancelable(false);
+        dialogErrorBuilder.setPositiveButton("Delete",new DialogInterface.OnClickListener(){
+            public void onClick(DialogInterface dialog, int which){
+                RealmResults<Participant> participant =realm.where(Participant.class)
+                        .equalTo("participantID",participants.get(
+                                listViewParticipant.getPositionForView(view))
+                                .getParticipantID())
+                        .findAll();
+                realm.beginTransaction();
+                participant.deleteAllFromRealm();
+                realm.commitTransaction();
+                viewParticipant(realm);
+                dialog.dismiss();
+            }
+        });
+        dialogErrorBuilder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        dialogErrorBuilder.show();
     }
 
     @Override

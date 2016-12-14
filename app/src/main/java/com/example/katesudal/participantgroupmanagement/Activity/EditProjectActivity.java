@@ -1,7 +1,9 @@
 package com.example.katesudal.participantgroupmanagement.Activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -54,16 +56,31 @@ public class EditProjectActivity extends AppCompatActivity
     }
 
     @Override
-    public void deleteProjectById(List<Project> projects, View view) {
-        RealmResults<Project> project =realm.where(Project.class)
-                .equalTo("projectID",projects.get(
-                        listViewProject.getPositionForView(view))
-                        .getProjectID())
-                .findAll();
-        realm.beginTransaction();
-        project.deleteAllFromRealm();
-        realm.commitTransaction();
-        viewProject(realm);
+    public void deleteProjectById(final List<Project> projects,final View view) {
+        AlertDialog.Builder dialogErrorBuilder = new AlertDialog.Builder(this);
+        dialogErrorBuilder.setMessage("Do you want to delete?");
+        dialogErrorBuilder.setCancelable(false);
+        dialogErrorBuilder.setPositiveButton("Delete",new DialogInterface.OnClickListener(){
+            public void onClick(DialogInterface dialog,int which){
+                RealmResults<Project> project =realm.where(Project.class)
+                        .equalTo("projectID",projects.get(
+                                listViewProject.getPositionForView(view))
+                                .getProjectID())
+                        .findAll();
+                realm.beginTransaction();
+                project.deleteAllFromRealm();
+                realm.commitTransaction();
+                viewProject(realm);
+                dialog.dismiss();
+            }
+        });
+        dialogErrorBuilder.setNegativeButton("Cancel",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        dialogErrorBuilder.show();
+
     }
 
     @Override
