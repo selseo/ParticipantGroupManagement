@@ -51,7 +51,8 @@ public class EditProjectActivity extends AppCompatActivity
     @Override
     public void onClick(View view) {
         if(view.getId()==R.id.buttonBacktoMainFromEditProject){
-            onBackPressed();
+            Intent intent = new Intent(this,MainActivity.class);
+            startActivity(intent);
         }
     }
 
