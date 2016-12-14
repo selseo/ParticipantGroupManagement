@@ -115,6 +115,18 @@ public class AddSectionNameTest {
         onView(withId(R.id.buttonCancelCreateSectionName)).check(matches(isDisplayed()));
     }
 
+    @Test
+    public void createProjectWithNoSection() throws Exception{
+        onView(withId(R.id.editTextProjectName)).perform(typeText("MondayPM"));
+        onView(withId(R.id.buttonNextToCreateProject)).perform(click());
+        onView(withText("Please add any section.")).check(matches(isDisplayed()));
+        onView(allOf(
+                instanceOf(Button.class),
+                withText("OK")))
+                .perform(click());
+        onView(withId(R.id.buttonCancelCreateSectionName)).check(matches(isDisplayed()));
+    }
+
 
 
 

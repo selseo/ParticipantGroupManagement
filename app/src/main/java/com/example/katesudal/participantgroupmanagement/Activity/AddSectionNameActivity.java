@@ -117,7 +117,7 @@ public class AddSectionNameActivity extends AppCompatActivity
 
     private void showDialogNoSection() {
         AlertDialog.Builder dialogErrorBuilder = new AlertDialog.Builder(this);
-        dialogErrorBuilder.setMessage("Please add any section");
+        dialogErrorBuilder.setMessage("Please add any section.");
         dialogErrorBuilder.setCancelable(false);
         dialogErrorBuilder.setPositiveButton("OK",new DialogInterface.OnClickListener(){
             public void onClick(DialogInterface dialog,int which){
