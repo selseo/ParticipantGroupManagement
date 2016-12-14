@@ -23,6 +23,8 @@ import com.example.katesudal.participantgroupmanagement.R;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.realm.Realm;
 import io.realm.RealmList;
 
@@ -30,32 +32,40 @@ public class EditEachProjectActivity extends AppCompatActivity implements View.O
     long projectID;
     Realm realm;
     Project project;
-    private LinearLayout buttonSaveEditedProject;
-    private LinearLayout buttonCancelEditProject;
-    private LinearLayout layoutEditProject;
-    private ScrollView scrollViewEditProject;
-    private ViewGroup layoutGroupSelectedParticipants;
+    @BindView(R.id.buttonSaveEditedProject)
+    LinearLayout buttonSaveEditedProject;
+    @BindView(R.id.buttonCancelEditProject)
+    LinearLayout buttonCancelEditProject;
+    @BindView(R.id.layoutEditProject)
+    LinearLayout layoutEditProject;
+    @BindView(R.id.scrollViewEditProject)
+    ScrollView scrollViewEditProject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        realm = Realm.getDefaultInstance();
-        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
         setContentView(R.layout.activity_edit_each_project);
+        ButterKnife.bind(this);
+
+        realm = Realm.getDefaultInstance();
+
         projectID = getIntent().getExtras().getLong("projectID");
         project = realm.where(Project.class)
                 .equalTo("projectID",projectID)
                 .findFirst();
-        layoutEditProject = (LinearLayout) findViewById(R.id.layoutEditProject);
-        buttonSaveEditedProject = (LinearLayout) findViewById(R.id.buttonSaveEditedProject);
-        buttonCancelEditProject = (LinearLayout) findViewById(R.id.buttonCancelEditProject);
-        scrollViewEditProject = (ScrollView) findViewById(R.id.scrollViewEditProject);
+
+        setListener();
+
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        viewSectionWithParticipantItem(inflater,layoutEditProject);
+    }
+
+    private void setListener() {
         scrollViewEditProject.setOnDragListener(new OnDragItem());
         buttonSaveEditedProject.setOnClickListener(this);
         buttonCancelEditProject.setOnClickListener(this);
         buttonSaveEditedProject.setOnDragListener(new OnDragItem());
         buttonCancelEditProject.setOnDragListener(new OnDragItem());
-        viewSectionWithParticipantItem(inflater,layoutEditProject);
     }
 
     private void viewSectionWithParticipantItem(LayoutInflater inflater, LinearLayout layout) {
@@ -63,7 +73,7 @@ public class EditEachProjectActivity extends AppCompatActivity implements View.O
             View layoutView = inflater.inflate(R.layout.layout_group, null);
             TextView textViewSectionName = (TextView) layoutView.findViewById(R.id.textViewGroupName);
             LinearLayout layoutGroupName = (LinearLayout) layoutView.findViewById(R.id.layoutGroupName);
-            layoutGroupSelectedParticipants = (FlowLayout) layoutView.findViewById(R.id.layoutGroupSelectedParticipants);
+            ViewGroup layoutGroupSelectedParticipants = (FlowLayout) layoutView.findViewById(R.id.layoutGroupSelectedParticipants);
             String sectionName = project.getSectionIDs().get(sectionIndex).getSectionName();
             textViewSectionName.setText(sectionName);
             layout.addView(layoutView);
@@ -77,42 +87,50 @@ public class EditEachProjectActivity extends AppCompatActivity implements View.O
         for (int participantIndex = 0; participantIndex < participants.size(); participantIndex++) {
             Participant participant = participants.get(participantIndex);
             View itemView = inflater.inflate(R.layout.item_participant_name, null);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                if(participant.getParticipantType().equals("Staff")){
-                    itemView.setBackground(getDrawable(R.drawable.background_participant_staff_name_item));
-                }
-                else{
-                    itemView.setBackground(getDrawable(R.drawable.background_participant_name_item));
-                }
-
-            } else {
-                if(participant.getParticipantType().equals("Staff")){
-                    itemView.setBackgroundResource(R.drawable.background_participant_staff_name_item);
-                }
-                else{
-                    itemView.setBackgroundResource(R.drawable.background_participant_name_item);
-                }
-            }
+            setParticipantItemBackground(participant, itemView);
             TextView itemName = (TextView) itemView.findViewById(R.id.textViewItemParticipantName);
             itemName.setText(participant.getParticipantName());
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if(participant.getParticipantGender().equals("Male")){
-                    itemName.setTextColor(getColor(R.color.colorVeryLightCream));
-                }
-                else{
-                    itemName.setTextColor(getColor(R.color.colorNormalWhite));
-                }
-            }
-            else{
-                if(participant.getParticipantGender().equals("Male")){
-                    itemName.setTextColor(ContextCompat.getColor(this,R.color.colorVeryLightCream));
-                }
-                else{
-                    itemName.setTextColor(ContextCompat.getColor(this,R.color.colorNormalWhite));
-                }
-            }
+            setParticipantItemTextColor(participant, itemName);
             itemLayout.addView(itemView);
             itemView.setOnTouchListener(new OnTouchItem());
+        }
+    }
+
+    private void setParticipantItemTextColor(Participant participant, TextView itemName) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if(participant.getParticipantGender().equals("Male")){
+                itemName.setTextColor(getColor(R.color.colorVeryLightCream));
+            }
+            else{
+                itemName.setTextColor(getColor(R.color.colorNormalWhite));
+            }
+        }
+        else{
+            if(participant.getParticipantGender().equals("Male")){
+                itemName.setTextColor(ContextCompat.getColor(this,R.color.colorVeryLightCream));
+            }
+            else{
+                itemName.setTextColor(ContextCompat.getColor(this,R.color.colorNormalWhite));
+            }
+        }
+    }
+
+    private void setParticipantItemBackground(Participant participant, View itemView) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if(participant.getParticipantType().equals("Staff")){
+                itemView.setBackground(getDrawable(R.drawable.background_participant_staff_name_item));
+            }
+            else{
+                itemView.setBackground(getDrawable(R.drawable.background_participant_name_item));
+            }
+
+        } else {
+            if(participant.getParticipantType().equals("Staff")){
+                itemView.setBackgroundResource(R.drawable.background_participant_staff_name_item);
+            }
+            else{
+                itemView.setBackgroundResource(R.drawable.background_participant_name_item);
+            }
         }
     }
 
@@ -120,8 +138,6 @@ public class EditEachProjectActivity extends AppCompatActivity implements View.O
     public void onClick(View view) {
         if(view.getId()==R.id.buttonSaveEditedProject){
             saveEditProject();
-            Intent intent = new Intent(this,EditProjectActivity.class);
-            startActivity(intent);
         }
         if(view.getId()==R.id.buttonCancelEditProject){
             onBackPressed();
@@ -135,18 +151,24 @@ public class EditEachProjectActivity extends AppCompatActivity implements View.O
             ViewGroup sectionViewSub = (ViewGroup) sectionView.getChildAt(0);
             FlowLayout sectionViewSubContainer = (FlowLayout) sectionViewSub.getChildAt(1);
             RealmList<Participant> participantList = new RealmList<>();
-            for(int participantIndex = 0; participantIndex < sectionViewSubContainer.getChildCount();participantIndex++){
-                View rootContainerView = sectionViewSubContainer.getChildAt(participantIndex);
-                TextView textViewNameParticipant = (TextView) rootContainerView.findViewById(R.id.textViewItemParticipantName);
-                String participantName = (String) textViewNameParticipant.getText();
-                Participant participant = realm.where(Participant.class)
-                        .equalTo("participantName",participantName)
-                        .findFirst();
-                participantList.add(participant);
-            }
+            saveEditSection(sectionViewSubContainer, participantList);
             realm.beginTransaction();
             section.setParticipantIDs(participantList);
             realm.commitTransaction();
+        }
+        Intent intent = new Intent(this,EditProjectActivity.class);
+        startActivity(intent);
+    }
+
+    private void saveEditSection(FlowLayout sectionViewSubContainer, RealmList<Participant> participantList) {
+        for(int participantIndex = 0; participantIndex < sectionViewSubContainer.getChildCount();participantIndex++){
+            View rootContainerView = sectionViewSubContainer.getChildAt(participantIndex);
+            TextView textViewNameParticipant = (TextView) rootContainerView.findViewById(R.id.textViewItemParticipantName);
+            String participantName = (String) textViewNameParticipant.getText();
+            Participant participant = realm.where(Participant.class)
+                    .equalTo("participantName",participantName)
+                    .findFirst();
+            participantList.add(participant);
         }
     }
 
