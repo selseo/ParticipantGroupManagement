@@ -48,17 +48,6 @@
         android:textColor="@color/colorDarkBlueSea"
         android:text="Edit Project" />
     <Button
-        android:id="@+id/buttonGotoEditParticipant"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginEnd="80dp"
-        android:padding="15dp"
-        android:background="@drawable/button_menu"
-        android:textColor="@color/colorDarkBlueSea"
-        android:text="Edit Participant" />
-    <Button
         android:id="@+id/buttonGotoEditSpecialSection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -68,6 +57,18 @@
         android:padding="15dp"
         android:background="@drawable/button_menu"
         android:textColor="@color/colorDarkBlueSea"
-        android:text="Edit Special Section" />
+        android:text="Manage Special Group" />
+    <Button
+        android:id="@+id/buttonGotoEditParticipant"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginEnd="80dp"
+        android:padding="15dp"
+        android:background="@drawable/button_menu"
+        android:textColor="@color/colorDarkBlueSea"
+        android:text="Manage Participant" />
+
 
 </LinearLayout>

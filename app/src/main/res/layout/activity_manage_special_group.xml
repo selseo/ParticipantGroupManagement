@@ -21,7 +21,7 @@
             android:gravity="center"
             android:textSize="16sp"
             android:textColor="@color/colorDarkBrown"
-            android:text="Section Name : "/>
+            android:text="Special Group Name : "/>
         <EditText
             android:id="@+id/editTextSpecialGroupName"
             android:layout_width="0dp"
