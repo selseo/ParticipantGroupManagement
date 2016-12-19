@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.katesudal.participantgroupmanagement.Adapter.ItemProjectAdapter;
 import com.example.katesudal.participantgroupmanagement.Model.Project;
+import com.example.katesudal.participantgroupmanagement.Model.Section;
 import com.example.katesudal.participantgroupmanagement.R;
 
 import java.util.ArrayList;
@@ -28,6 +30,7 @@ public class EditProjectActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Realm.init(getApplicationContext());
         realm = Realm.getDefaultInstance();
         setContentView(R.layout.activity_edit_project);
         listViewProject = (ListView) findViewById(R.id.listViewProject);
@@ -63,13 +66,14 @@ public class EditProjectActivity extends AppCompatActivity
         dialogErrorBuilder.setCancelable(false);
         dialogErrorBuilder.setPositiveButton("Delete",new DialogInterface.OnClickListener(){
             public void onClick(DialogInterface dialog,int which){
-                RealmResults<Project> project =realm.where(Project.class)
+                Project project =realm.where(Project.class)
                         .equalTo("projectID",projects.get(
                                 listViewProject.getPositionForView(view))
                                 .getProjectID())
-                        .findAll();
+                        .findFirst();
                 realm.beginTransaction();
-                project.deleteAllFromRealm();
+                project.getSectionIDs().deleteAllFromRealm();
+                project.deleteFromRealm();
                 realm.commitTransaction();
                 viewProject(realm);
                 dialog.dismiss();
