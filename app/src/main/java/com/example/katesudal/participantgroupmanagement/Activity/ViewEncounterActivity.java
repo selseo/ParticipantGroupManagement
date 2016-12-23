@@ -1,11 +1,17 @@
 package com.example.katesudal.participantgroupmanagement.Activity;
 
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 
 import com.example.katesudal.participantgroupmanagement.Adapter.PairEncounterTableAdapter;
+import com.example.katesudal.participantgroupmanagement.Fragment.EncounterTableFragment;
 import com.example.katesudal.participantgroupmanagement.Model.PairEncounter;
 import com.example.katesudal.participantgroupmanagement.Model.Participant;
 import com.example.katesudal.participantgroupmanagement.Model.Section;
@@ -17,10 +23,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmList;
 import io.realm.RealmResults;
 
-public class ViewEncounterActivity extends AppCompatActivity implements View.OnClickListener {
+public class ViewEncounterActivity extends FragmentActivity
+        implements View.OnClickListener
+        ,EncounterTableFragment.OnFragmentInteractionListener {
     private Realm realm;
+    Spinner spinnerParticipantName;
+    Button buttonGo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,85 +40,26 @@ public class ViewEncounterActivity extends AppCompatActivity implements View.OnC
         Realm.init(getApplicationContext());
         realm = Realm.getDefaultInstance();
         Button buttonBacktoMainFromViewEncounter = (Button) findViewById(R.id.buttonBacktoMainFromViewEncounter);
+        spinnerParticipantName = (Spinner) findViewById(R.id.spinnerParticipantName);
+        buttonGo = (Button) findViewById(R.id.buttonGo);
+
         buttonBacktoMainFromViewEncounter.setOnClickListener(this);
-        List<PairEncounter> pairEncounters = new ArrayList<>();
-        encounterCalculate(pairEncounters);
-        SortablePairEncounterTableView tableViewEncounter = (SortablePairEncounterTableView) findViewById(R.id.tableViewEncounter);
-        createPairEncounterTableAdapter(tableViewEncounter,pairEncounters);
+        buttonGo.setOnClickListener(this);
+
+        setNameInSpinner();
     }
 
-    private void createPairEncounterTableAdapter(SortablePairEncounterTableView tableViewEncounter,List<PairEncounter> pairEncounters) {
-        if (tableViewEncounter != null) {
-            final PairEncounterTableAdapter pairEncounterTableAdapter = new PairEncounterTableAdapter(this, pairEncounters, tableViewEncounter);
-            tableViewEncounter.setDataAdapter(pairEncounterTableAdapter);
-        }
-    }
-
-
-    public void encounterCalculate(List<PairEncounter> pairEncounters) {
+    private void setNameInSpinner() {
+        List<String> nameList = new ArrayList<>();
+        nameList.add("All Participants");
         RealmResults<Participant> participants = realm.where(Participant.class).findAll();
-        RealmResults<Section> sections = realm.where(Section.class).findAll();
-        RealmResults<SpecialGroup> specialGroups = realm.where(SpecialGroup.class).findAll();
-
-        createPairEncounterList(pairEncounters,participants);
-        setEncounterFromSectionToEachPair(pairEncounters, sections);
-        setEncounterFromSpecialGroupToEachPair(pairEncounters, specialGroups);
-    }
-
-    public void setEncounterFromSpecialGroupToEachPair(List<PairEncounter> pairEncounters, List<SpecialGroup> specialGroups) {
-        for (int pairIndex = 0; pairIndex < pairEncounters.size(); pairIndex++) {
-            int encounterCount = pairEncounters.get(pairIndex).getEncounterTimes();
-            encounterCount = countEncounterInEachSpecialGroup(pairEncounters,specialGroups, pairIndex, encounterCount);
-            pairEncounters.get(pairIndex).setEncounterTimes(encounterCount);
+        for(int participantIndex = 0 ; participantIndex<participants.size();participantIndex++){
+            nameList.add(participants.get(participantIndex).getParticipantName());
         }
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, nameList);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerParticipantName.setAdapter(dataAdapter);
     }
-
-    public void setEncounterFromSectionToEachPair(List<PairEncounter> pairEncounters, List<Section> sections) {
-        for (int pairIndex = 0; pairIndex < pairEncounters.size(); pairIndex++) {
-            int encounterCount = pairEncounters.get(pairIndex).getEncounterTimes();
-            encounterCount = countEncounterInEachSection(pairEncounters,sections, pairIndex, encounterCount);
-            pairEncounters.get(pairIndex).setEncounterTimes(encounterCount);
-        }
-    }
-
-    private void createPairEncounterList(List<PairEncounter> pairEncounters,List<Participant> participants) {
-        for (int participantIndex = 0; participantIndex < participants.size() - 1; participantIndex++) {
-            addPairParticipant(pairEncounters, participants, participantIndex);
-        }
-    }
-
-    public void addPairParticipant(List<PairEncounter> pairEncounters, List<Participant> participants, int participantAIndex) {
-        for (int participantBIndex = participantAIndex + 1; participantBIndex < participants.size(); participantBIndex++) {
-            PairEncounter pairEncounter = new PairEncounter(
-                    0,
-                    participants.get(participantAIndex),
-                    participants.get(participantBIndex));
-            pairEncounters.add(pairEncounter);
-        }
-    }
-
-    public int countEncounterInEachSpecialGroup(List<PairEncounter> pairEncounters, List<SpecialGroup> specialGroups, int pairIndex, int encounterCount) {
-        for (int specialGroupIndex = 0; specialGroupIndex < specialGroups.size(); specialGroupIndex++) {
-            List<Participant> participantInSpecialGroups = specialGroups.get(specialGroupIndex).getParticipantIDs();
-            if (participantInSpecialGroups.contains(pairEncounters.get(pairIndex).getParticipantA())
-                    && participantInSpecialGroups.contains(pairEncounters.get(pairIndex).getParticipantB())) {
-                encounterCount++;
-            }
-        }
-        return encounterCount;
-    }
-
-    public int countEncounterInEachSection(List<PairEncounter> pairEncounters, List<Section> sections, int pairIndex, int encounterCount) {
-        for (int sectionIndex = 0; sectionIndex < sections.size(); sectionIndex++) {
-            List<Participant> participantInSection = sections.get(sectionIndex).getParticipantIDs();
-            if (participantInSection.contains(pairEncounters.get(pairIndex).getParticipantA())
-                    && participantInSection.contains(pairEncounters.get(pairIndex).getParticipantB())) {
-                encounterCount++;
-            }
-        }
-        return encounterCount;
-    }
-
 
 
     @Override
@@ -115,6 +67,20 @@ public class ViewEncounterActivity extends AppCompatActivity implements View.OnC
         if (view.getId() == R.id.buttonBacktoMainFromViewEncounter) {
             onBackPressed();
         }
+        if(view.getId()==R.id.buttonGo){
+            String name = String.valueOf(spinnerParticipantName.getSelectedItem());
+            Bundle bundle = new Bundle();
+            bundle.putString("name", name);
+            EncounterTableFragment encounterTableFragment = new EncounterTableFragment();
+            encounterTableFragment.setArguments(bundle);
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.layoutFragmentTableView, encounterTableFragment);
+            transaction.commit();
+        }
     }
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 }

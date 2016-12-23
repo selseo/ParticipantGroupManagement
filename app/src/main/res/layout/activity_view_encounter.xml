@@ -7,15 +7,30 @@
     android:orientation="vertical"
     android:background="@color/background"
     tools:context="com.example.katesudal.participantgroupmanagement.Activity.ViewEncounterActivity">
-    <com.example.katesudal.participantgroupmanagement.SortablePairEncounterTableView
-        xmlns:table="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/tableViewEncounter"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:gravity="center">
+        <Spinner
+            android:id="@+id/spinnerParticipantName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </Spinner>
+        <Button
+            android:id="@+id/buttonGo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Go"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/layoutFragmentTableView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="11"
         android:layout_marginBottom="10dp"
-        table:tableView_headerColor="@color/colorDarkCream"
-        table:tableView_columnCount="3" />
+        android:orientation="vertical"/>
     <Button
         android:id="@+id/buttonBacktoMainFromViewEncounter"
         android:layout_width="match_parent"
