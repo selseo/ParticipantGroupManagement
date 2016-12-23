@@ -233,7 +233,7 @@ public class CreateSpecialGroupActivity extends AppCompatActivity implements Vie
                     break;
 
                 case DragEvent.ACTION_DROP: {
-                    pasteItem((ViewGroup) view, dragEvent);
+                    pasteItem(view, dragEvent);
                     break;
                 }
                 case DragEvent.ACTION_DRAG_ENDED: {
@@ -246,7 +246,7 @@ public class CreateSpecialGroupActivity extends AppCompatActivity implements Vie
         }
     }
 
-    private void pasteItem(ViewGroup view, DragEvent dragEvent) {
+    private void pasteItem(View view, DragEvent dragEvent) {
         ViewGroup viewState = (ViewGroup) dragEvent.getLocalState();
         ViewGroup viewgroup = (ViewGroup) viewState.getParent();
         viewgroup.removeView(viewState);

@@ -47,6 +47,7 @@ public class EditEachProjectActivity extends AppCompatActivity implements View.O
         setContentView(R.layout.activity_edit_each_project);
         ButterKnife.bind(this);
 
+        Realm.init(getApplicationContext());
         realm = Realm.getDefaultInstance();
 
         projectID = getIntent().getExtras().getLong("projectID");
