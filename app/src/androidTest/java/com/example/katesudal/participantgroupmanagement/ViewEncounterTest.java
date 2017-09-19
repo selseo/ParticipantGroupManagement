@@ -14,6 +14,7 @@ import com.example.katesudal.participantgroupmanagement.Model.SpecialGroup;
 import junit.framework.Assert;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -81,6 +82,7 @@ public class ViewEncounterTest {
 
     }
 
+    @Ignore
     @Test
     public void encounterCalculate()throws Exception{
         onView(allOf(

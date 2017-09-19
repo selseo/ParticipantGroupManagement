@@ -12,6 +12,7 @@ import com.example.katesudal.participantgroupmanagement.Model.Participant;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -108,17 +109,25 @@ public class CreateProjectTest {
                 By.res("com.example.katesudal.participantgroupmanagement","textViewItemParticipantName"));
         List<UiObject2> objSections = device.findObjects(
                 By.res("com.example.katesudal.participantgroupmanagement","layoutGroupSelectedParticipants"));
-        for(int objItemNamesIndex=0;objItemNamesIndex<objItemNames.size();objItemNamesIndex++){
-            if(objItemNamesIndex<objSections.size())
-                objItemNames.get(objItemNamesIndex)
-                        .drag(objSections
-                                .get(objItemNamesIndex)
-                                .getVisibleCenter());
-            else
-                objItemNames.get(objItemNamesIndex)
-                        .drag(objSections
-                                .get(0)
-                                .getVisibleCenter());
+//        for(int objItemNamesIndex=0;objItemNamesIndex<objItemNames.size();objItemNamesIndex++){
+//            if(objItemNamesIndex<objSections.size())
+//                objItemNames.get(objItemNamesIndex)
+//                        .drag(objSections
+//                                .get(objItemNamesIndex)
+//                                .getVisibleCenter());
+//            else
+//                objItemNames.get(objItemNamesIndex)
+//                        .drag(objSections
+//                                .get(0)
+//                                .getVisibleCenter());
+//            int p = objItemNamesIndex%objSections.size();
+//        }
+        for(int objItemNamesIndex=0; objItemNamesIndex<objItemNames.size() ; objItemNamesIndex++){
+            objItemNames
+                    .get(objItemNamesIndex)
+                    .drag(objSections
+                            .get(objItemNamesIndex % objSections.size())
+                            .getVisibleCenter());
         }
         onView(withId(R.id.buttonCreateProject)).perform(click());
         onView(withText("Preoject : Project\n" +
@@ -126,6 +135,7 @@ public class CreateProjectTest {
                 "Science : Bobby"));
     }
 
+    @Ignore
     @Test
     public void someSectionHasNoParticipant() throws Exception{
         SystemClock.sleep(1000);
